@@ -3,14 +3,15 @@ package com.example.covid_management_android.model;
 
 
 public class User {
+    private int id;
 
     private String name;
-
-
+    private  String dateOfBirth;
     private String email;
 
-
-    private  String dateOfBirth;
+    public int getId() {
+        return id;
+    }
 
     public String getName() {
         return name;

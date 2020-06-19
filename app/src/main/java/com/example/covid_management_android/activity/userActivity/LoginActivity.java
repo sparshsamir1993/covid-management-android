@@ -1,4 +1,4 @@
-package com.example.covid_management_android.activity;
+package com.example.covid_management_android.activity.userActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 

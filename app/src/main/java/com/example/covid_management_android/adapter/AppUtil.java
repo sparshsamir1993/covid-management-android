@@ -13,8 +13,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.covid_management_android.R;
-import com.example.covid_management_android.activity.LoginActivity;
-import com.example.covid_management_android.activity.SignUpActivity;
+import com.example.covid_management_android.activity.userActivity.LoginActivity;
+import com.example.covid_management_android.activity.userActivity.SignUpActivity;
+import com.example.covid_management_android.activity.userActivity.UserProfileActivity;
 
 public class AppUtil extends AppCompatActivity {
 
@@ -45,12 +46,16 @@ public class AppUtil extends AppCompatActivity {
     public MenuItem createMenuItems(MenuItem item, Context context){
         Intent i;
         switch (item.getItemId()){
+            case R.id.register:
+                i = new Intent(context, SignUpActivity.class);
+                context.startActivity(i);
+                break;
             case R.id.login:
                 i  = new Intent(context, LoginActivity.class);
                 context.startActivity(i);
                 break;
             case R.id.profile:
-                i  = new Intent(context, SignUpActivity.class);
+                i  = new Intent(context, UserProfileActivity.class);
                 context.startActivity(i);
                 break;
             case R.id.logout:

@@ -2,18 +2,22 @@ package com.example.covid_management_android.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.covid_management_android.R;
+import com.example.covid_management_android.adapter.AppUtil;
 import com.example.covid_management_android.adapter.RetrofitUtil;
 import com.example.covid_management_android.model.AuthToken;
 import com.example.covid_management_android.model.Login;
-import com.example.covid_management_android.model.User;
 import com.example.covid_management_android.service.UserClient;
 
 import retrofit2.Call;
@@ -29,7 +33,23 @@ public class LoginActivity extends AppCompatActivity {
     UserClient userClient;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+    AppUtil appUtil = new AppUtil();
 
+//**************    menu  **************//
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.navigation_menu, menu);
+        menu = appUtil.checkMenuItems(menu, LoginActivity.this);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        item = appUtil.createMenuItems(item, LoginActivity.this);
+        return super.onOptionsItemSelected(item);
+    }
 
     public void loginSubmit(View view){
         String email = emailField.getText().toString();
@@ -40,21 +60,25 @@ public class LoginActivity extends AppCompatActivity {
         call.enqueue(new Callback<AuthToken>() {
             @Override
             public void onResponse(Call<AuthToken> call, Response<AuthToken> response) {
-                String token = response.body().getToken();
-                String refreshToken = response.body().getRefreshToken();
-                Toast.makeText(LoginActivity.this, "yayyy", Toast.LENGTH_SHORT).show();
-                Toast.makeText(LoginActivity.this, token+"", Toast.LENGTH_SHORT).show();
-                editor.putString("token", token);
-                editor.putString("refreshToken", refreshToken);
+                try{
+                    String token = response.body().getToken();
+                    String refreshToken = response.body().getRefreshToken();
+                    Toast.makeText(LoginActivity.this, "Logged In Successfully", Toast.LENGTH_SHORT).show();
+                    editor.putString("token", token);
+                    editor.putString("refreshToken", refreshToken);
+                    editor.commit();
+                    Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(i);
+
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
 
             }
 
             @Override
             public void onFailure(Call<AuthToken> call, Throwable t) {
-
                 Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(LoginActivity.this, "noppeee", Toast.LENGTH_SHORT).show();
-
             }
         });
     }

@@ -9,6 +9,18 @@ public class User {
     private  String dateOfBirth;
     private String email;
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDateOfBirth(String dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public int getId() {
         return id;
     }

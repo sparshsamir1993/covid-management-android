@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -57,23 +58,29 @@ public class LoginActivity extends AppCompatActivity {
         Login login = new Login(email, password);
 
         Call<AuthToken> call = userClient.login(login);
+        Log.i("login url is ",call.request().url().toString());
         call.enqueue(new Callback<AuthToken>() {
             @Override
             public void onResponse(Call<AuthToken> call, Response<AuthToken> response) {
-                try{
+                if(response.isSuccessful()){
                     String token = response.body().getToken();
                     String refreshToken = response.body().getRefreshToken();
                     Toast.makeText(LoginActivity.this, "Logged In Successfully", Toast.LENGTH_SHORT).show();
                     editor.putString("token", token);
                     editor.putString("refreshToken", refreshToken);
                     editor.commit();
-                    Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                    Intent i = new Intent(getApplicationContext(), UserProfileActivity.class);
                     startActivity(i);
-
-                }catch(Exception e){
-                    e.printStackTrace();
+                }else{
+                    switch (response.code()){
+                        case 403:
+                        case 401:
+                            Toast.makeText(getApplicationContext(), "UserName/Password do not match", Toast.LENGTH_SHORT).show();
+                            break;
+                        default:
+                            Toast.makeText(getApplicationContext(), "Error Occurred", Toast.LENGTH_SHORT).show();
+                    }
                 }
-
             }
 
             @Override

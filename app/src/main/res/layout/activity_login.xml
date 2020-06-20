@@ -24,15 +24,15 @@
         android:id="@+id/passwordField"
         android:layout_width="370dp"
         android:layout_height="50dp"
-        android:layout_marginTop="23dp"
+        android:layout_marginTop="20dp"
+        android:autofillHints="@string/password"
         android:ems="10"
         android:hint="@string/password"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailField"
-        android:autofillHints="@string/password" />
+        app:layout_constraintTop_toBottomOf="@+id/emailField" />
 
     <Button
         android:id="@+id/loginButton"

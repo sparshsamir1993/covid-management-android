@@ -70,6 +70,7 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putString("refreshToken", refreshToken);
                     editor.commit();
                     Intent i = new Intent(getApplicationContext(), UserProfileActivity.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(i);
                 }else{
                     switch (response.code()){

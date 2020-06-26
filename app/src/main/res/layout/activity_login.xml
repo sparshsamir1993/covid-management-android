@@ -1,48 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.userActivity.LoginActivity">
+    tools:context=".activity.userActivity.LoginActivity"
+    android:orientation="vertical"
+    android:background="#fff"
+    android:padding="20dp">
 
-    <EditText
-        android:id="@+id/emailField"
-        android:layout_width="370dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="270dp"
-        android:ems="10"
-        android:hint="@string/email"
-        android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:autofillHints="@string/email" />
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/symbol"
+        android:transitionName="logo_image"
+        android:id="@+id/logo_Image"/>
 
-    <EditText
-        android:id="@+id/passwordField"
-        android:layout_width="370dp"
-        android:layout_height="50dp"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/logo_name"
+        android:fontFamily="@font/andika"
+        android:text="Hello there, Welcome Back"
+        android:transitionName="slogan_Name"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="25sp"
+        android:textColor="#000"/>
+    <TextView
+        android:id="@+id/slogan_Name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign In to continue"
+        android:transitionName="logo_dec"
+        android:textSize="18sp"
+        android:fontFamily="@font/andika"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:autofillHints="@string/password"
-        android:ems="10"
-        android:hint="@string/password"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailField" />
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/loginButton"
-        android:layout_width="370dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="55dp"
-        android:onClick="loginSubmit"
-        android:text="@string/log_in"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passwordField" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+
+            android:id="@+id/emailField"
+            android:hint="Username"
+            android:transitionName="logo_user"
+            android:inputType="text"
+            android:nextFocusForward="@+id/passwordField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </com.google.android.material.textfield.TextInputEditText>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:passwordToggleEnabled="true"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/passwordField"
+            android:hint="Password"
+            android:transitionName="logo_pwd"
+            android:inputType="textPassword"
+            android:nextFocusForward="@+id/loginButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </com.google.android.material.textfield.TextInputEditText>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+  <Button
+      android:layout_width="200dp"
+      android:layout_height="wrap_content"
+      android:background="#00000000"
+      android:layout_gravity="right"
+      android:elevation="0dp"
+      android:text="Forget Password?"
+      android:transitionName="logo_btn"
+      android:layout_margin="5dp"/>
+
+   <Button
+       android:id="@+id/loginButton"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:text="GO"
+       android:transitionName="logo_btn"
+       android:onClick="loginSubmit"
+       android:background="#000"
+       android:textColor="#fff"
+       android:layout_marginTop="5dp"
+       android:layout_marginBottom="5dp"/>
+
+        <Button
+            android:id="@+id/callSignup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00000000"
+            android:transitionName="logo_sbtn"
+            android:layout_gravity="right"
+            android:elevation="0dp"
+            android:text="New User? SIGN UP"
+            android:textColor="#000"
+            android:fontFamily="@font/andika"
+            android:layout_margin="5dp"/>
+</LinearLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

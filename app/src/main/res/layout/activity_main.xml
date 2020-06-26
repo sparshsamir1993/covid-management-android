@@ -1,23 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.userActivity.MainActivity">
+    tools:context=".activity.userActivity.MainActivity"
+    android:background="#fff"
+    android:padding="30dp">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="165dp"
-        android:layout_marginTop="342dp"
-        android:layout_marginEnd="159dp"
-        android:layout_marginBottom="341dp"
-        android:onClick="goToLogin"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:src="@drawable/symbol" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/andika"
+            android:text="Welcome"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="36sp"
+            android:layout_marginTop="90dp"
+            android:textAllCaps="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/andika"
+            android:text="We Help The World"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp">
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="LogIn"
+                android:onClick="goToLogin"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:textColor="#222831"
+                android:background="#ea907a"/>
+            <Button
+                android:id="@+id/button_signup"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="SignUp"
+                android:onClick="goToSignUp"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:textColor="#222831"
+                android:background="#ea907a"/>
+
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="How We Work"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:textColor="#222831"
+            android:background="#00000000"/>
+
+
+    </LinearLayout>
+
+
+</ScrollView>

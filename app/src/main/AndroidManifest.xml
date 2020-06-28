@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".activity.userActivity.OnBoarding"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">></activity>
+
         <activity
             android:name=".activity.userActivity.SplashScreen"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
@@ -21,14 +24,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".activity.userActivity.UserProfileActivity" />
+
         <activity
             android:name=".activity.userActivity.SignUpActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
         <activity
             android:name=".activity.userActivity.LoginActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".activity.userActivity.MainActivity"></activity>
+
+        <activity android:name=".activity.userActivity.MainActivity" />
 
         <meta-data
             android:name="preloaded_fonts"

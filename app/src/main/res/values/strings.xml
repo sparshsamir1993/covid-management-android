@@ -5,4 +5,24 @@
     <string name="email">Email</string>
     <string name="sign_up">Sign Up</string>
 
+
+    <!-- Strings for On Boarding Screen -->
+    <!--Titles-->
+    <string name="first_slide_title">Stay Safe</string>
+    <string name="second_slide_title">Stay Healthy</string>
+    <string name="third_slide_title">Need a Help</string>
+    <string name="fourth_slide_title">Sit Back And Relax</string>
+
+    <!--Descriptions-->
+    <string name="first_slide_desc"> Nothing is of greater importance than the conservation of human life. We will display near by Hospitals to match your search.</string>
+    <string name="second_slide_desc">Stay in and don’t wander around. You have AC, television and WiFi as your friends.</string>
+    <string name="third_slide_desc"> At the end of the day, the goals are simple: Safety and security. Stay with Us, We are here for you.</string>
+    <string name="fourth_slide_desc">We will handle everything for you. As you have the app in your pocket then you don\'t have to worry about anything.  </string>
+
+
+    <!--Buttons-->
+    <string name="skip_btn">Skip</string>
+    <string name="next_btn">Next</string>
+    <string name="let_get_started">Lets Get Started</string>
+
 </resources>

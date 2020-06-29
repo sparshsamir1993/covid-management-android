@@ -2,16 +2,14 @@ package com.example.covid_management_android.activity.userActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Pair;
-import android.view.View;
+import android.util.Log;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,21 +20,21 @@ public class SplashScreen extends AppCompatActivity {
     private static int SPALSH_SCREEN = 5000;
 
     //variables
-    Animation topAnim,bottomAnim;
+    Animation topAnim, bottomAnim;
     ImageView image;
-    TextView logo,slogan;
+    TextView logo, slogan;
 
-
+    SharedPreferences onBoardingScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash_screen);
 
         //Animations
-        topAnim = AnimationUtils.loadAnimation(this,R.anim.top_animation);
-        bottomAnim = AnimationUtils.loadAnimation(this,R.anim.bottom_animation);
+        topAnim = AnimationUtils.loadAnimation(this, R.anim.top_animation);
+        bottomAnim = AnimationUtils.loadAnimation(this, R.anim.bottom_animation);
 
         //hooks
         image = findViewById(R.id.imageView);
@@ -50,20 +48,44 @@ public class SplashScreen extends AppCompatActivity {
 
 
         new Handler().postDelayed(new Runnable() {
-            @Override
+
             public void run() {
-                Intent intent = new Intent(SplashScreen.this,MainActivity.class);
 
-                Pair[] pairs = new Pair[2];
-                pairs[0] = new Pair<View,String>(image,"logo_image");
-                pairs[1] = new Pair<View,String>(logo,"logo_text");
+                onBoardingScreen = getSharedPreferences("onBoardingScreen", MODE_PRIVATE);
+                boolean isFirstTime = onBoardingScreen.getBoolean("firstTime", true);
 
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(SplashScreen.this,pairs);
-                startActivity(intent,options.toBundle());
+                if (isFirstTime) {
+
+                    Intent toBoarding = new Intent(getApplicationContext(), OnBoarding.class);
+                    startActivity(toBoarding);
+
+
+                } else {
+                    Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+
 
             }
-        },SPALSH_SCREEN);
 
+            // Intent intent = new Intent(SplashScreen.this,OnBoarding.class);
 
+            // Pair[] pairs = new Pair[2];
+            // pairs[0] = new Pair<View,String>(image,"logo_image");
+            // pairs[1] = new Pair<View,String>(logo,"logo_text");
+
+            // ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(SplashScreen.this,pairs);
+            //startActivity(intent,options.toBundle());
+            // void startActivity(intent);
+
+        }, SPALSH_SCREEN);
     }
 }
+
+
+//   },SPALSH_SCREEN);
+// public void run() {}
+
+
+

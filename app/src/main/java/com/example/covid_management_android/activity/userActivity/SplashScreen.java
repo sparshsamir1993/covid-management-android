@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -55,9 +56,9 @@ public class SplashScreen extends AppCompatActivity {
 
                 if (isFirstTime) {
 
-                    SharedPreferences.Editor editor = onBoardingScreen.edit();
-                    editor.putBoolean("firstTime", false);
-                    editor.commit();
+                    Intent toBoarding = new Intent(getApplicationContext(), OnBoarding.class);
+                    startActivity(toBoarding);
+
 
                 } else {
                     Intent intent = new Intent(SplashScreen.this, MainActivity.class);

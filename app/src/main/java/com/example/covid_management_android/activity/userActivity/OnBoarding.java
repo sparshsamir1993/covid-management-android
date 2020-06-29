@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
@@ -51,7 +52,10 @@ public class OnBoarding extends AppCompatActivity {
     }
 
     public void skip(View view) {
-
+        SharedPreferences onBoardingScreen = getSharedPreferences("onBoardingScreen", MODE_PRIVATE);
+        SharedPreferences.Editor editor = onBoardingScreen.edit();
+        editor.putBoolean("firstTime", false);
+        editor.commit();
         startActivity(new Intent(getApplicationContext(), MainActivity.class));
         finish();
     }

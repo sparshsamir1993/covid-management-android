@@ -25,9 +25,14 @@ import com.example.covid_management_android.adapter.AppUtil;
 import com.example.covid_management_android.adapter.RetrofitUtil;
 import com.example.covid_management_android.model.AuthToken;
 import com.example.covid_management_android.model.Login;
+import com.example.covid_management_android.model.Question;
 import com.example.covid_management_android.service.UserClient;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.io.IOException;
+import java.util.List;
+
+import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -77,9 +82,11 @@ public class LoginActivity extends AppCompatActivity {
                 if(response.isSuccessful()){
                     String token = response.body().getToken();
                     String refreshToken = response.body().getRefreshToken();
+                    //String userId = re
                     Toast.makeText(LoginActivity.this, "Logged In Successfully", Toast.LENGTH_SHORT).show();
                     editor.putString("token", token);
                     editor.putString("refreshToken", refreshToken);
+                   // editor.putInt("userId",)
                     editor.commit();
                     Intent i = new Intent(getApplicationContext(), UserProfileActivity.class);
                     startActivity(i);
@@ -129,7 +136,7 @@ public class LoginActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("covidManagement",MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
-       callSignup.setOnClickListener(new View.OnClickListener() {
+        callSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent (LoginActivity.this,SignUpActivity.class);
@@ -148,6 +155,12 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent,options.toBundle());
             }
         });
+
+       // getting data for question
+
+       // fetchQuestionData();
     }
+
+
 
 }

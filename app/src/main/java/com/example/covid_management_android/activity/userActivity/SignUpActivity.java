@@ -31,7 +31,7 @@ public class SignUpActivity extends AppCompatActivity {
     TextView logoText, sloganText;
     ImageView image;
     Retrofit retrofit;
-    Button calllogin;
+    Button calllogin,btnquestion;
     UserClient userClient;
 
     public void signupSubmit(View view){
@@ -83,12 +83,21 @@ public class SignUpActivity extends AppCompatActivity {
         passwordField = findViewById(R.id.passwordField);
         confirmPasswordField = findViewById(R.id.confirmPasswordField);
         calllogin = findViewById(R.id.callLogin);
+        btnquestion = findViewById(R.id.btnquestion);
 
         //initializing up retrofit
 
         retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/");
         retrofit = retrofitUtil.getRetrofit();
         userClient = retrofit.create(UserClient.class);
+
+        btnquestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(SignUpActivity.this,QuestionActivity.class);
+                startActivity(i);
+            }
+        });
 
         calllogin.setOnClickListener(new View.OnClickListener() {
             @Override

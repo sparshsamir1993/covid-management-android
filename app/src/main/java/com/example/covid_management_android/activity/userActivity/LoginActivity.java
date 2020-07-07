@@ -13,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -25,14 +24,9 @@ import com.example.covid_management_android.adapter.AppUtil;
 import com.example.covid_management_android.adapter.RetrofitUtil;
 import com.example.covid_management_android.model.AuthToken;
 import com.example.covid_management_android.model.Login;
-import com.example.covid_management_android.model.Question;
 import com.example.covid_management_android.service.UserClient;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.io.IOException;
-import java.util.List;
-
-import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

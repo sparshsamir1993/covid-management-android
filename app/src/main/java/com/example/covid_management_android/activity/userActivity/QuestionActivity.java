@@ -4,15 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
+import android.widget.Button;
 
 import com.example.covid_management_android.R;
 import com.example.covid_management_android.adapter.QuestionAdapter;
 import com.example.covid_management_android.adapter.RetrofitUtil;
+
 import com.example.covid_management_android.model.Question;
-import com.example.covid_management_android.model.QuestionOption;
 import com.example.covid_management_android.service.UserClient;
 
 import java.util.List;
@@ -27,9 +28,13 @@ public class QuestionActivity extends AppCompatActivity {
     RetrofitUtil retrofitUtil;
     Retrofit retrofit;
     UserClient userClient;
-    Call<List<QuestionOption>>  myQuestion;
+    QuestionAdapter myquestionAdapter;
+    SharedPreferences sharedPreferences;
     RecyclerView.LayoutManager mylayoutmanager;
     RecyclerView myRecyclerView;
+    Button myQuestionResponse;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,36 +43,33 @@ public class QuestionActivity extends AppCompatActivity {
 
         //initializing up retrofit
 
-        retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/admin/");
+        retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/admin/question/");
         retrofit = retrofitUtil.getRetrofit();
         userClient = retrofit.create(UserClient.class);
         myRecyclerView = findViewById(R.id.questionRecycle);
-        mylayoutmanager = new LinearLayoutManager(this);
-
+        sharedPreferences = getSharedPreferences("covidManagement",MODE_PRIVATE);
+        myQuestionResponse = findViewById(R.id.myquestionResponse);
         fetchQuestionData();
-    }
-    private void fetchQuestionData() {
-        myQuestion = userClient.fetchQuestions();
-        myQuestion.enqueue(new Callback<List<QuestionOption>>() {
-            @Override
-            public void onResponse(Call<List<QuestionOption>> call, Response<List<QuestionOption>> response) {
-                //Log.d("questions arrived",response.body().toArray().toString());
-                if(response.isSuccessful()) {
-                    List<QuestionOption> myquestions = response.body();
-                    QuestionAdapter myadapter = new QuestionAdapter(myquestions);
-                    myRecyclerView.setLayoutManager(mylayoutmanager);
-                    myRecyclerView.setAdapter(myadapter);
-                }
-                else
-                {
-                    Toast.makeText(QuestionActivity.this, "Error while loading...", Toast.LENGTH_SHORT).show();
-                }
-            }
 
+
+
+    }
+
+    private void fetchQuestionData() {
+        Call<List<Question>>  myQuestion;
+        myQuestion = userClient.fetchQuestions();
+        myQuestion.enqueue(new Callback<List<Question>>() {
             @Override
-            public void onFailure(Call<List<QuestionOption>> call, Throwable t) {
-                Log.d("ERROR here",t.getMessage());
-                Toast.makeText(QuestionActivity.this, "Failed to load...", Toast.LENGTH_SHORT).show();
+            public void onResponse(Call<List<Question>> call, Response<List<Question>> response) {
+                List<Question> questions = response.body();
+                myquestionAdapter = new QuestionAdapter(questions,QuestionActivity.this,sharedPreferences,myQuestionResponse);
+                mylayoutmanager = new LinearLayoutManager(QuestionActivity.this);
+                myRecyclerView.setLayoutManager(mylayoutmanager);
+                myRecyclerView.setAdapter(myquestionAdapter);
+            }
+            @Override
+            public void onFailure(Call<List<Question>> call, Throwable t) {
+
             }
         });
 

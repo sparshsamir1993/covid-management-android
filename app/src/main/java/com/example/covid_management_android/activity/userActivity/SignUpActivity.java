@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.View;
@@ -33,6 +34,8 @@ public class SignUpActivity extends AppCompatActivity {
     Retrofit retrofit;
     Button calllogin,btnquestion;
     UserClient userClient;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     public void signupSubmit(View view){
         String email = emailField.getText().toString();
@@ -54,6 +57,7 @@ public class SignUpActivity extends AppCompatActivity {
                     int id = response.body().getId();
                     if(id > 0){
                         Toast.makeText(getApplicationContext(), "Sign up complete", Toast.LENGTH_SHORT).show();
+                        editor.putInt("userId",id);
                         Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                         startActivity(i);
                     }
@@ -84,6 +88,8 @@ public class SignUpActivity extends AppCompatActivity {
         confirmPasswordField = findViewById(R.id.confirmPasswordField);
         calllogin = findViewById(R.id.callLogin);
         btnquestion = findViewById(R.id.btnquestion);
+        sharedPreferences = getSharedPreferences("covidManagement",MODE_PRIVATE);
+        editor = sharedPreferences.edit();
 
         //initializing up retrofit
 

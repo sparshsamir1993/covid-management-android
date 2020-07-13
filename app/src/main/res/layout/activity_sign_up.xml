@@ -104,10 +104,5 @@
         android:text="Already have an account? LogIn"
         android:background="#00000000"/>
 
-    <Button
-        android:id="@+id/btnquestion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Get Question" />
 
 </LinearLayout>

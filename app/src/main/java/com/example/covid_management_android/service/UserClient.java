@@ -1,10 +1,12 @@
 package com.example.covid_management_android.service;
 
 import com.example.covid_management_android.model.AuthToken;
+import com.example.covid_management_android.model.CovidQuestionResult;
 import com.example.covid_management_android.model.Login;
 
 import com.example.covid_management_android.model.Question;
 import com.example.covid_management_android.model.User;
+import com.example.covid_management_android.model.UserAnswerResponse;
 
 import java.util.List;
 
@@ -27,5 +29,8 @@ public interface UserClient {
 
     @GET("options")
     Call<List<Question>> fetchQuestions();
+
+    @POST("userResponse")
+    Call<CovidQuestionResult> sendReport(@Body UserAnswerResponse userAnswerResponse);
 
 }

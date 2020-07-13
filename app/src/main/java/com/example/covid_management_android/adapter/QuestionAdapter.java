@@ -18,14 +18,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.covid_management_android.R;
 import com.example.covid_management_android.activity.userActivity.QuestionActivity;
+import com.example.covid_management_android.model.CovidQuestionResult;
 import com.example.covid_management_android.model.QAnswerOption;
 import com.example.covid_management_android.model.Question;
+import com.example.covid_management_android.model.User;
+import com.example.covid_management_android.model.UserAnswerResponse;
+import com.example.covid_management_android.service.UserClient;
+import com.google.gson.Gson;
 
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -34,16 +45,22 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
    List<Question> myQuestions;
    Context context;
    HashMap<Integer,Integer> myResponses;
+    //JSONObject myResponses;
    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
    Button myResponseButton;
+   RetrofitUtil retrofitUtil;
+   Retrofit retrofit;
+   UserClient userClient;
 
-    public QuestionAdapter(List<Question> myQuestions,Context mycontext,SharedPreferences sharedPreferences,Button myResponseButton)
+    public QuestionAdapter(List<Question> myQuestions,Context mycontext,SharedPreferences sharedPreferences,Button myResponseButton,SharedPreferences.Editor editor)
     {
         this.myQuestions = myQuestions;
         this.context = mycontext;
         this.myResponses = new HashMap<>();
         this.sharedPreferences = sharedPreferences;
         this.myResponseButton = myResponseButton;
+        this.editor = editor;
 
     }
 
@@ -69,6 +86,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
             holder.myoptions.addView(r1);
             holder.mylayout.addView(holder.myoptions);
         }
+
         holder.myoptions.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
           @Override
           public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -79,7 +97,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
               Integer optionId = 0;
               if(rb.isChecked())
               {
-                  int questionId = myQuestions.get(position).getId();
+                  Integer questionId = myQuestions.get(position).getId();
                   String mySelectedoption = rb.getText().toString();
                   for (Question option : myQuestions)
                   {
@@ -89,17 +107,17 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
                        if(myoption.getOptionContent().contains(mySelectedoption))
                        {
                           optionId = myoption.getId();
-
                        }
                     }
                   }
                   Log.i("My radio button",rb.getText().toString()+myQuestions.get(position).getQuestion()+" " + optionId.toString());
-                  myResponses.put(questionId,optionId);
-
-                  setAllData();
+                  try {
+                      myResponses.put(questionId,optionId);
+                  } catch (Exception e) {
+                      e.printStackTrace();
+                  }
                   Integer m = sharedPreferences.getInt("userId",1);
                  //Log.i("myUserId",m.toString());
-
                   //myResponses.put(questionId,optionId);
                   Log.i("MyResponses",myResponses.toString());
 
@@ -107,22 +125,42 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
           }
       });
 
-
-    }
-
-    private void setAllData() {
         myResponseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,myResponses.toString(),Toast.LENGTH_LONG).show();
+                retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/admin/");
+                retrofit = retrofitUtil.getRetrofit();
+                userClient = retrofit.create(UserClient.class);
+                Toast.makeText(context,"Hello there",Toast.LENGTH_LONG).show();
+                UserAnswerResponse myUserResponse = new UserAnswerResponse();
+                Integer userId  = sharedPreferences.getInt("userId",1);
+                myUserResponse.setUserId(userId);
+                myUserResponse.setUserAnswers(myResponses);
+
+                Call<CovidQuestionResult> call = userClient.sendReport(myUserResponse);
+
+               call.enqueue(new Callback<CovidQuestionResult>() {
+                   @Override
+                   public void onResponse(Call<CovidQuestionResult> call, Response<CovidQuestionResult> response) {
+                       Log.i("My Response",response.body().getResult());
+                       Toast.makeText(context,"Survey Submitted",Toast.LENGTH_LONG).show();
+
+                       // To Raise a flag ,indicating user has submitted the questionnaire...
+                       editor.putInt("QuestionnaireSubmission",1);
+                   }
+                   @Override
+                   public void onFailure(Call<CovidQuestionResult> call, Throwable t) {
+                       Log.i("My Response",t.getMessage());
+                   }
+               });
             }
         });
+
     }
 
     @Override
     public int getItemCount() {
         return myQuestions.size();
-
     }
 
     public static class QuestionViewHolder extends RecyclerView.ViewHolder {
@@ -133,6 +171,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
         public LinearLayout mylayout;
 
         public QuestionViewHolder(View itemView) {
+
             super(itemView);
             myquestion = itemView.findViewById(R.id.questionId);
             myoptions = itemView.findViewById(R.id.myradiooptionsgroup);

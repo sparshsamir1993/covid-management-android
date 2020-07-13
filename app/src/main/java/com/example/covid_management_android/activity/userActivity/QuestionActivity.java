@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.covid_management_android.R;
 import com.example.covid_management_android.adapter.QuestionAdapter;
@@ -30,6 +32,7 @@ public class QuestionActivity extends AppCompatActivity {
     UserClient userClient;
     QuestionAdapter myquestionAdapter;
     SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
     RecyclerView.LayoutManager mylayoutmanager;
     RecyclerView myRecyclerView;
     Button myQuestionResponse;
@@ -48,7 +51,9 @@ public class QuestionActivity extends AppCompatActivity {
         userClient = retrofit.create(UserClient.class);
         myRecyclerView = findViewById(R.id.questionRecycle);
         sharedPreferences = getSharedPreferences("covidManagement",MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         myQuestionResponse = findViewById(R.id.myquestionResponse);
+
         fetchQuestionData();
 
 
@@ -62,7 +67,7 @@ public class QuestionActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<Question>> call, Response<List<Question>> response) {
                 List<Question> questions = response.body();
-                myquestionAdapter = new QuestionAdapter(questions,QuestionActivity.this,sharedPreferences,myQuestionResponse);
+                myquestionAdapter = new QuestionAdapter(questions,QuestionActivity.this,sharedPreferences,myQuestionResponse,editor);
                 mylayoutmanager = new LinearLayoutManager(QuestionActivity.this);
                 myRecyclerView.setLayoutManager(mylayoutmanager);
                 myRecyclerView.setAdapter(myquestionAdapter);
@@ -70,9 +75,12 @@ public class QuestionActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<Question>> call, Throwable t) {
 
+                Toast.makeText(QuestionActivity.this,"Could not load Questions",Toast.LENGTH_LONG).show();
+
             }
         });
 
     }
+
 
 }

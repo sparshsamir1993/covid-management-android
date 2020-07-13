@@ -32,7 +32,7 @@ public class SignUpActivity extends AppCompatActivity {
     TextView logoText, sloganText;
     ImageView image;
     Retrofit retrofit;
-    Button calllogin,btnquestion;
+    Button calllogin;
     UserClient userClient;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -57,7 +57,7 @@ public class SignUpActivity extends AppCompatActivity {
                     int id = response.body().getId();
                     if(id > 0){
                         Toast.makeText(getApplicationContext(), "Sign up complete", Toast.LENGTH_SHORT).show();
-                        editor.putInt("userId",id);
+
                         Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                         startActivity(i);
                     }
@@ -87,7 +87,7 @@ public class SignUpActivity extends AppCompatActivity {
         passwordField = findViewById(R.id.passwordField);
         confirmPasswordField = findViewById(R.id.confirmPasswordField);
         calllogin = findViewById(R.id.callLogin);
-        btnquestion = findViewById(R.id.btnquestion);
+
         sharedPreferences = getSharedPreferences("covidManagement",MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
@@ -96,14 +96,6 @@ public class SignUpActivity extends AppCompatActivity {
         retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/");
         retrofit = retrofitUtil.getRetrofit();
         userClient = retrofit.create(UserClient.class);
-
-        btnquestion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(SignUpActivity.this,QuestionActivity.class);
-                startActivity(i);
-            }
-        });
 
         calllogin.setOnClickListener(new View.OnClickListener() {
             @Override

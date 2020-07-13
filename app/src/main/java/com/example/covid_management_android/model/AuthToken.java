@@ -7,6 +7,12 @@ public class AuthToken {
     private String refreshToken;
     private Boolean auth;
 
+    public Integer getId() {
+        return id;
+    }
+
+    private Integer id;
+
     public String getToken() {
         return token;
     }

@@ -76,13 +76,14 @@ public class LoginActivity extends AppCompatActivity {
                 if(response.isSuccessful()){
                     String token = response.body().getToken();
                     String refreshToken = response.body().getRefreshToken();
-                    //String userId = re
+                    Integer id = response.body().getId();
                     Toast.makeText(LoginActivity.this, "Logged In Successfully", Toast.LENGTH_SHORT).show();
                     editor.putString("token", token);
                     editor.putString("refreshToken", refreshToken);
-                   // editor.putInt("userId",)
+                    Log.i("My user Id",id.toString());
+                    editor.putInt("userId",id);
                     editor.commit();
-                    Intent i = new Intent(getApplicationContext(), UserProfileActivity.class);
+                    Intent i = new Intent(getApplicationContext(), CovidQuestionnaireRedirection.class);
                     startActivity(i);
                 }else{
                     switch (response.code()){

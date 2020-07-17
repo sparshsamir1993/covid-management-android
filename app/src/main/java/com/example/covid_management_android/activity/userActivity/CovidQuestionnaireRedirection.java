@@ -5,17 +5,46 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.covid_management_android.R;
+import com.example.covid_management_android.adapter.AppUtil;
+import com.example.covid_management_android.adapter.RetrofitUtil;
+import com.example.covid_management_android.model.CurrentUser;
 import com.example.covid_management_android.model.Question;
+import com.example.covid_management_android.model.UserFilledQuestionnaire;
+import com.example.covid_management_android.model.UserSubmission.UserSubmittedAnswers;
+import com.example.covid_management_android.service.UserClient;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class CovidQuestionnaireRedirection extends AppCompatActivity {
 
       Button survey;
       SharedPreferences sharedPreferences;
+
+      RetrofitUtil retrofitUtil;
+      Retrofit retrofit;
+      UserClient userClient;
+      List<Integer> myUserfilledresponses;
+      UserFilledQuestionnaire mydata;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,7 +52,8 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity {
 
         survey =  findViewById(R.id.btnsurvey);
         sharedPreferences = getSharedPreferences("covidManagement",MODE_PRIVATE);
-
+        myUserfilledresponses = new ArrayList<>();
+        mydata = new UserFilledQuestionnaire();
 
         survey.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,10 +65,66 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity {
                 }
 
                 else{
-                    Intent i = new Intent(CovidQuestionnaireRedirection.this, QuestionActivity.class);
-                    startActivity(i);
+
+                    getfilledQuestionnaire();
                 }
             }
         });
     }
-}
+
+    private void getfilledQuestionnaire() {
+
+            Integer userId  = sharedPreferences.getInt("userId",1);
+            CurrentUser user = new CurrentUser();
+            user.setUserId(userId);
+            retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/admin/");
+            retrofit = retrofitUtil.getRetrofit();
+            userClient = retrofit.create(UserClient.class);
+
+            Call<List<UserSubmittedAnswers>> call = userClient.fetchData(user);
+            call.enqueue(new Callback<List<UserSubmittedAnswers>>() {
+                @Override
+                public void onResponse(Call<List<UserSubmittedAnswers>> call, Response<List<UserSubmittedAnswers>> response) {
+                    // Log.i("My User Response",response.body().get(0).getOption().getOptionContent());
+                    if(response.isSuccessful()) {
+                        List<UserSubmittedAnswers> list = response.body();
+
+
+                        for(UserSubmittedAnswers n :list)
+                        {
+                            myUserfilledresponses.add( n.getOptionId());
+                        }
+
+                        mydata.setUserFilledData(myUserfilledresponses);
+
+                        //Log.i("HEEREEEEE",myUserfilledresponses.toString());
+                        Intent i = new Intent(CovidQuestionnaireRedirection.this, QuestionActivity.class);
+                        i.putExtra("filled",mydata);
+
+                        startActivity(i);
+
+                    }
+                    else
+                    {
+                        switch (response.code())
+                        {
+                            case 403:
+                            case 401:
+                                Toast.makeText(getApplicationContext(), "Error fetching user response data", Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<List<UserSubmittedAnswers>> call, Throwable t) {
+
+                    Log.i("FAILED HERE ",t.getMessage());
+                }
+            });
+
+
+        }
+
+    }

@@ -26,4 +26,14 @@ public class UserAnswerResponse {
     public void setUserAnswers(HashMap<Integer,Integer> userAnswers) {
         this.userAnswers = userAnswers;
     }
+
+   /*JSONObject userAnswers ;
+
+    public JSONObject getUserAnswers() {
+        return userAnswers;
+    }
+
+    public void setUserAnswers(JSONObject userAnswers) {
+        this.userAnswers = userAnswers;
+    }*/
 }

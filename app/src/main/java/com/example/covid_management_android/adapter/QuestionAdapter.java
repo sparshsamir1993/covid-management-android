@@ -23,10 +23,13 @@ import com.example.covid_management_android.model.QAnswerOption;
 import com.example.covid_management_android.model.Question;
 import com.example.covid_management_android.model.User;
 import com.example.covid_management_android.model.UserAnswerResponse;
+import com.example.covid_management_android.model.UserFilledQuestionnaire;
 import com.example.covid_management_android.service.UserClient;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -47,13 +50,16 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
    HashMap<Integer,Integer> myResponses;
     //JSONObject myResponses;
    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
+   SharedPreferences.Editor editor;
    Button myResponseButton;
    RetrofitUtil retrofitUtil;
    Retrofit retrofit;
    UserClient userClient;
+   List<Integer> filledResponses;
+   int counter;
+  // UserFilledQuestionnaire filleddata;
 
-    public QuestionAdapter(List<Question> myQuestions,Context mycontext,SharedPreferences sharedPreferences,Button myResponseButton,SharedPreferences.Editor editor)
+    public QuestionAdapter(List<Question> myQuestions,Context mycontext,SharedPreferences sharedPreferences,Button myResponseButton,SharedPreferences.Editor editor,List<Integer> list)
     {
         this.myQuestions = myQuestions;
         this.context = mycontext;
@@ -61,8 +67,12 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
         this.sharedPreferences = sharedPreferences;
         this.myResponseButton = myResponseButton;
         this.editor = editor;
+        this.filledResponses = list;
+        this.counter = 0;
+
 
     }
+
 
     @NonNull
     @Override
@@ -78,13 +88,32 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
 
         holder.myquestion.setText(myQuestions.get(position).getQuestion());
         final int count = myQuestions.get(position).getQAnswerOptions().size();
-
+        Integer questionId = myQuestions.get(position).getId();
         for(int i=0;i<count;i++) {
             RadioButton r1 = new RadioButton(context);
             r1.setText(myQuestions.get(position).getQAnswerOptions().get(i).getOptionContent());
+         //optionSize =  myQuestions.get(position).getQAnswerOptions().get(0).getId();
             holder.mylayout.removeAllViews();
             holder.myoptions.addView(r1);
+            try{
+           if(myQuestions.get(position).getQAnswerOptions().get(i).getId().equals(filledResponses.get(counter)));
+            {
+                r1.setChecked(true);
+               // myResponses.put(questionId,)
+
+            }
+            }
+            catch (Exception e)
+            {
+                Log.i("Error",e.getMessage());
+            }
+
             holder.mylayout.addView(holder.myoptions);
+        }
+        counter += 1;
+        if(counter>=10)
+        {
+            counter = 0;
         }
 
         holder.myoptions.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -111,13 +140,12 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
                     }
                   }
                   Log.i("My radio button",rb.getText().toString()+myQuestions.get(position).getQuestion()+" " + optionId.toString());
-                  try {
-                      myResponses.put(questionId,optionId);
-                  } catch (Exception e) {
-                      e.printStackTrace();
-                  }
+
+                     myResponses.put(questionId,optionId);
+                     // myResponses.put("id",);
+
                   Integer m = sharedPreferences.getInt("userId",1);
-                 //Log.i("myUserId",m.toString());
+                 //Log.i("myUserId",m.toString());mysql -u root -p
                   //myResponses.put(questionId,optionId);
                   Log.i("MyResponses",myResponses.toString());
 
@@ -136,17 +164,22 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
                 Integer userId  = sharedPreferences.getInt("userId",1);
                 myUserResponse.setUserId(userId);
                 myUserResponse.setUserAnswers(myResponses);
-
                 Call<CovidQuestionResult> call = userClient.sendReport(myUserResponse);
-
-               call.enqueue(new Callback<CovidQuestionResult>() {
+                call.enqueue(new Callback<CovidQuestionResult>() {
                    @Override
                    public void onResponse(Call<CovidQuestionResult> call, Response<CovidQuestionResult> response) {
                        Log.i("My Response",response.body().getResult());
                        Toast.makeText(context,"Survey Submitted",Toast.LENGTH_LONG).show();
-
                        // To Raise a flag ,indicating user has submitted the questionnaire...
                        editor.putInt("QuestionnaireSubmission",1);
+                       editor.apply();
+
+                       if(response.body().getResult().contains("Positive"))
+                       {
+                           AppUtil appUtil = new AppUtil();
+                           appUtil.diplayAlert(context);
+                       }
+                       
                    }
                    @Override
                    public void onFailure(Call<CovidQuestionResult> call, Throwable t) {

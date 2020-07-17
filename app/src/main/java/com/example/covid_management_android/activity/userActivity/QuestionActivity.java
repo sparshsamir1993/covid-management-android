@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +18,8 @@ import com.example.covid_management_android.adapter.QuestionAdapter;
 import com.example.covid_management_android.adapter.RetrofitUtil;
 
 import com.example.covid_management_android.model.Question;
+import com.example.covid_management_android.model.UserFilledQuestionnaire;
+import com.example.covid_management_android.model.UserSubmission.UserSubmittedAnswers;
 import com.example.covid_management_android.service.UserClient;
 
 import java.util.List;
@@ -36,6 +40,8 @@ public class QuestionActivity extends AppCompatActivity {
     RecyclerView.LayoutManager mylayoutmanager;
     RecyclerView myRecyclerView;
     Button myQuestionResponse;
+    List<UserSubmittedAnswers> list;
+    UserFilledQuestionnaire answers;
 
 
 
@@ -53,34 +59,59 @@ public class QuestionActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("covidManagement",MODE_PRIVATE);
         editor = sharedPreferences.edit();
         myQuestionResponse = findViewById(R.id.myquestionResponse);
+       // Integer covidQuestionFlag = sharedPreferences.getInt("QuestionnaireSubmission",0);
+
+        if(getIntent().getExtras()!=null)
+        {
+           answers = (UserFilledQuestionnaire)getIntent().getSerializableExtra("filled");
+            //Bundle bundle = this.getIntent().getExtras();
+          //  answers =(UserFilledQuestionnaire)bundle.getSerializable("filled");
+            Log.i("HEELOOOOO THERE",answers.toString());
+        }
+
+
 
         fetchQuestionData();
 
+      //  Intent i = getIntent();
+        //list = (List<UserSubmittedAnswers>) i.getSerializableExtra("filledlist");
 
+      //  if()
 
     }
 
     private void fetchQuestionData() {
-        Call<List<Question>>  myQuestion;
-        myQuestion = userClient.fetchQuestions();
-        myQuestion.enqueue(new Callback<List<Question>>() {
-            @Override
-            public void onResponse(Call<List<Question>> call, Response<List<Question>> response) {
-                List<Question> questions = response.body();
-                myquestionAdapter = new QuestionAdapter(questions,QuestionActivity.this,sharedPreferences,myQuestionResponse,editor);
-                mylayoutmanager = new LinearLayoutManager(QuestionActivity.this);
-                myRecyclerView.setLayoutManager(mylayoutmanager);
-                myRecyclerView.setAdapter(myquestionAdapter);
-            }
-            @Override
-            public void onFailure(Call<List<Question>> call, Throwable t) {
+        int covidQuestionFlag = sharedPreferences.getInt("QuestionnaireSubmission", 0);
+        if (covidQuestionFlag == 1) {
+            Call<List<Question>> myQuestion;
+            myQuestion = userClient.fetchQuestions();
+            myQuestion.enqueue(new Callback<List<Question>>() {
+                @Override
+                public void onResponse(Call<List<Question>> call, Response<List<Question>> response) {
+                    List<Question> questions = response.body();
+                    myquestionAdapter = new QuestionAdapter(questions, QuestionActivity.this, sharedPreferences, myQuestionResponse, editor,answers.getUserFilledData());
+                    mylayoutmanager = new LinearLayoutManager(QuestionActivity.this);
+                    myRecyclerView.setLayoutManager(mylayoutmanager);
+                    myRecyclerView.setAdapter(myquestionAdapter);
+                }
+                @Override
+                public void onFailure(Call<List<Question>> call, Throwable t) {
 
-                Toast.makeText(QuestionActivity.this,"Could not load Questions",Toast.LENGTH_LONG).show();
+                    Toast.makeText(QuestionActivity.this, "Could not load Questions", Toast.LENGTH_LONG).show();
 
-            }
-        });
+                }
+            });
 
+        }
+
+        else{
+
+            Toast.makeText(QuestionActivity.this,"You have already submitted your response",Toast.LENGTH_LONG).show();
+
+        }
     }
+
+
 
 
 }

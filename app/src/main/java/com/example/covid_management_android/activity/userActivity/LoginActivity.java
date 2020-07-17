@@ -23,9 +23,14 @@ import com.example.covid_management_android.R;
 import com.example.covid_management_android.adapter.AppUtil;
 import com.example.covid_management_android.adapter.RetrofitUtil;
 import com.example.covid_management_android.model.AuthToken;
+import com.example.covid_management_android.model.CurrentUser;
 import com.example.covid_management_android.model.Login;
+import com.example.covid_management_android.model.User;
+import com.example.covid_management_android.model.UserSubmission.UserSubmittedAnswers;
 import com.example.covid_management_android.service.UserClient;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     AppUtil appUtil = new AppUtil();
+    List<UserSubmittedAnswers> list;
 
 //**************    menu  **************//
 
@@ -83,8 +89,12 @@ public class LoginActivity extends AppCompatActivity {
                     Log.i("My user Id",id.toString());
                     editor.putInt("userId",id);
                     editor.commit();
-                    Intent i = new Intent(getApplicationContext(), CovidQuestionnaireRedirection.class);
-                    startActivity(i);
+
+                        Intent i = new Intent(getApplicationContext(), CovidQuestionnaireRedirection.class);
+                        startActivity(i);
+
+
+
                 }else{
                     switch (response.code()){
                         case 403:
@@ -103,6 +113,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
 
     @Override
@@ -151,9 +163,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-       // getting data for question
 
-       // fetchQuestionData();
     }
 
 

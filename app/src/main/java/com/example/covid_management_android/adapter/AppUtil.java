@@ -23,6 +23,9 @@ public class AppUtil extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     Menu currentMenu;
 
+
+
+
     public Menu checkMenuItems(Menu menu, Context context){
         sharedPreferences = context.getSharedPreferences("covidManagement", MODE_PRIVATE);
         currentMenu = menu;
@@ -83,6 +86,8 @@ public class AppUtil extends AppCompatActivity {
         context.startActivity(toMain);
     }
 
+
+
     public void createLogoutAlert(final Context context){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setMessage("You sure?").setCancelable(false)
@@ -112,5 +117,33 @@ public class AppUtil extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.setTitle("Attempting Logout");
         dialog.show();
+    }
+
+    public void diplayAlert(final Context context )
+    {
+        AlertDialog.Builder alertdialog = new AlertDialog.Builder(context);
+        alertdialog.setTitle("Covid Result");
+        alertdialog.setIcon(R.drawable.skip_icon)
+                    .setMessage("Your Symptoms are matched")
+                    .setCancelable(false)
+                    .setPositiveButton("Take Action", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(context,"Procedding",Toast.LENGTH_LONG).show();
+                        }
+                    })
+
+                .setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                    }
+                });
+
+        AlertDialog alertDialog = alertdialog.create();
+        alertDialog.show();
+
+
+
     }
 }

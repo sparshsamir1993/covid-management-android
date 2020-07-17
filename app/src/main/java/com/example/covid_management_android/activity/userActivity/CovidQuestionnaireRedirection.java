@@ -36,23 +36,24 @@ import retrofit2.Retrofit;
 
 public class CovidQuestionnaireRedirection extends AppCompatActivity {
 
-      Button survey;
-      SharedPreferences sharedPreferences;
+    Button survey;
+    SharedPreferences sharedPreferences;
 
-      RetrofitUtil retrofitUtil;
-      Retrofit retrofit;
-      UserClient userClient;
-      List<Integer> myUserfilledresponses;
-      UserFilledQuestionnaire mydata;
+    RetrofitUtil retrofitUtil;
+    Retrofit retrofit;
+    UserClient userClient;
+    JSONArray myUserfilledresponses;
+
+    UserFilledQuestionnaire mydata;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_covid_questionnaire_redirection);
 
-        survey =  findViewById(R.id.btnsurvey);
-        sharedPreferences = getSharedPreferences("covidManagement",MODE_PRIVATE);
-        myUserfilledresponses = new ArrayList<>();
+        survey = findViewById(R.id.btnsurvey);
+        sharedPreferences = getSharedPreferences("covidManagement", MODE_PRIVATE);
+        myUserfilledresponses = new JSONArray();
         mydata = new UserFilledQuestionnaire();
 
         survey.setOnClickListener(new View.OnClickListener() {
@@ -60,11 +61,9 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity {
             public void onClick(View v) {
                 String token = sharedPreferences.getString("token", null);
                 String refreshToken = sharedPreferences.getString("refreshToken", null);
-                if(token == null || refreshToken == null){
+                if (token == null || refreshToken == null) {
                     Toast.makeText(getApplicationContext(), "Token Invalid", Toast.LENGTH_SHORT).show();
-                }
-
-                else{
+                } else {
 
                     getfilledQuestionnaire();
                 }
@@ -74,57 +73,59 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity {
 
     private void getfilledQuestionnaire() {
 
-            Integer userId  = sharedPreferences.getInt("userId",1);
-            CurrentUser user = new CurrentUser();
-            user.setUserId(userId);
-            retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/admin/");
-            retrofit = retrofitUtil.getRetrofit();
-            userClient = retrofit.create(UserClient.class);
+        Integer userId = sharedPreferences.getInt("userId", 1);
+        CurrentUser user = new CurrentUser();
+        user.setUserId(userId);
+        retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/admin/");
+        retrofit = retrofitUtil.getRetrofit();
+        userClient = retrofit.create(UserClient.class);
 
-            Call<List<UserSubmittedAnswers>> call = userClient.fetchData(user);
-            call.enqueue(new Callback<List<UserSubmittedAnswers>>() {
-                @Override
-                public void onResponse(Call<List<UserSubmittedAnswers>> call, Response<List<UserSubmittedAnswers>> response) {
-                    // Log.i("My User Response",response.body().get(0).getOption().getOptionContent());
-                    if(response.isSuccessful()) {
-                        List<UserSubmittedAnswers> list = response.body();
+        Call<List<UserSubmittedAnswers>> call = userClient.fetchData(user);
+        call.enqueue(new Callback<List<UserSubmittedAnswers>>() {
+            @Override
+            public void onResponse(Call<List<UserSubmittedAnswers>> call, Response<List<UserSubmittedAnswers>> response) {
+                // Log.i("My User Response",response.body().get(0).getOption().getOptionContent());
+                if (response.isSuccessful()) {
+                    List<UserSubmittedAnswers> list = response.body();
 
+                    try {
+                        for (UserSubmittedAnswers n : list) {
+                            JSONObject optionData = new JSONObject();
+                            optionData.put("optionId", n.getOptionId());
+                            optionData.put("id", n.getId());
 
-                        for(UserSubmittedAnswers n :list)
-                        {
-                            myUserfilledresponses.add( n.getOptionId());
+                            myUserfilledresponses.put(optionData);
                         }
 
-                        mydata.setUserFilledData(myUserfilledresponses);
-
-                        //Log.i("HEEREEEEE",myUserfilledresponses.toString());
                         Intent i = new Intent(CovidQuestionnaireRedirection.this, QuestionActivity.class);
-                        i.putExtra("filled",mydata);
+                        Log.i("json array --- ", myUserfilledresponses.toString());
+                        i.putExtra("filled", myUserfilledresponses.toString());
 
                         startActivity(i);
-
-                    }
-                    else
-                    {
-                        switch (response.code())
-                        {
-                            case 403:
-                            case 401:
-                                Toast.makeText(getApplicationContext(), "Error fetching user response data", Toast.LENGTH_SHORT).show();
-                                break;
-                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
 
+
+                } else {
+                    switch (response.code()) {
+                        case 403:
+                        case 401:
+                            Toast.makeText(getApplicationContext(), "Error fetching user response data", Toast.LENGTH_SHORT).show();
+                            break;
+                    }
                 }
 
-                @Override
-                public void onFailure(Call<List<UserSubmittedAnswers>> call, Throwable t) {
+            }
 
-                    Log.i("FAILED HERE ",t.getMessage());
-                }
-            });
+            @Override
+            public void onFailure(Call<List<UserSubmittedAnswers>> call, Throwable t) {
 
+                Log.i("FAILED HERE ", t.getMessage());
+            }
+        });
 
-        }
 
     }
+
+}

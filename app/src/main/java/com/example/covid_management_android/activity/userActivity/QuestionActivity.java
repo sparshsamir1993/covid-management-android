@@ -22,6 +22,9 @@ import com.example.covid_management_android.model.UserFilledQuestionnaire;
 import com.example.covid_management_android.model.UserSubmission.UserSubmittedAnswers;
 import com.example.covid_management_android.service.UserClient;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -43,6 +46,8 @@ public class QuestionActivity extends AppCompatActivity {
     List<UserSubmittedAnswers> list;
     UserFilledQuestionnaire answers;
 
+    JSONArray filledOptionData;
+
 
 
     @Override
@@ -63,10 +68,13 @@ public class QuestionActivity extends AppCompatActivity {
 
         if(getIntent().getExtras()!=null)
         {
-           answers = (UserFilledQuestionnaire)getIntent().getSerializableExtra("filled");
-            //Bundle bundle = this.getIntent().getExtras();
-          //  answers =(UserFilledQuestionnaire)bundle.getSerializable("filled");
-            Log.i("HEELOOOOO THERE",answers.toString());
+            String result  = getIntent().getExtras().get("filled").toString();
+            try{
+                filledOptionData = new JSONArray(result);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            Log.i("HEELOOOOO THERE",result);
         }
 
 
@@ -89,7 +97,7 @@ public class QuestionActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<List<Question>> call, Response<List<Question>> response) {
                     List<Question> questions = response.body();
-                    myquestionAdapter = new QuestionAdapter(questions, QuestionActivity.this, sharedPreferences, myQuestionResponse, editor,answers.getUserFilledData());
+                    myquestionAdapter = new QuestionAdapter(questions, QuestionActivity.this, sharedPreferences, myQuestionResponse, editor, filledOptionData);
                     mylayoutmanager = new LinearLayoutManager(QuestionActivity.this);
                     myRecyclerView.setLayoutManager(mylayoutmanager);
                     myRecyclerView.setAdapter(myquestionAdapter);

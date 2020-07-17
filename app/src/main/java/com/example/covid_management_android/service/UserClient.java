@@ -34,7 +34,7 @@ public interface UserClient {
     Call<List<Question>> fetchQuestions();
 
     @POST("userResponse/addResponse")
-    Call<CovidQuestionResult> sendReport(@Body UserAnswerResponse userAnswerResponse);
+    Call<CovidQuestionResult> createReport(@Body UserAnswerResponse userAnswerResponse);
 
   @POST("userResponse")
     Call<List<UserSubmittedAnswers>> fetchData(@Body CurrentUser user);

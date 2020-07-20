@@ -45,7 +45,7 @@ public class UserSubmittedAnswers implements Serializable {
     }
 
 
-    public void setUserId(Integer userId) {
+        public void setUserId(Integer userId) {
         this.userId = userId;
     }
 

@@ -119,29 +119,33 @@ public class AppUtil extends AppCompatActivity {
         dialog.show();
     }
 
-    public void diplayAlert(final Context context )
+    public void diplayAlert(final Context context, final String covidResult)
     {
-        AlertDialog.Builder alertdialog = new AlertDialog.Builder(context);
-        alertdialog.setTitle("Covid Result");
-        alertdialog.setIcon(R.drawable.skip_icon)
+
+
+            AlertDialog.Builder alertdialog = new AlertDialog.Builder(context);
+            alertdialog.setTitle("Covid Result");
+            alertdialog.setIcon(R.drawable.skip_icon)
                     .setMessage("Your Symptoms are matched")
                     .setCancelable(false)
                     .setPositiveButton("Take Action", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(context,"Procedding",Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, "Procedding", Toast.LENGTH_LONG).show();
                         }
                     })
 
-                .setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                                    dialog.cancel();
-                    }
-                });
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
 
-        AlertDialog alertDialog = alertdialog.create();
-        alertDialog.show();
+            AlertDialog alertDialog = alertdialog.create();
+
+            alertDialog.show();
+
 
 
 

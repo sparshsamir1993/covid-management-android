@@ -78,21 +78,23 @@ public class QuestionActivity extends AppCompatActivity {
         }
 
 
-
         fetchQuestionData();
-
-      //  Intent i = getIntent();
-        //list = (List<UserSubmittedAnswers>) i.getSerializableExtra("filledlist");
-
-      //  if()
 
     }
 
     private void fetchQuestionData() {
+        String token = sharedPreferences.getString("token", null);
+        String refreshToken = sharedPreferences.getString("refreshToken", null);
+
+        if(token.split("JWT ").length ==1){
+            token = "JWT "+token;
+        }
+
+
         int covidQuestionFlag = sharedPreferences.getInt("QuestionnaireSubmission", 0);
         if (covidQuestionFlag == 1) {
             Call<List<Question>> myQuestion;
-            myQuestion = userClient.fetchQuestions();
+            myQuestion = userClient.fetchQuestions(token,refreshToken);
             myQuestion.enqueue(new Callback<List<Question>>() {
                 @Override
                 public void onResponse(Call<List<Question>> call, Response<List<Question>> response) {
@@ -106,7 +108,6 @@ public class QuestionActivity extends AppCompatActivity {
                 public void onFailure(Call<List<Question>> call, Throwable t) {
 
                     Toast.makeText(QuestionActivity.this, "Could not load Questions", Toast.LENGTH_LONG).show();
-
                 }
             });
 

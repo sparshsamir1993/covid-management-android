@@ -31,12 +31,14 @@ public interface UserClient {
     Call<User> update(@Header("authorization") String authToken, @Header("refresh-token") String refreshToken, @Body User user);
 
     @GET("options")
-    Call<List<Question>> fetchQuestions();
+    Call<List<Question>> fetchQuestions(@Header("authorization") String authToken, @Header("refresh-token") String refreshToken);
 
     @POST("userResponse/addResponse")
-    Call<CovidQuestionResult> createReport(@Body UserAnswerResponse userAnswerResponse);
+    Call<CovidQuestionResult> createReport(@Header("authorization") String authToken, @Header("refresh-token") String refreshToken,@Body UserAnswerResponse userAnswerResponse);
 
-  @POST("userResponse")
-    Call<List<UserSubmittedAnswers>> fetchData(@Body CurrentUser user);
+    @POST("userResponse")
+    Call<List<UserSubmittedAnswers>> fetchData(@Header("authorization") String authToken, @Header("refresh-token") String refreshToken, @Body CurrentUser user);
 
+    @PATCH("userResponse")
+    Call<CovidQuestionResult> updateUserQuestionnarire(@Header("authorization") String authToken, @Header("refresh-token") String refreshToken,@Body UserAnswerResponse userAnswerResponse);
 }

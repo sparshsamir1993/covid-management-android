@@ -47,7 +47,7 @@ public class RetrofitUtil extends AppCompatActivity {
     public RetrofitUtil(String baseUrl){
         //try{
             this.baseUrl = baseUrl;
-        /*    Log.i("url is ", baseUrl);
+            Log.i("url is ", baseUrl);
             OkHttpClient.Builder client = new OkHttpClient.Builder().addInterceptor(new Interceptor() {
                 @NotNull
                 @Override
@@ -88,11 +88,11 @@ public class RetrofitUtil extends AppCompatActivity {
             });
             client.connectTimeout(30, TimeUnit.SECONDS);
             client.readTimeout(30, TimeUnit.SECONDS);
-            client.writeTimeout(30, TimeUnit.SECONDS);*/
-           // Retrofit.Builder builder = new Retrofit.Builder().baseUrl(baseUrl).client(client.build()).addConverterFactory(GsonConverterFactory.create());
+            client.writeTimeout(30, TimeUnit.SECONDS);
+            Retrofit.Builder builder = new Retrofit.Builder().baseUrl(baseUrl).client(client.build()).addConverterFactory(GsonConverterFactory.create());
 
      //  Gson gson = new GsonBuilder().setLenient().create();
-        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create());
+    //    Retrofit.Builder builder = new Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create());
 
         // Log.i("builder is ", builder.toString());
             retrofit = builder.build();

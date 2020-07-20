@@ -93,8 +93,6 @@ public class LoginActivity extends AppCompatActivity {
                         Intent i = new Intent(getApplicationContext(), CovidQuestionnaireRedirection.class);
                         startActivity(i);
 
-
-
                 }else{
                     switch (response.code()){
                         case 403:

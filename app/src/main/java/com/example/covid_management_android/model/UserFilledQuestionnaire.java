@@ -14,22 +14,10 @@ import java.util.List;
 
 public class UserFilledQuestionnaire implements Serializable {
 
-
-//   public List<Integer> getMyResponses() {
-//        return userFilledData;
-//    }
-
-//    public void setMyResponses(List<Integer> myResponses) {
-//        this.userFilledData = myResponses;
-//    }
-
     JSONObject userFilledData;
-
-
     public JSONObject getUserFilledData() {
         return userFilledData;
     }
-
     public void setUserFilledData(JSONObject userFilledData) {
         this.userFilledData = userFilledData;
     }

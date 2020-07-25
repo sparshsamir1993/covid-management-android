@@ -90,8 +90,14 @@ public class LoginActivity extends AppCompatActivity {
                     editor.putInt("userId",id);
                     editor.commit();
 
-                        Intent i = new Intent(getApplicationContext(), CovidQuestionnaireRedirection.class);
+                        Intent i = new Intent(LoginActivity.this, CovidQuestionnaireRedirection.class);
+                       // i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+
                         startActivity(i);
+                        //finish();
+
+
 
                 }else{
                     switch (response.code()){
@@ -104,7 +110,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
             }
-
             @Override
             public void onFailure(Call<AuthToken> call, Throwable t) {
                 Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
@@ -114,14 +119,11 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams);
         setContentView(R.layout.activity_login);
-
-        //hooks
         image = findViewById(R.id.logo_Image);
         logoText = findViewById(R.id.logo_name);
         //sloganText = findViewById(R.id.slogan_Name);
@@ -132,7 +134,7 @@ public class LoginActivity extends AppCompatActivity {
 
         emailField = findViewById(R.id.emailField);
         passwordField = findViewById(R.id.passwordField);
-        retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/");
+        retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/signOn/");
         retrofit = retrofitUtil.getRetrofit();
         userClient = retrofit.create(UserClient.class);
         callSignup = findViewById(R.id.callSignup);
@@ -157,6 +159,7 @@ public class LoginActivity extends AppCompatActivity {
                 //pairs[4] = new Pair<View,String>(callSignup,"logo_sbtn");
 
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(LoginActivity.this,pairs);
+
                 startActivity(intent,options.toBundle());
             }
         });

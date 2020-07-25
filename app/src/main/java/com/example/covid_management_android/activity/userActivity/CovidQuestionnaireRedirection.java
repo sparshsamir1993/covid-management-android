@@ -14,8 +14,7 @@ import com.example.covid_management_android.R;
 import com.example.covid_management_android.adapter.AppUtil;
 import com.example.covid_management_android.adapter.RetrofitUtil;
 import com.example.covid_management_android.model.CurrentUser;
-import com.example.covid_management_android.model.Question;
-import com.example.covid_management_android.model.UserFilledQuestionnaire;
+
 import com.example.covid_management_android.model.UserSubmission.UserSubmittedAnswers;
 import com.example.covid_management_android.service.UserClient;
 import com.google.gson.JsonArray;
@@ -52,6 +51,8 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("covidManagement", MODE_PRIVATE);
         myUserfilledresponses = new JSONArray();
 
+
+
         survey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,8 +82,9 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity {
             token = "JWT "+token;
         }
 
-        retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/admin/");
+        retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/questionResponse/");
         retrofit = retrofitUtil.getRetrofit();
+        retrofitUtil.setContext(CovidQuestionnaireRedirection.this);
         userClient = retrofit.create(UserClient.class);
 
         Call<List<UserSubmittedAnswers>> call = userClient.fetchData(token,refreshToken,user);

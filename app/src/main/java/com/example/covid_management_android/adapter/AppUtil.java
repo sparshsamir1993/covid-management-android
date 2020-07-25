@@ -124,14 +124,15 @@ public class AppUtil extends AppCompatActivity {
 
 
             AlertDialog.Builder alertdialog = new AlertDialog.Builder(context);
-            alertdialog.setTitle("Covid Result");
+            alertdialog.setTitle("Covid Result:"+ covidResult);
             alertdialog.setIcon(R.drawable.skip_icon)
-                    .setMessage("Your Symptoms are matched")
+                    .setMessage("Monitor your symtoms and take precautions")
                     .setCancelable(false)
                     .setPositiveButton("Take Action", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Toast.makeText(context, "Procedding", Toast.LENGTH_LONG).show();
+                            //Intent i = new Intent(context,)
                         }
                     })
 

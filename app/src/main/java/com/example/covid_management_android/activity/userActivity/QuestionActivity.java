@@ -18,7 +18,6 @@ import com.example.covid_management_android.adapter.QuestionAdapter;
 import com.example.covid_management_android.adapter.RetrofitUtil;
 
 import com.example.covid_management_android.model.Question;
-import com.example.covid_management_android.model.UserFilledQuestionnaire;
 import com.example.covid_management_android.model.UserSubmission.UserSubmittedAnswers;
 import com.example.covid_management_android.service.UserClient;
 
@@ -44,8 +43,6 @@ public class QuestionActivity extends AppCompatActivity {
     RecyclerView myRecyclerView;
     Button myQuestionResponse;
     List<UserSubmittedAnswers> list;
-    UserFilledQuestionnaire answers;
-
     JSONArray filledOptionData;
 
 
@@ -57,7 +54,7 @@ public class QuestionActivity extends AppCompatActivity {
 
         //initializing up retrofit
 
-        retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/admin/question/");
+        retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/question/");
         retrofit = retrofitUtil.getRetrofit();
         userClient = retrofit.create(UserClient.class);
         myRecyclerView = findViewById(R.id.questionRecycle);
@@ -90,9 +87,6 @@ public class QuestionActivity extends AppCompatActivity {
             token = "JWT "+token;
         }
 
-
-        int covidQuestionFlag = sharedPreferences.getInt("QuestionnaireSubmission", 0);
-        if (covidQuestionFlag == 1) {
             Call<List<Question>> myQuestion;
             myQuestion = userClient.fetchQuestions(token,refreshToken);
             myQuestion.enqueue(new Callback<List<Question>>() {
@@ -111,13 +105,7 @@ public class QuestionActivity extends AppCompatActivity {
                 }
             });
 
-        }
 
-        else{
-
-            Toast.makeText(QuestionActivity.this,"You have already submitted your response",Toast.LENGTH_LONG).show();
-
-        }
     }
 
 

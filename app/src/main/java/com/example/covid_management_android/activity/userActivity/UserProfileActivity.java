@@ -137,7 +137,7 @@ public class UserProfileActivity extends AppCompatActivity{
         });
 
 
-        retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/");
+        retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/signOn/");
         retrofit = retrofitUtil.getRetrofit();
         retrofitUtil.setContext(UserProfileActivity.this);
         userClient = retrofit.create(UserClient.class);

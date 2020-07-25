@@ -18,12 +18,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.covid_management_android.R;
 import com.example.covid_management_android.activity.userActivity.QuestionActivity;
+import com.example.covid_management_android.activity.userActivity.UserProfileActivity;
 import com.example.covid_management_android.model.CovidQuestionResult;
 import com.example.covid_management_android.model.QAnswerOption;
 import com.example.covid_management_android.model.Question;
 import com.example.covid_management_android.model.User;
 import com.example.covid_management_android.model.UserAnswerResponse;
-import com.example.covid_management_android.model.UserFilledQuestionnaire;
+
 import com.example.covid_management_android.service.UserClient;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -50,25 +51,18 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
     List<Question> myQuestions;
     Context context;
     HashMap<Integer, Integer> myResponses;
-
     JSONArray filledResponses;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     Button myResponseButton;
     RetrofitUtil retrofitUtil;
     Retrofit retrofit;
-   // HashMap<Integer,Integer> myResponses;
     UserClient userClient;
-   // List<JSONObject> myList;
-//    List<Integer> filledResponses;
-    int counter;
-    // UserFilledQuestionnaire filleddata;
 
 
     public QuestionAdapter(List<Question> myQuestions, Context mycontext, SharedPreferences sharedPreferences, Button myResponseButton, SharedPreferences.Editor editor, JSONArray list) {
         this.myQuestions = myQuestions;
         this.context = mycontext;
-
         this.sharedPreferences = sharedPreferences;
         this.myResponseButton = myResponseButton;
         this.editor = editor;
@@ -146,9 +140,10 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
             @Override
             public void onClick(View v) {
 
-                retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/admin/");
+                retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/questionResponse/");
                 retrofit = retrofitUtil.getRetrofit();
                 userClient = retrofit.create(UserClient.class);
+                retrofitUtil.setContext(context);
                 String token = sharedPreferences.getString("token", null);
                 String refreshToken = sharedPreferences.getString("refreshToken", null);
                 if(filledResponses.length()>0)
@@ -172,7 +167,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
         myUserResponse.setUserId(userId);
       //  myUserResponse.setUserAnswers(myResponses);
         if(token.split("JWT ").length ==1){
-            token = "JWT "+token;
+             token = "JWT "+token;
         }
         Call<CovidQuestionResult> call = userClient.createReport(token,refreshToken,myUserResponse);
         call.enqueue(new Callback<CovidQuestionResult>() {

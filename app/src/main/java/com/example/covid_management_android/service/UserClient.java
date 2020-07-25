@@ -33,12 +33,12 @@ public interface UserClient {
     @GET("options")
     Call<List<Question>> fetchQuestions(@Header("authorization") String authToken, @Header("refresh-token") String refreshToken);
 
-    @POST("userResponse/addResponse")
+    @POST("addResponse")
     Call<CovidQuestionResult> createReport(@Header("authorization") String authToken, @Header("refresh-token") String refreshToken,@Body UserAnswerResponse userAnswerResponse);
 
-    @POST("userResponse")
+    @POST("getResponse")
     Call<List<UserSubmittedAnswers>> fetchData(@Header("authorization") String authToken, @Header("refresh-token") String refreshToken, @Body CurrentUser user);
 
-    @PATCH("userResponse")
+    @PATCH("updateResponse")
     Call<CovidQuestionResult> updateUserQuestionnarire(@Header("authorization") String authToken, @Header("refresh-token") String refreshToken,@Body UserAnswerResponse userAnswerResponse);
 }

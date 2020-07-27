@@ -51,8 +51,6 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("covidManagement", MODE_PRIVATE);
         myUserfilledresponses = new JSONArray();
 
-
-
         survey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

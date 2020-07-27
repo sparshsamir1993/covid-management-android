@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="170dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="3dp"
+    app:cardUseCompatPadding="true"
+    app:cardBackgroundColor="@color/colorAccent"
+    app:cardElevation="2dp"
+    app:cardCornerRadius="5dp"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="2dp">
+
+        <TextView
+            android:id="@+id/hospitalname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Grand River Hospital"
+            android:textSize="35dp"/>
+        <TextView
+            android:id="@+id/hospitalcontact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/hospitalname"
+            android:layout_marginTop="1dp"
+            android:text="+12266001297"
+            android:textSize="25sp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/hospitalcontact"
+            android:text="Hello \n How are \n You"
+            android:singleLine="false"
+            android:scrollHorizontally="false"
+            android:lines="3"
+            android:maxLines="3"
+
+            />
+
+
+
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

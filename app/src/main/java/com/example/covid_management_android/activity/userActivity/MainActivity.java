@@ -17,7 +17,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-
 import com.example.covid_management_android.R;
 import com.example.covid_management_android.adapter.AppUtil;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -105,14 +104,10 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
                   {
                       double longi = location.getLongitude();
                       double lati = location.getLatitude();
-
-                    //  Log.i("Longitude",Double.toString(longi));
                       Log.i("Latitude",Double.toString(lati));
-
                       locationEditor.putFloat("Longitude",(float)longi);
                       locationEditor.putFloat("Latitude",(float)lati);
                       locationEditor.apply();
-
                   }
                   else
                   {

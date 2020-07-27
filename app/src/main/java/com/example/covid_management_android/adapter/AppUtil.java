@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.covid_management_android.R;
+import com.example.covid_management_android.activity.userActivity.HospitalList;
 import com.example.covid_management_android.activity.userActivity.LoginActivity;
 import com.example.covid_management_android.activity.userActivity.MainActivity;
 import com.example.covid_management_android.activity.userActivity.SignUpActivity;
@@ -132,7 +133,8 @@ public class AppUtil extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Toast.makeText(context, "Procedding", Toast.LENGTH_LONG).show();
-                            //Intent i = new Intent(context,)
+                            Intent i = new Intent(context, HospitalList.class);
+                            startActivity(i);
                         }
                     })
 

@@ -3,6 +3,7 @@ package com.example.covid_management_android.service;
 import com.example.covid_management_android.model.AuthToken;
 import com.example.covid_management_android.model.CovidQuestionResult;
 import com.example.covid_management_android.model.CurrentUser;
+import com.example.covid_management_android.model.HospitalData;
 import com.example.covid_management_android.model.Login;
 
 import com.example.covid_management_android.model.Question;
@@ -19,6 +20,7 @@ import retrofit2.http.HTTP;
 import retrofit2.http.Header;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface UserClient {
     @POST("login")
@@ -41,4 +43,12 @@ public interface UserClient {
 
     @PATCH("updateResponse")
     Call<CovidQuestionResult> updateUserQuestionnarire(@Header("authorization") String authToken, @Header("refresh-token") String refreshToken,@Body UserAnswerResponse userAnswerResponse);
+
+    @GET("filtered")
+    Call<List<HospitalData>> fetchHospitals(
+            @Query("latitude") float latitude,
+            @Query("longitude") float longitude
+            );
+
+
 }

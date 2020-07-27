@@ -46,7 +46,6 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_covid_questionnaire_redirection);
-
         survey = findViewById(R.id.btnsurvey);
         sharedPreferences = getSharedPreferences("covidManagement", MODE_PRIVATE);
         myUserfilledresponses = new JSONArray();
@@ -54,7 +53,6 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity {
         survey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 String token = sharedPreferences.getString("token", null);
                 String refreshToken = sharedPreferences.getString("refreshToken", null);
                 if (token == null || refreshToken == null) {
@@ -80,7 +78,8 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity {
             token = "JWT "+token;
         }
 
-        retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/questionResponse/");
+      //  retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/questionResponse/");
+        retrofitUtil = new RetrofitUtil("http://192.168.0.105:5050/api/v1/user/questionResponse/");
         retrofit = retrofitUtil.getRetrofit();
         retrofitUtil.setContext(CovidQuestionnaireRedirection.this);
         userClient = retrofit.create(UserClient.class);
@@ -89,7 +88,6 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity {
         call.enqueue(new Callback<List<UserSubmittedAnswers>>() {
             @Override
             public void onResponse(Call<List<UserSubmittedAnswers>> call, Response<List<UserSubmittedAnswers>> response) {
-                // Log.i("My User Response",response.body().get(0).getOption().getOptionContent());
                 if (response.isSuccessful()) {
                     List<UserSubmittedAnswers> list = response.body();
 

@@ -14,11 +14,14 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="2dp">
 
+
         <TextView
             android:id="@+id/hospitalname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Grand River Hospital"
+            android:drawableLeft="@drawable/hospital"
+            android:drawablePadding="1dp"
             android:textSize="35dp"/>
         <TextView
             android:id="@+id/hospitalcontact"
@@ -30,6 +33,7 @@
             android:textSize="25sp"
             />
         <TextView
+            android:id="@+id/hospitalAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/hospitalcontact"

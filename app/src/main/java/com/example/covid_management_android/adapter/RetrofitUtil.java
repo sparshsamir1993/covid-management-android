@@ -91,15 +91,8 @@ public class RetrofitUtil extends AppCompatActivity {
             client.writeTimeout(30, TimeUnit.SECONDS);
             Retrofit.Builder builder = new Retrofit.Builder().baseUrl(baseUrl).client(client.build()).addConverterFactory(GsonConverterFactory.create());
 
-     //  Gson gson = new GsonBuilder().setLenient().create();
-    //    Retrofit.Builder builder = new Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create());
-
-        // Log.i("builder is ", builder.toString());
             retrofit = builder.build();
 
-        //}catch(Exception e){
-          //  e.printStackTrace();
-        //}
 
     }
 }

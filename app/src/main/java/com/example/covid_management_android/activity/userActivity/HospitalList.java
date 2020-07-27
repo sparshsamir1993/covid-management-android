@@ -1,13 +1,16 @@
 package com.example.covid_management_android.activity.userActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.covid_management_android.R;
+import com.example.covid_management_android.adapter.HospitalAdapter;
 import com.example.covid_management_android.adapter.RetrofitUtil;
 import com.example.covid_management_android.model.HospitalData;
 import com.example.covid_management_android.model.Question;
@@ -21,6 +24,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class HospitalList extends AppCompatActivity {
+
     RetrofitUtil retrofitUtil;
     Retrofit retrofit;
     UserClient userClient;
@@ -33,7 +37,8 @@ public class HospitalList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hospital_list);
 
-        retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/hospital/");
+        //retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/hospital/");
+        retrofitUtil = new RetrofitUtil("http://192.168.0.105:5050/api/v1/user/hospital/");
         retrofit = retrofitUtil.getRetrofit();
         userClient = retrofit.create(UserClient.class);
         myRecyclerView = findViewById(R.id.hospitalRecycle);
@@ -46,13 +51,34 @@ public class HospitalList extends AppCompatActivity {
     private void getHospitalData() {
         float longi = sharedPreferences.getFloat("Longitude",0);
         float lati = sharedPreferences.getFloat("Latitude",0);
+        String token = sharedPreferences.getString("token", null);
+        String refreshToken = sharedPreferences.getString("refreshToken", null);
 
         Call<List<HospitalData>> myHospitalData;
-        myHospitalData = userClient.fetchHospitals(lati,longi);
+        myHospitalData = userClient.fetchHospitals(token,refreshToken,lati,longi);
         myHospitalData.enqueue(new Callback<List<HospitalData>>() {
             @Override
             public void onResponse(Call<List<HospitalData>> call, Response<List<HospitalData>> response) {
-                List<HospitalData> hospitals  = response.body();
+                final List<HospitalData> hospitals  = response.body();
+                Log.i("hospital data ", hospitals.get(0).getName());
+
+                if (hospitals.size()>0) {
+
+                    HospitalAdapter myHospitalAdapter = new HospitalAdapter(hospitals);
+                    mylayoutmanager = new LinearLayoutManager(HospitalList.this);
+                    myRecyclerView.setLayoutManager(mylayoutmanager);
+                    myRecyclerView.setAdapter(myHospitalAdapter);
+                    myHospitalAdapter.onHospitalClick(new HospitalAdapter.OnHospitalCardListener() {
+                        @Override
+                        public void oncardClick(int position) {
+                            Toast.makeText(HospitalList.this,String.valueOf(hospitals.get(position).getId()),Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+                else
+                {
+                    Toast.makeText(HospitalList.this,"Error",Toast.LENGTH_LONG).show();
+                }
 
             }
 

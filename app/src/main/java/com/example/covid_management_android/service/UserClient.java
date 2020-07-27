@@ -44,8 +44,10 @@ public interface UserClient {
     @PATCH("updateResponse")
     Call<CovidQuestionResult> updateUserQuestionnarire(@Header("authorization") String authToken, @Header("refresh-token") String refreshToken,@Body UserAnswerResponse userAnswerResponse);
 
-    @GET("filtered")
+    @GET("nearby")
     Call<List<HospitalData>> fetchHospitals(
+            @Header("authorization") String authToken,
+            @Header("refresh-token") String refreshToken,
             @Query("latitude") float latitude,
             @Query("longitude") float longitude
             );

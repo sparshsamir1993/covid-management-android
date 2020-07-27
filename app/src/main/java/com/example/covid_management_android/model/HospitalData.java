@@ -1,9 +1,15 @@
 package com.example.covid_management_android.model;
 
 public class HospitalData {
+
+    int id;
     String name;
     String contact;
     String detailedAddress;
+
+    public int getId() {
+        return id;
+    }
 
     public String getName() {
         return name;

@@ -1,14 +1,18 @@
 package com.example.covid_management_android.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,8 +29,6 @@ public class AppUtil extends AppCompatActivity {
     Menu currentMenu;
 
 
-
-
     public Menu checkMenuItems(Menu menu, Context context){
         sharedPreferences = context.getSharedPreferences("covidManagement", MODE_PRIVATE);
         currentMenu = menu;
@@ -35,6 +37,7 @@ public class AppUtil extends AppCompatActivity {
         MenuItem regItem = menu.findItem(R.id.register);
         MenuItem logoutItem = menu.findItem(R.id.logout);
         MenuItem profileItem = menu.findItem(R.id.profile);
+
 
         String token = sharedPreferences.getString("token", null);
         if(token != null){                      // when logged in
@@ -88,7 +91,6 @@ public class AppUtil extends AppCompatActivity {
     }
 
 
-
     public void createLogoutAlert(final Context context){
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setMessage("You sure?").setCancelable(false)
@@ -97,7 +99,6 @@ public class AppUtil extends AppCompatActivity {
                     public void onClick(DialogInterface dialogInterface, int i) {
 
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-
                         editor.remove("token");
                         editor.remove("refreshToken");
                         editor.commit();
@@ -120,10 +121,10 @@ public class AppUtil extends AppCompatActivity {
         dialog.show();
     }
 
-    public void diplayAlert(final Context context, final String covidResult)
+    public void diplayAlert( final Context context, final String covidResult)
     {
 
-
+            Log.i("My context is here",context.toString());
             AlertDialog.Builder alertdialog = new AlertDialog.Builder(context);
             alertdialog.setTitle("Covid Result:"+ covidResult);
             alertdialog.setIcon(R.drawable.skip_icon)
@@ -132,9 +133,9 @@ public class AppUtil extends AppCompatActivity {
                     .setPositiveButton("Take Action", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Toast.makeText(context, "Procedding", Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, "Proceeding", Toast.LENGTH_SHORT).show();
                             Intent i = new Intent(context, HospitalList.class);
-                            startActivity(i);
+                            context.startActivity(i);
                         }
                     })
 

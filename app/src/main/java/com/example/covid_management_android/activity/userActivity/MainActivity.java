@@ -68,34 +68,12 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
     }
 
     private void fetchLocationData() {
-      /*  final LocationRequest locationRequest = new LocationRequest();
-        locationRequest.setInterval(0)
-                .setFastestInterval(0)
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);*/
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
         {
             return;
         }
         else{
-          /*  LocationServices.getFusedLocationProviderClient(MainActivity.this)
-                    .requestLocationUpdates(locationRequest,new LocationCallback(){
-                        @Override
-                        public void onLocationResult(LocationResult locationResult) {
-                            super.onLocationResult(locationResult);
-                         Log.i("location size",String.valueOf(locationResult.getLocations().size()));
-                            if(locationResult != null && locationResult.getLocations().size()>0){
-                                Integer newLocation = locationResult.getLocations().size()-1;
-                                Log.i("newlocation",newLocation.toString());
-                                Double longi = locationResult.getLocations().get(newLocation).getLongitude();
-                                Double lati = locationResult.getLocations().get(newLocation).getLatitude();
-
-                                Log.i("Longitude",Double.toString(longi));
-                                Log.i("Latitude",Double.toString(lati));
-
-                            }
-                        }
-                    }, Looper.getMainLooper());*/
 
           fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
               @Override
@@ -113,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
                   {
                       Log.i("LAt Long error","ERROORR");
                   }
-
               }
           });
 
@@ -125,17 +102,16 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-      locationPreferences = getSharedPreferences("covidManagement",MODE_PRIVATE);
-      locationEditor = locationPreferences.edit();
-      fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-      requestForLocation();
+        locationPreferences = getSharedPreferences("covidManagement",MODE_PRIVATE);
+        locationEditor = locationPreferences.edit();
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        requestForLocation();
     }
 
     @Override
     public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
         Toast.makeText(MainActivity.this, "Location Permission Granted", Toast.LENGTH_LONG).show();
         fetchLocationData();
-
         float longitude = locationPreferences.getFloat("Longitude",0);
         float latitude = locationPreferences.getFloat("Latitude",0);
         Log.i("LATI",String.valueOf(longitude));

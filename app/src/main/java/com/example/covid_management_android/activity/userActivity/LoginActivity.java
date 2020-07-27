@@ -118,7 +118,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,20 +125,13 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         image = findViewById(R.id.logo_Image);
         logoText = findViewById(R.id.logo_name);
-        //sloganText = findViewById(R.id.slogan_Name);
-       // username = findViewById(R.id.logo_user);
-       // password = findViewById(R.id.passwordField);
-       // Login_btn = findViewById(R.id.loginButton);
-
-
         emailField = findViewById(R.id.emailField);
         passwordField = findViewById(R.id.passwordField);
-        retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/signOn/");
+        //retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/signOn/");
+        retrofitUtil = new RetrofitUtil("http://192.168.0.105:5050/api/v1/user/signOn/");
         retrofit = retrofitUtil.getRetrofit();
         userClient = retrofit.create(UserClient.class);
         callSignup = findViewById(R.id.callSignup);
-
-
         sharedPreferences = getSharedPreferences("covidManagement",MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
@@ -152,21 +144,11 @@ public class LoginActivity extends AppCompatActivity {
 
                 pairs[0] = new Pair<View,String>(image,"logo_image");
                 pairs[1] = new Pair<View,String>(logoText,"logo_text");
-               // pairs[2] = new Pair<View,String>(sloganText,"logo_dec");
-               // pairs[3] = new Pair<View,String>(username,"logo_user");
-               // pairs[4] = new Pair<View,String>(password,"logo_pwd");
-               // pairs[3] = new Pair<View,String>(Login_btn,"logo_btn");
-                //pairs[4] = new Pair<View,String>(callSignup,"logo_sbtn");
-
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(LoginActivity.this,pairs);
 
                 startActivity(intent,options.toBundle());
             }
         });
-
-
     }
-
-
 
 }

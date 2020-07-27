@@ -127,8 +127,8 @@ public class LoginActivity extends AppCompatActivity {
         logoText = findViewById(R.id.logo_name);
         emailField = findViewById(R.id.emailField);
         passwordField = findViewById(R.id.passwordField);
-        //retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/signOn/");
-        retrofitUtil = new RetrofitUtil("http://192.168.0.105:5050/api/v1/user/signOn/");
+        retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/signOn/");
+        //retrofitUtil = new RetrofitUtil("http://192.168.0.105:5050/api/v1/user/signOn/");
         retrofit = retrofitUtil.getRetrofit();
         userClient = retrofit.create(UserClient.class);
         callSignup = findViewById(R.id.callSignup);

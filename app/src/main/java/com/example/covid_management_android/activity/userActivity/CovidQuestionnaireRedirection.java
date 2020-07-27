@@ -78,8 +78,8 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity {
             token = "JWT "+token;
         }
 
-      //  retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/questionResponse/");
-        retrofitUtil = new RetrofitUtil("http://192.168.0.105:5050/api/v1/user/questionResponse/");
+      retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/questionResponse/");
+        //retrofitUtil = new RetrofitUtil("http://192.168.0.105:5050/api/v1/user/questionResponse/");
         retrofit = retrofitUtil.getRetrofit();
         retrofitUtil.setContext(CovidQuestionnaireRedirection.this);
         userClient = retrofit.create(UserClient.class);

@@ -54,8 +54,8 @@ public class QuestionActivity extends AppCompatActivity {
 
         //initializing up retrofit
 
-       // retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/question/");
-        retrofitUtil = new RetrofitUtil("http://192.168.0.105:5050/api/v1/user/question/");
+       retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/question/");
+       // retrofitUtil = new RetrofitUtil("http://192.168.0.105:5050/api/v1/user/question/");
         retrofit = retrofitUtil.getRetrofit();
         userClient = retrofit.create(UserClient.class);
         myRecyclerView = findViewById(R.id.questionRecycle);

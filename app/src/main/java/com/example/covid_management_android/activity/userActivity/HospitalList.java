@@ -37,8 +37,8 @@ public class HospitalList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hospital_list);
 
-        //retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/hospital/");
-        retrofitUtil = new RetrofitUtil("http://192.168.0.105:5050/api/v1/user/hospital/");
+        retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/hospital/");
+       // retrofitUtil = new RetrofitUtil("http://192.168.0.105:5050/api/v1/user/hospital/");
         retrofit = retrofitUtil.getRetrofit();
         userClient = retrofit.create(UserClient.class);
         myRecyclerView = findViewById(R.id.hospitalRecycle);

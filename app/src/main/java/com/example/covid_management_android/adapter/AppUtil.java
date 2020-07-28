@@ -87,6 +87,7 @@ public class AppUtil extends AppCompatActivity {
         editor.remove("refreshToken");
         editor.commit();
         Intent toMain = new Intent(context, MainActivity.class);
+        toMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(toMain);
     }
 
@@ -106,7 +107,9 @@ public class AppUtil extends AppCompatActivity {
                             checkMenuItems(currentMenu, context);
                         }
                         Intent toMain = new Intent(context, MainActivity.class);
+                        toMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         context.startActivity(toMain);
+
                         Toast.makeText(context, "Logged out", Toast.LENGTH_SHORT).show();
                     }
                 })

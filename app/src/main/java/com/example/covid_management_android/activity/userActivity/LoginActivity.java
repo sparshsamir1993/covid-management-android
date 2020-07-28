@@ -91,6 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                     editor.commit();
 
                         Intent i = new Intent(LoginActivity.this, CovidQuestionnaireRedirection.class);
+                    i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                        // i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 

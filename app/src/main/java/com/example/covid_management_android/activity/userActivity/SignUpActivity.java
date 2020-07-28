@@ -59,6 +59,7 @@ public class SignUpActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Sign up complete", Toast.LENGTH_SHORT).show();
 
                         Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(i);
                     }
                 }catch(Exception e){

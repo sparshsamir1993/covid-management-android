@@ -17,6 +17,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.covid_management_android.R;
+import com.example.covid_management_android.activity.userActivity.CovidQuestionnaireRedirection;
 import com.example.covid_management_android.activity.userActivity.HospitalList;
 import com.example.covid_management_android.activity.userActivity.LoginActivity;
 import com.example.covid_management_android.activity.userActivity.MainActivity;
@@ -143,6 +144,8 @@ public class AppUtil extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.cancel();
+                            Intent i = new Intent(context, CovidQuestionnaireRedirection.class);
+                            context.startActivity(i);
                         }
                     });
 

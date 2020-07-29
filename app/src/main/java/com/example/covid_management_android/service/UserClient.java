@@ -2,6 +2,7 @@ package com.example.covid_management_android.service;
 
 import com.example.covid_management_android.model.AuthToken;
 import com.example.covid_management_android.model.CovidQuestionResult;
+import com.example.covid_management_android.model.CovidStats;
 import com.example.covid_management_android.model.CurrentUser;
 import com.example.covid_management_android.model.HospitalData;
 import com.example.covid_management_android.model.Login;
@@ -10,6 +11,8 @@ import com.example.covid_management_android.model.Question;
 import com.example.covid_management_android.model.User;
 import com.example.covid_management_android.model.UserAnswerResponse;
 import com.example.covid_management_android.model.UserSubmission.UserSubmittedAnswers;
+
+import org.json.JSONArray;
 
 import java.util.List;
 
@@ -51,6 +54,9 @@ public interface UserClient {
             @Query("latitude") float latitude,
             @Query("longitude") float longitude
             );
+
+    @GET("all")
+    Call<CovidStats> fetchCovidStats();
 
 
 }

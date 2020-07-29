@@ -1,56 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="130dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardBackgroundColor="@color/cardview_shadow_start_color"
+    android:layout_height="wrap_content"
     android:layout_marginTop="5dp"
-    app:cardUseCompatPadding="true"
+    app:cardBackgroundColor="@color/cardview_shadow_start_color"
+    app:cardCornerRadius="10dp"
     app:cardElevation="3dp"
     app:cardMaxElevation="@dimen/cardview_default_radius"
-    app:cardCornerRadius="10dp">
+    app:cardUseCompatPadding="true">
 
     <RelativeLayout
         android:id="@+id/myQuestionblock"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="4dp">
 
         <TextView
             android:id="@+id/questionId"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:textSize="28sp"
-            android:text="hello There"/>
+            android:text="hello There"
+            android:textSize="28sp" />
 
         <LinearLayout
             android:id="@+id/myoptionslayout"
-            android:layout_below="@+id/questionId"
             android:layout_width="match_parent"
-            android:orientation="horizontal"
             android:layout_height="wrap_content"
-            >
+            android:layout_below="@+id/questionId"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
             <RadioGroup
                 android:id="@+id/myradiooptionsgroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp"
                 android:layout_marginHorizontal="0dp"
-                >
-            </RadioGroup>
+                android:orientation="vertical"
+                android:padding="10dp"></RadioGroup>
 
         </LinearLayout>
 
     </RelativeLayout>
-    <Button
-        android:id="@+id/myquestionResponse"
-        android:layout_below="@id/myQuestionblock"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="500dp"
-        android:text="SUBMIT RESPONSE"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        tools:ignore="NotSibling" />
+
 </androidx.cardview.widget.CardView>

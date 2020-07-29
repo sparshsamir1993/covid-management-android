@@ -120,7 +120,9 @@ public class QuestionActivity extends AppCompatActivity {
                     retrofit = retrofitUtil.getRetrofit();
                     retrofitUtil.setContext(QuestionActivity.this);
                     userClient = retrofit.create(UserClient.class);
-
+                    token = sharedPreferences.getString("token", null);
+                    refreshToken = sharedPreferences.getString("refreshToken", null);
+//                    if(token)
                     Call<List<UserSubmittedAnswers>> callFilledData = userClient.fetchData(token, refreshToken, user.getUserId());
                     callFilledData.enqueue(new Callback<List<UserSubmittedAnswers>>() {
                         @Override

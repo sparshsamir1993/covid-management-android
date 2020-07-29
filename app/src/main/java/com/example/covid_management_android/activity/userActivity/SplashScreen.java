@@ -24,7 +24,7 @@ public class SplashScreen extends AppCompatActivity {
     ImageView image;
     TextView logo, slogan;
 
-    SharedPreferences onBoardingScreen;
+    SharedPreferences onBoardingScreen, sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,16 +52,21 @@ public class SplashScreen extends AppCompatActivity {
             public void run() {
 
                 onBoardingScreen = getSharedPreferences("onBoardingScreen", MODE_PRIVATE);
+                sharedPreferences = getSharedPreferences("covidManagement",MODE_PRIVATE);
                 boolean isFirstTime = onBoardingScreen.getBoolean("firstTime", true);
 
-                if (isFirstTime) {
+                int userId = sharedPreferences.getInt("userId", -1);
 
+                if (isFirstTime) {
                     Intent toBoarding = new Intent(getApplicationContext(), OnBoarding.class);
                     startActivity(toBoarding);
-
-
                 } else {
-                    Intent intent = new Intent(SplashScreen.this, MainActivity.class);
+                    Intent intent ;
+                    if( userId > 0){
+                        intent = new Intent(SplashScreen.this, CovidQuestionnaireRedirection.class);
+                    }else{
+                        intent = new Intent(SplashScreen.this, MainActivity.class);
+                    }
                     startActivity(intent);
                     finish();
                 }

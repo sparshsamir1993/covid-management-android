@@ -26,12 +26,15 @@ import com.example.covid_management_android.model.User;
 import com.example.covid_management_android.model.UserAnswerResponse;
 
 import com.example.covid_management_android.service.UserClient;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -85,11 +88,11 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
             holder.mylayout.removeAllViews();
             holder.myoptions.addView(r1);
             try {
-                for(int j = 0; j <filledResponses.length(); j++){
+                for (int j = 0; j < filledResponses.length(); j++) {
                     JSONObject currentResp = filledResponses.getJSONObject(j);
-                    if (currentResp.get("optionId")  == currentOption.getId()) {
+                    if (currentResp.get("optionId") == currentOption.getId()) {
                         r1.setChecked(true);
-                        holder.myquestion.setTag( currentResp.get("id"));
+                        holder.myquestion.setTag(currentResp.get("id"));
                     }
                 }
             } catch (Exception e) {
@@ -117,10 +120,10 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
                         }
                     }
                     Log.i("My radio button", rb.getText().toString() + myQuestions.get(position).getQuestion() + " " + optionId.toString());
-                    if(filledResponses.length() > 0){
-                       myResponses.put(Integer.parseInt(holder.myquestion.getTag().toString()),optionId);
+                    if (filledResponses.length() > 0) {
+                        myResponses.put(Integer.parseInt(holder.myquestion.getTag().toString()), optionId);
 
-                    }else {
+                    } else {
                         myResponses.put(questionId, optionId);
                     }
                     Integer m = sharedPreferences.getInt("userId", 1);
@@ -141,30 +144,27 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
                 retrofitUtil.setContext(context);
                 String token = sharedPreferences.getString("token", null);
                 String refreshToken = sharedPreferences.getString("refreshToken", null);
-                if(filledResponses.length()>0)
-                {
-                   updateUserResponses(token,refreshToken);
-                }
-                else
-                {
-                    createUserResponse(token,refreshToken);
+                if (filledResponses.length() > 0) {
+                    updateUserResponses(token, refreshToken);
+                } else {
+                    createUserResponse(token, refreshToken);
                 }
             }
         });
 
     }
 
-    private void createUserResponse(String token,String refreshToken) {
+    private void createUserResponse(String token, String refreshToken) {
 
         Toast.makeText(context, "Hello there", Toast.LENGTH_LONG).show();
         UserAnswerResponse myUserResponse = new UserAnswerResponse();
         Integer userId = sharedPreferences.getInt("userId", 1);
         myUserResponse.setUserId(userId);
-      //  myUserResponse.setUserAnswers(myResponses);
-        if(token.split("JWT ").length ==1){
-             token = "JWT "+token;
+        //  myUserResponse.setUserAnswers(myResponses);
+        if (token.split("JWT ").length == 1) {
+            token = "JWT " + token;
         }
-        Call<CovidQuestionResult> call = userClient.createReport(token,refreshToken,myUserResponse);
+        Call<CovidQuestionResult> call = userClient.createReport(token, refreshToken, myUserResponse);
         call.enqueue(new Callback<CovidQuestionResult>() {
             @Override
             public void onResponse(Call<CovidQuestionResult> call, Response<CovidQuestionResult> response) {
@@ -176,7 +176,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
 
                 if (response.body().getResult().contains("Positive")) {
                     AppUtil appUtil = new AppUtil();
-                    appUtil.diplayAlert(context,"hello");
+                    appUtil.diplayAlert(context, "hello");
                 }
 
             }
@@ -188,25 +188,24 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
         });
     }
 
-    private void updateUserResponses(String token,String refreshToken) {
+    private void updateUserResponses(String token, String refreshToken) {
         UserAnswerResponse myUserResponse = new UserAnswerResponse();
         Integer userId = sharedPreferences.getInt("userId", 1);
         myUserResponse.setUserId(userId);
         myUserResponse.setUserAnswers(myResponses);
 
-        if(token.split("JWT ").length ==1){
-            token = "JWT "+token;
+        if (token.split("JWT ").length == 1) {
+            token = "JWT " + token;
         }
 
-        Call<CovidQuestionResult> call  = userClient.updateUserQuestionnarire(token,refreshToken,myUserResponse);
+        Call<CovidQuestionResult> call = userClient.updateUserQuestionnarire(token, refreshToken, myUserResponse);
         call.enqueue(new Callback<CovidQuestionResult>() {
             @Override
             public void onResponse(Call<CovidQuestionResult> call, Response<CovidQuestionResult> response) {
-                if(response.isSuccessful())
-                {
-                   String myResponse = response.body().getResult();
-                   AppUtil appUtil = new AppUtil();
-                   appUtil.diplayAlert(context,myResponse);
+                if (response.isSuccessful()) {
+                    String myResponse = response.body().getResult();
+                    AppUtil appUtil = new AppUtil();
+                    appUtil.diplayAlert(context, myResponse);
 
                 }
             }

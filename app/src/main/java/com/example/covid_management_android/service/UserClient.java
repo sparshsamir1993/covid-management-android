@@ -20,6 +20,7 @@ import retrofit2.http.HTTP;
 import retrofit2.http.Header;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface UserClient {
@@ -38,8 +39,8 @@ public interface UserClient {
     @POST("addResponse")
     Call<CovidQuestionResult> createReport(@Header("authorization") String authToken, @Header("refresh-token") String refreshToken,@Body UserAnswerResponse userAnswerResponse);
 
-    @POST("getResponse")
-    Call<List<UserSubmittedAnswers>> fetchData(@Header("authorization") String authToken, @Header("refresh-token") String refreshToken, @Body CurrentUser user);
+    @GET("getResponse")
+    Call<List<UserSubmittedAnswers>> fetchData(@Header("authorization") String authToken, @Header("refresh-token") String refreshToken, @Query("userId") int userId);
 
     @PATCH("updateResponse")
     Call<CovidQuestionResult> updateUserQuestionnarire(@Header("authorization") String authToken, @Header("refresh-token") String refreshToken,@Body UserAnswerResponse userAnswerResponse);

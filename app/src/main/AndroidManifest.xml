@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".activity.userActivity.HospitalList"></activity>
-        <activity android:name=".activity.userActivity.CovidQuestionnaireRedirection"></activity>
+        <activity android:name=".activity.userActivity.CovidQuestionnaireRedirection" ></activity>
         <activity android:name=".activity.userActivity.QuestionActivity" />
         <activity
             android:name=".activity.userActivity.OnBoarding"

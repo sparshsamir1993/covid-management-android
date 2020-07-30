@@ -70,9 +70,9 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity implements 
     String token, refreshToken;
 
     JSONArray covidStats;
-    View line1,line2,line3,line4,line5,line6,line7;
-    TextView txtCases,txtRecovered,txtCritical,txtDeath,txtTotalTest,txtTodaycases,txtTodayDeath,txtTodayRecover;
-    TextView caseCount,recoveryCount,critiCount,deathCount,testCount,todayTestCount,todayDeathCount,todayRecoverCount;
+    View line1, line2, line3, line4, line5, line6, line7;
+    TextView txtCases, txtRecovered, txtCritical, txtDeath, txtTotalTest, txtTodaycases, txtTodayDeath, txtTodayRecover;
+    TextView caseCount, recoveryCount, critiCount, deathCount, testCount, todayTestCount, todayDeathCount, todayRecoverCount;
     ScrollView statsScroll;
     AnyChartView covidChart;
     ProgressBar progressBar;
@@ -112,7 +112,7 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity implements 
         progressBar = findViewById(R.id.spin_kit);
         covidChart = findViewById(R.id.covidChart);
         statsScroll = findViewById(R.id.statsScroll);
-        covidStats =  new JSONArray();
+        covidStats = new JSONArray();
 
         getCovidStats();
 
@@ -121,6 +121,7 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity implements 
         sharedPreferences = getSharedPreferences("covidManagement", MODE_PRIVATE);
         myUserfilledresponses = new JSONArray();
         toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
         drawerLayout = findViewById(R.id.drawerLayout);
@@ -131,12 +132,6 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity implements 
         toggle.syncState();
         appUtil.checkMenuItems(navigationView.getMenu(), CovidQuestionnaireRedirection.this);
         navigationView.setNavigationItemSelectedListener((NavigationView.OnNavigationItemSelectedListener) this);
-        retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/questionResponse/");
-        //retrofitUtil = new RetrofitUtil("http://192.168.0.105:5050/api/v1/user/questionResponse/");
-        retrofit = retrofitUtil.getRetrofit();
-        retrofitUtil.setContext(CovidQuestionnaireRedirection.this);
-        userClient = retrofit.create(UserClient.class);
-
         survey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,8 +158,7 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity implements 
         call.enqueue(new Callback<CovidStats>() {
             @Override
             public void onResponse(Call<CovidStats> call, Response<CovidStats> response) {
-                if(response.isSuccessful())
-                {
+                if (response.isSuccessful()) {
                     String cases = String.valueOf(response.body().getCases());
                     String recovered = String.valueOf(response.body().getRecovered());
                     String critical = String.valueOf(response.body().getCritical());
@@ -184,23 +178,22 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity implements 
                     todayRecoverCount.setText(todayRecovered);
 
                     List<DataEntry> myCovidStatsData = new ArrayList<>();
-                    myCovidStatsData.add(new ValueDataEntry("Cases",Long.parseLong(todayCases)));
-                    myCovidStatsData.add(new ValueDataEntry("Deaths",Long.parseLong(todayDeaths)));
-                    myCovidStatsData.add(new ValueDataEntry("Recovered",Long.parseLong(todayRecovered)));
+                    myCovidStatsData.add(new ValueDataEntry("Cases", Long.parseLong(todayCases)));
+                    myCovidStatsData.add(new ValueDataEntry("Deaths", Long.parseLong(todayDeaths)));
+                    myCovidStatsData.add(new ValueDataEntry("Recovered", Long.parseLong(todayRecovered)));
 
                     loadCovidStatsPieChart(myCovidStatsData);
 
 
-                }
-                else
-                {
-                    Toast.makeText(CovidQuestionnaireRedirection.this,"Error fetching updates",Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(CovidQuestionnaireRedirection.this, "Error fetching updates", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<CovidStats> call, Throwable t) {
-            Toast.makeText(CovidQuestionnaireRedirection.this,"error",Toast.LENGTH_LONG).show();
+                t.printStackTrace();
+                Toast.makeText(CovidQuestionnaireRedirection.this, "error", Toast.LENGTH_LONG).show();
             }
         });
         statsScroll.setVisibility(View.VISIBLE);

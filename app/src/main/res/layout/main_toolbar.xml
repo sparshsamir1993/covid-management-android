@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:background="#006200EE"
     android:elevation="4dp"
+    app:title=""
     app:navigationIcon="@drawable/nav_button">
 
 </androidx.appcompat.widget.Toolbar>

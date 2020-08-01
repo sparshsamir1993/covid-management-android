@@ -121,7 +121,7 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity implements 
         sharedPreferences = getSharedPreferences("covidManagement", MODE_PRIVATE);
         myUserfilledresponses = new JSONArray();
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("");
+        toolbar.setTitle("COVID global stats");
         setSupportActionBar(toolbar);
 
         drawerLayout = findViewById(R.id.drawerLayout);
@@ -222,49 +222,6 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity implements 
             token = "JWT " + token;
         }
         Intent i = new Intent(CovidQuestionnaireRedirection.this, QuestionActivity.class);
-//        Log.i("json array --- ", myUserfilledresponses.toString());
-//        i.putExtra("filled", myUserfilledresponses.toString());
         startActivity(i);
-//        myUserfilledresponses =  appUtil.getUserQuestionsResponse(userClient,token, refreshToken,user);
-//        Log.i("responses", myUserfilledresponses.toString());
-//        Call<List<UserSubmittedAnswers>> call = userClient.fetchData(token, refreshToken, user);
-//        call.enqueue(new Callback<List<UserSubmittedAnswers>>() {
-//            @Override
-//            public void onResponse(Call<List<UserSubmittedAnswers>> call, Response<List<UserSubmittedAnswers>> response) {
-//                if (response.isSuccessful()) {
-//                    List<UserSubmittedAnswers> list = response.body();
-//                    try {
-//                        for (UserSubmittedAnswers n : list) {
-//                            JSONObject optionData = new JSONObject();
-//                            optionData.put("optionId", n.getOptionId());
-//                            optionData.put("id", n.getId());
-//                            myUserfilledresponses.put(optionData);
-//                        }
-//                        Intent i = new Intent(CovidQuestionnaireRedirection.this, QuestionActivity.class);
-//                        Log.i("json array --- ", myUserfilledresponses.toString());
-//                        i.putExtra("filled", myUserfilledresponses.toString());
-//                        startActivity(i);
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                } else {
-//                    switch (response.code()) {
-//                        case 403:
-//                        case 401:
-//                            Toast.makeText(getApplicationContext(), "Error fetching user response data", Toast.LENGTH_SHORT).show();
-//                            break;
-//                    }
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<UserSubmittedAnswers>> call, Throwable t) {
-//                Log.i("FAILED HERE ", t.getMessage());
-//            }
-//        });
-
-
     }
 }

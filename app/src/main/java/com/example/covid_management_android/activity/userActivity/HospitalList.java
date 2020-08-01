@@ -4,12 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.covid_management_android.R;
+import com.example.covid_management_android.activity.appointments.AppointmentBookingActivity;
 import com.example.covid_management_android.adapter.HospitalAdapter;
 import com.example.covid_management_android.adapter.RetrofitUtil;
 import com.example.covid_management_android.model.HospitalData;
@@ -73,6 +75,10 @@ public class HospitalList extends AppCompatActivity {
                         @Override
                         public void oncardClick(int position) {
                             Toast.makeText(HospitalList.this,String.valueOf(hospitals.get(position).getId()),Toast.LENGTH_LONG).show();
+                            Intent toAppointmentBooking = new Intent(HospitalList.this, AppointmentBookingActivity.class);
+                            toAppointmentBooking.putExtra("hospitalId", hospitals.get(position).getId());
+                            startActivity(toAppointmentBooking);
+
                         }
                     });
                 }

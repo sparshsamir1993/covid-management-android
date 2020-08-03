@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.covid_management_android.R;
 import com.example.covid_management_android.activity.userActivity.HospitalList;
 import com.example.covid_management_android.model.HospitalData;
@@ -19,18 +20,15 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.Hospit
     List<HospitalData> myHopitalList;
     OnHospitalCardListener myCustomListener;
 
-    public interface OnHospitalCardListener
-    {
+    public interface OnHospitalCardListener {
         void oncardClick(int position);
     }
 
-    public void onHospitalClick(OnHospitalCardListener listener)
-    {
-            this.myCustomListener = listener;
+    public void onHospitalClick(OnHospitalCardListener listener) {
+        this.myCustomListener = listener;
     }
 
-    public HospitalAdapter(List<HospitalData> hData)
-    {
+    public HospitalAdapter(List<HospitalData> hData) {
         this.myHopitalList = hData;
     }
 
@@ -39,7 +37,7 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.Hospit
     @Override
     public HospitalViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View myview = LayoutInflater.from(parent.getContext()).inflate(R.layout.custom_hospital_list, parent, false);
-        HospitalAdapter.HospitalViewHolder myviewholder = new HospitalAdapter.HospitalViewHolder(myview,myCustomListener);
+        HospitalAdapter.HospitalViewHolder myviewholder = new HospitalAdapter.HospitalViewHolder(myview, myCustomListener);
         return myviewholder;
     }
 
@@ -60,9 +58,9 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.Hospit
 
     public static class HospitalViewHolder extends RecyclerView.ViewHolder {
 
-            TextView hospitalName;
-            TextView hospitalContact;
-            TextView hospitalAddress;
+        TextView hospitalName;
+        TextView hospitalContact;
+        TextView hospitalAddress;
 
         public HospitalViewHolder(View itemView, final OnHospitalCardListener listener) {
             super(itemView);
@@ -72,11 +70,10 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.Hospit
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                  if(listener != null)
-                  {
-                      int position = getAdapterPosition();
-                      listener.oncardClick(position);
-                  }
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        listener.oncardClick(position);
+                    }
 
                 }
             });

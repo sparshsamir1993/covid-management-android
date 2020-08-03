@@ -40,61 +40,63 @@ public class HospitalList extends AppCompatActivity {
         setContentView(R.layout.activity_hospital_list);
 
         retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/hospital/");
-       // retrofitUtil = new RetrofitUtil("http://192.168.0.105:5050/api/v1/user/hospital/");
+        // retrofitUtil = new RetrofitUtil("http://192.168.0.105:5050/api/v1/user/hospital/");
         retrofit = retrofitUtil.getRetrofit();
         retrofitUtil.setContext(HospitalList.this);
         userClient = retrofit.create(UserClient.class);
         myRecyclerView = findViewById(R.id.hospitalRecycle);
-        sharedPreferences = getSharedPreferences("covidManagement",MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("covidManagement", MODE_PRIVATE);
 
         getHospitalData();
 
     }
 
     private void getHospitalData() {
-        float longi = sharedPreferences.getFloat("Longitude",0);
-        float lati = sharedPreferences.getFloat("Latitude",0);
+        float longi = sharedPreferences.getFloat("Longitude", 0);
+        float lati = sharedPreferences.getFloat("Latitude", 0);
         String token = sharedPreferences.getString("token", null);
         String refreshToken = sharedPreferences.getString("refreshToken", null);
-
+        if (token.split("JWT ").length == 1) {
+            token = "JWT " + token;
+        }
         Call<List<HospitalData>> myHospitalData;
-        myHospitalData = userClient.fetchHospitals(token,refreshToken,lati,longi);
+        myHospitalData = userClient.fetchHospitals(token, refreshToken, lati, longi);
         myHospitalData.enqueue(new Callback<List<HospitalData>>() {
             @Override
             public void onResponse(Call<List<HospitalData>> call, Response<List<HospitalData>> response) {
-                final List<HospitalData> hospitals  = response.body();
-                Log.i("hospital data ", hospitals.get(0).getName());
+                if (response.isSuccessful()) {
+                    final List<HospitalData> hospitals = response.body();
+//                Log.i("hospital data ", hospitals.get(0).getName());
 
-                if (hospitals.size()>0) {
+                    if (hospitals.size() > 0) {
 
-                    HospitalAdapter myHospitalAdapter = new HospitalAdapter(hospitals);
-                    mylayoutmanager = new LinearLayoutManager(HospitalList.this);
-                    myRecyclerView.setLayoutManager(mylayoutmanager);
-                    myRecyclerView.setAdapter(myHospitalAdapter);
-                    myHospitalAdapter.onHospitalClick(new HospitalAdapter.OnHospitalCardListener() {
-                        @Override
-                        public void oncardClick(int position) {
-                            Toast.makeText(HospitalList.this,String.valueOf(hospitals.get(position).getId()),Toast.LENGTH_LONG).show();
-                            Intent toAppointmentBooking = new Intent(HospitalList.this, AppointmentBookingActivity.class);
-                            toAppointmentBooking.putExtra("hospitalId", hospitals.get(position).getId());
-                            startActivity(toAppointmentBooking);
+                        HospitalAdapter myHospitalAdapter = new HospitalAdapter(hospitals);
+                        mylayoutmanager = new LinearLayoutManager(HospitalList.this);
+                        myRecyclerView.setLayoutManager(mylayoutmanager);
+                        myRecyclerView.setAdapter(myHospitalAdapter);
+                        myHospitalAdapter.onHospitalClick(new HospitalAdapter.OnHospitalCardListener() {
+                            @Override
+                            public void oncardClick(int position) {
+                                Toast.makeText(HospitalList.this, String.valueOf(hospitals.get(position).getId()), Toast.LENGTH_LONG).show();
+                                Intent toAppointmentBooking = new Intent(HospitalList.this, AppointmentBookingActivity.class);
+                                toAppointmentBooking.putExtra("hospitalId", hospitals.get(position).getId());
+                                startActivity(toAppointmentBooking);
 
-                        }
-                    });
-                }
-                else
-                {
-                    Toast.makeText(HospitalList.this,"Error",Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    } else {
+                        Toast.makeText(HospitalList.this, "Error", Toast.LENGTH_LONG).show();
+                    }
+
                 }
 
             }
 
             @Override
             public void onFailure(Call<List<HospitalData>> call, Throwable t) {
-                Log.i("feteching failed",t.getMessage());
+                Log.i("feteching failed", t.getMessage());
             }
         });
-
 
 
     }

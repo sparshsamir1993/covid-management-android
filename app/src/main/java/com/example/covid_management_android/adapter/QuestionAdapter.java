@@ -87,6 +87,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
             QAnswerOption currentOption = optionList.get(i);
             RadioButton r1 = new RadioButton(context);
             r1.setText(currentOption.getOptionContent());
+            r1.setTag(currentOption.getId());
             holder.mylayout.removeAllViews();
             holder.myoptions.addView(r1);
             try {
@@ -102,35 +103,28 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
             }
             holder.mylayout.addView(holder.myoptions);
             holder.myoptions.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-
-//            holder.mylayout.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT));
         }
 
         holder.myoptions.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-                Integer n = checkedId;
-                Log.i("MycheckedId", n.toString());
                 RadioButton rb = group.findViewById(checkedId);
                 Integer optionId = 0;
                 Integer questionId = 0;
                 if (rb.isChecked()) {
                     questionId = myQuestions.get(position).getId();
                     String mySelectedoption = rb.getText().toString();
-                    for (Question option : myQuestions) {
-                        for (QAnswerOption myoption : option.getQAnswerOptions()) {
-                            if (myoption.getOptionContent().contains(mySelectedoption)) {
-                                optionId = myoption.getId();
-                            }
-                        }
-                    }
-                    Log.i("My radio button", rb.getText().toString() + myQuestions.get(position).getQuestion() + " " + optionId.toString());
+                    int optionTagId = (int) rb.getTag();
+                    Log.i("My radio button", rb.getText().toString() + myQuestions.get(position).getQuestion() + " " + optionTagId);
                     if (filledResponses.length() > 0) {
-                        myResponses.put(Integer.parseInt(holder.myquestion.getTag().toString()), optionId);
-
+                        if (holder.myquestion.getTag() != null) {
+                            myResponses.put(Integer.parseInt(holder.myquestion.getTag().toString()), optionTagId);
+                        } else {
+                            myResponses.put(questionId, optionTagId);
+                        }
                     } else {
-                        myResponses.put(questionId, optionId);
+                        myResponses.put(questionId, optionTagId);
                     }
                     Integer m = sharedPreferences.getInt("userId", 1);
                     Log.i("MyResponses", myResponses.toString());
@@ -166,7 +160,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
         UserAnswerResponse myUserResponse = new UserAnswerResponse();
         Integer userId = sharedPreferences.getInt("userId", 1);
         myUserResponse.setUserId(userId);
-        //  myUserResponse.setUserAnswers(myResponses);
+        myUserResponse.setUserAnswers(myResponses);
         if (token.split("JWT ").length == 1) {
             token = "JWT " + token;
         }
@@ -204,7 +198,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
             token = "JWT " + token;
         }
 
-        Call<CovidQuestionResult> call = userClient.updateUserQuestionnarire(token, refreshToken, myUserResponse);
+        Call<CovidQuestionResult> call = userClient.updateUserQuestionnaire(token, refreshToken, myUserResponse);
         call.enqueue(new Callback<CovidQuestionResult>() {
             @Override
             public void onResponse(Call<CovidQuestionResult> call, Response<CovidQuestionResult> response) {
@@ -233,7 +227,6 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
 
         public TextView myquestion;
         public RadioGroup myoptions;
-        public RadioButton option1;
         public LinearLayout mylayout;
 
         public QuestionViewHolder(View itemView) {

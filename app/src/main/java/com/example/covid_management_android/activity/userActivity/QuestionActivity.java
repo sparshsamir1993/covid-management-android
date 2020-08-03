@@ -32,6 +32,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
+import static com.example.covid_management_android.constants.Constants.BASE_URL;
+import static com.example.covid_management_android.constants.Constants.REFRESH_TOKEN;
+import static com.example.covid_management_android.constants.Constants.TOKEN;
+import static com.example.covid_management_android.constants.Constants.USER_SURVEY_COMPLETED;
+
 public class QuestionActivity extends AppCompatActivity {
 
     RetrofitUtil retrofitUtil;
@@ -59,44 +64,18 @@ public class QuestionActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("covidManagement", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         myQuestionResponse = findViewById(R.id.myquestionResponse);
-        // Integer covidQuestionFlag = sharedPreferences.getInt("QuestionnaireSubmission",0);
-//
-//        if (getIntent().getExtras() != null) {
-//            String result = getIntent().getExtras().get("filled").toString();
-//            try {
-//                filledOptionData = new JSONArray(result);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            Log.i("HEELOOOOO THERE", result);
-//        }else{
-//
-//        }
-
-//        fetchUserResponseData();
         fetchQuestionData();
 
     }
 
-    private void fetchUserResponseData() {
-        token = sharedPreferences.getString("token", null);
-        refreshToken = sharedPreferences.getString("refreshToken", null);
-        final JSONArray result = new JSONArray();
-        if (token.split("JWT ").length == 1) {
-            token = "JWT " + token;
-        }
-
-
-    }
 
     private void fetchQuestionData() {
-        token = sharedPreferences.getString("token", null);
-        refreshToken = sharedPreferences.getString("refreshToken", null);
-
+        token = sharedPreferences.getString(TOKEN, null);
+        refreshToken = sharedPreferences.getString(REFRESH_TOKEN, null);
         if (token.split("JWT ").length == 1) {
             token = "JWT " + token;
         }
-        retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/question/");
+        retrofitUtil = new RetrofitUtil(BASE_URL + "/question/");
         // retrofitUtil = new RetrofitUtil("http://192.168.0.105:5050/api/v1/user/question/");
         retrofit = retrofitUtil.getRetrofit();
         retrofitUtil.setContext(QuestionActivity.this);
@@ -113,21 +92,16 @@ public class QuestionActivity extends AppCompatActivity {
             public void onResponse(Call<List<Question>> call, Response<List<Question>> response) {
                 final List<Question> questions = response.body();
                 if (response.isSuccessful()) {
-
-                    Log.i("json array --- ", questions.toString());
-                    retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/questionResponse/");
-                    // retrofitUtil = new RetrofitUtil("http://192.168.0.105:5050/api/v1/user/question/");
+                    retrofitUtil = new RetrofitUtil(BASE_URL + "/questionResponse/");
                     retrofit = retrofitUtil.getRetrofit();
                     retrofitUtil.setContext(QuestionActivity.this);
                     userClient = retrofit.create(UserClient.class);
-                    token = sharedPreferences.getString("token", null);
-                    refreshToken = sharedPreferences.getString("refreshToken", null);
-//                    if(token)
+                    token = sharedPreferences.getString(TOKEN, null);
+                    refreshToken = sharedPreferences.getString(REFRESH_TOKEN, null);
                     Call<List<UserSubmittedAnswers>> callFilledData = userClient.fetchData(token, refreshToken, user.getUserId());
                     callFilledData.enqueue(new Callback<List<UserSubmittedAnswers>>() {
                         @Override
                         public void onResponse(Call<List<UserSubmittedAnswers>> call2, Response<List<UserSubmittedAnswers>> response2) {
-                            Log.i("json array11111111 --- ", response2.code() + "");
                             filledOptionData = new JSONArray();
                             if (response2.isSuccessful()) {
                                 List<UserSubmittedAnswers> list = response2.body();
@@ -136,21 +110,19 @@ public class QuestionActivity extends AppCompatActivity {
                                         JSONObject optionData = new JSONObject();
                                         optionData.put("optionId", n.getOptionId());
                                         optionData.put("id", n.getId());
-//                                    result.put(optionData);
                                         filledOptionData.put(optionData);
-
-
+                                    }
+                                    if (filledOptionData.length() > 0 && filledOptionData.length() == questions.size()) {
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        editor.putString(TOKEN, token);
+                                        editor.putBoolean(USER_SURVEY_COMPLETED, true);
                                     }
                                     myquestionAdapter = new QuestionAdapter(questions, QuestionActivity.this, sharedPreferences, myQuestionResponse, editor, filledOptionData);
                                     mylayoutmanager = new LinearLayoutManager(QuestionActivity.this);
                                     myRecyclerView.setLayoutManager(mylayoutmanager);
                                     myRecyclerView.setAdapter(myquestionAdapter);
 
-//                                filledOptionData = result;
-//                        Intent i = new Intent(CovidQuestionnaireRedirection.this, QuestionActivity.class);
                                     Log.i("json array --- ", filledOptionData.toString());
-//                        i.putExtra("filled", myUserfilledresponses.toString());
-//                        startActivity(i);
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }

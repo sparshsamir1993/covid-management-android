@@ -46,7 +46,7 @@ public interface UserClient {
     Call<List<UserSubmittedAnswers>> fetchData(@Header("authorization") String authToken, @Header("refresh-token") String refreshToken, @Query("userId") int userId);
 
     @PATCH("updateResponse")
-    Call<CovidQuestionResult> updateUserQuestionnarire(@Header("authorization") String authToken, @Header("refresh-token") String refreshToken,@Body UserAnswerResponse userAnswerResponse);
+    Call<CovidQuestionResult> updateUserQuestionnaire(@Header("authorization") String authToken, @Header("refresh-token") String refreshToken,@Body UserAnswerResponse userAnswerResponse);
 
     @GET("nearby")
     Call<List<HospitalData>> fetchHospitals(

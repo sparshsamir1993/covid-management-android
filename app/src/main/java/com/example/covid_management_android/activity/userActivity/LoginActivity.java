@@ -39,10 +39,10 @@ import retrofit2.Retrofit;
 
 public class LoginActivity extends AppCompatActivity {
 
-    Button callSignup,Login_btn;
+    Button callSignup, Login_btn;
     TextView logoText, sloganText;
     ImageView image;
-    TextInputLayout username,password;
+    TextInputLayout username, password;
 
     EditText emailField, passwordField;
     RetrofitUtil retrofitUtil;
@@ -69,39 +69,38 @@ public class LoginActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void loginSubmit(View view){
+    public void loginSubmit(View view) {
         String email = emailField.getText().toString();
         String password = passwordField.getText().toString();
         Login login = new Login(email, password);
 
         Call<AuthToken> call = userClient.login(login);
-        Log.i("login url is ",call.request().url().toString());
+        Log.i("login url is ", call.request().url().toString());
         call.enqueue(new Callback<AuthToken>() {
             @Override
             public void onResponse(Call<AuthToken> call, Response<AuthToken> response) {
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     String token = response.body().getToken();
                     String refreshToken = response.body().getRefreshToken();
                     Integer id = response.body().getId();
                     Toast.makeText(LoginActivity.this, "Logged In Successfully", Toast.LENGTH_SHORT).show();
                     editor.putString("token", token);
                     editor.putString("refreshToken", refreshToken);
-                    Log.i("My user Id",id.toString());
-                    editor.putInt("userId",id);
+                    Log.i("My user Id", id.toString());
+                    editor.putInt("userId", id);
                     editor.commit();
 
-                        Intent i = new Intent(LoginActivity.this, CovidQuestionnaireRedirection.class);
+                    Intent i = new Intent(LoginActivity.this, CovidQuestionnaireRedirection.class);
                     i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                       // i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+                    // i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    //i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 
-                        startActivity(i);
-                        //finish();
+                    startActivity(i);
+                    //finish();
 
 
-
-                }else{
-                    switch (response.code()){
+                } else {
+                    switch (response.code()) {
                         case 403:
                         case 401:
                             Toast.makeText(getApplicationContext(), "UserName/Password do not match", Toast.LENGTH_SHORT).show();
@@ -111,6 +110,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<AuthToken> call, Throwable t) {
                 Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
@@ -133,21 +133,21 @@ public class LoginActivity extends AppCompatActivity {
         retrofit = retrofitUtil.getRetrofit();
         userClient = retrofit.create(UserClient.class);
         callSignup = findViewById(R.id.callSignup);
-        sharedPreferences = getSharedPreferences("covidManagement",MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("covidManagement", MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
         callSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent (LoginActivity.this,SignUpActivity.class);
+                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
 
                 Pair[] pairs = new Pair[2];
 
-                pairs[0] = new Pair<View,String>(image,"logo_image");
-                pairs[1] = new Pair<View,String>(logoText,"logo_text");
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(LoginActivity.this,pairs);
+                pairs[0] = new Pair<View, String>(image, "logo_image");
+                pairs[1] = new Pair<View, String>(logoText, "logo_text");
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(LoginActivity.this, pairs);
 
-                startActivity(intent,options.toBundle());
+                startActivity(intent, options.toBundle());
             }
         });
     }

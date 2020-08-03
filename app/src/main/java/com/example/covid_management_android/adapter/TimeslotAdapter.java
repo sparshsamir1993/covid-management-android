@@ -18,6 +18,8 @@ import com.example.covid_management_android.model.appointments.Timeslot;
 import java.util.List;
 
 import devs.mulham.horizontalcalendar.HorizontalCalendar;
+import static com.example.covid_management_android.constants.Constants.SLOT_AVAILABLE;
+import static com.example.covid_management_android.constants.Constants.SLOT_NOT_AVAILABLE;
 
 public class TimeslotAdapter extends RecyclerView.Adapter<TimeslotAdapter.SlotViewHolder> {
 
@@ -40,12 +42,27 @@ public class TimeslotAdapter extends RecyclerView.Adapter<TimeslotAdapter.SlotVi
 
     @Override
     public void onBindViewHolder(@NonNull SlotViewHolder holder, int position) {
-
+        Timeslot currentSlot = timeslotList.get(position);
+        Long time = currentSlot.getSlot();
+        String timeText = "";
+        if(time > 12){
+            timeText  = (time - 12) + "pm";
+        }else if(time == 12){
+            timeText = "12pm";
+        }else{
+            timeText = time+"am";
+        }
+        holder.slotText.setText(timeText);
+        if(currentSlot.isAvailable()){
+            holder.slotAvailableText.setText(SLOT_AVAILABLE);
+        }else{
+            holder.slotAvailableText.setText(SLOT_NOT_AVAILABLE);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return timeslotList.size();
     }
 
     public static class SlotViewHolder extends RecyclerView.ViewHolder {
@@ -54,11 +71,9 @@ public class TimeslotAdapter extends RecyclerView.Adapter<TimeslotAdapter.SlotVi
 
 
         public SlotViewHolder(View itemView) {
-
             super(itemView);
             slotText = itemView.findViewById(R.id.slotText);
             slotAvailableText = itemView.findViewById(R.id.slotAvailableText);
-
         }
 
     }

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Common Text Size -->
+    <dimen name="h1">24sp</dimen>
+    <dimen name="h2">20sp</dimen>
+    <dimen name="h3">18sp</dimen>
+    <dimen name="h4">16sp</dimen>
+    <dimen name="h5">14sp</dimen>
+    <dimen name="h6">12sp</dimen>
+    <dimen name="h7">10sp</dimen>
+    <dimen name="h8">8sp</dimen>
+    <!-- Common dimen -->
+    <dimen name="common_4_dp">4dp</dimen>
+    <dimen name="common_5_dp">5dp</dimen>
+    <dimen name="common_10_dp">10dp</dimen>
+    <dimen name="common_15_dp">15dp</dimen>
+    <dimen name="common_20_dp">20dp</dimen>
+    <dimen name="common_25_dp">25dp</dimen>
+    <!-- view Height-->
+    <dimen name="view_height">1dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="nav_header_vertical_spacing">16dp</dimen>
+    <dimen name="nav_header_height">150dp</dimen>
+    <dimen name="design_navigation_icon_padding" tools:override="true">20dp</dimen>
+    <dimen name="design_bottom_navigation_text_size" tools:override="true">10sp</dimen>
+    <dimen name="design_bottom_navigation_active_text_size" tools:override="true">10sp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <!-- Iteam layout Task-->
+    <dimen name="task_lable_width">250dp</dimen>
+    <dimen name="calander_height_width">30dp</dimen>
+    <dimen name="spinner_width">100dp</dimen>
+    <dimen name="spinner_height">30dp</dimen>
+    <dimen name="margin_from_circle">12dp</dimen>
+</resources>

@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.userActivity.MainActivity"
-    android:background="#fff"
-    android:padding="30dp">
+    android:background="@color/color_white"
+    android:padding="@dimen/common_30_dp">
 
 
     <LinearLayout
@@ -23,29 +23,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:fontFamily="@font/andika"
+            android:fontFamily="@font/gotham_medium"
             android:text="Welcome"
             android:textAlignment="center"
-            android:textColor="#000000"
-            android:textSize="36sp"
-            android:layout_marginTop="90dp"
+            android:textColor="#474747"
+            android:textSize="@dimen/h1"
+            android:layout_marginTop="@dimen/common_100_dp"
             android:textAllCaps="true"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:fontFamily="@font/andika"
+            android:fontFamily="@font/gotham_book"
             android:text="We Help The World"
             android:textAlignment="center"
-            android:textColor="#000000"
-            android:textSize="20sp"
+            android:layout_marginTop="@dimen/common_5_dp"
+            android:textColor="#474747"
+            android:textSize="@dimen/h2"
             />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp">
+            android:layout_marginTop="@dimen/common_40_dp">
 
             <Button
                 android:id="@+id/button"
@@ -53,20 +54,23 @@
                 android:layout_height="wrap_content"
                 android:text="LogIn"
                 android:onClick="goToLogin"
-                android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:textColor="#222831"
-                android:background="#ea907a"/>
+                android:textColor="@color/color_white"
+                android:fontFamily="@font/gotham_medium"
+                android:textSize="@dimen/h4"
+                android:background="#474747"/>
             <Button
                 android:id="@+id/button_signup"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="SignUp"
                 android:onClick="goToSignUp"
-                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:textColor="#222831"
-                android:background="#ea907a"/>
+                android:fontFamily="@font/gotham_medium"
+                android:textSize="@dimen/h4"
+                android:layout_marginLeft="@dimen/common_12_dp"
+                android:textColor="@color/color_white"
+                android:background="#474747"/>
 
 
         </LinearLayout>
@@ -75,9 +79,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="How We Work"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="@dimen/common_20_dp"
             android:layout_weight="1"
             android:textColor="#222831"
+            android:fontFamily="@font/gotham_medium"
+            android:textSize="@dimen/h4"
             android:background="#00000000"/>
 
 

@@ -3,17 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="170dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginTop="3dp"
-    app:cardUseCompatPadding="true"
-    app:cardBackgroundColor="@color/colorAccent"
-    app:cardElevation="2dp"
-    app:cardCornerRadius="5dp"
-    >
+    app:cardBackgroundColor="@color/color_white"
+    app:cardCornerRadius="@dimen/common_8_dp"
+    app:cardElevation="@dimen/common_5_dp"
+    android:elevation="@dimen/common_2_dp"
+    android:layout_margin="@dimen/common_12_dp">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="2dp">
-
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/hospitalname"
@@ -21,16 +18,25 @@
             android:layout_height="wrap_content"
             android:text="Grand River Hospital"
             android:drawableLeft="@drawable/hospital"
-            android:drawablePadding="1dp"
-            android:textSize="35dp"/>
+            android:fontFamily="@font/gotham_book"
+            android:textColor="#474747"
+            android:layout_marginTop="@dimen/common_12_dp"
+            android:layout_marginLeft="@dimen/common_12_dp"
+            android:lineSpacingExtra="4sp"
+            android:textSize="@dimen/h2"
+            android:drawablePadding="@dimen/common_10_dp"/>
         <TextView
             android:id="@+id/hospitalcontact"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/hospitalname"
-            android:layout_marginTop="1dp"
+            android:layout_marginTop="@dimen/common_10_dp"
             android:text="+12266001297"
-            android:textSize="25sp"
+            android:fontFamily="@font/gotham_book"
+            android:textColor="#474747"
+            android:layout_marginLeft="@dimen/common_12_dp"
+            android:lineSpacingExtra="4sp"
+            android:textSize="@dimen/h3"
             />
         <TextView
             android:id="@+id/hospitalAddress"
@@ -42,7 +48,12 @@
             android:scrollHorizontally="false"
             android:lines="3"
             android:maxLines="3"
-
+            android:fontFamily="@font/gotham_book"
+            android:layout_marginLeft="@dimen/common_12_dp"
+            android:layout_marginTop="@dimen/common_10_dp"
+            android:textColor="#474747"
+            android:lineSpacingExtra="4sp"
+            android:textSize="@dimen/h4"
             />
 
 

@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:background="#00000000"
         android:drawableEnd="@drawable/skip_icon"
-        android:fontFamily="@font/andika"
+        android:fontFamily="@font/gotham_book"
         android:onClick="skip"
         android:padding="10dp"
         android:text="Skip"

@@ -78,6 +78,7 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity implements 
     ProgressBar progressBar;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,6 +123,8 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity implements 
         myUserfilledresponses = new JSONArray();
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("COVID global stats");
+        toolbar.setTitleTextAppearance(this,R.style.TextAppearance);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.color_black));
         setSupportActionBar(toolbar);
 
         drawerLayout = findViewById(R.id.drawerLayout);
@@ -148,12 +151,10 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity implements 
     }
 
     private void getCovidStats() {
-
         retrofitUtil = new RetrofitUtil("https://corona.lmao.ninja/v3/covid-19/");
         retrofit = retrofitUtil.getRetrofit();
         retrofitUtil.setContext(CovidQuestionnaireRedirection.this);
         userClient = retrofit.create(UserClient.class);
-
         Call<CovidStats> call = userClient.fetchCovidStats();
         call.enqueue(new Callback<CovidStats>() {
             @Override

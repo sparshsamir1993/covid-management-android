@@ -36,6 +36,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import static com.example.covid_management_android.constants.Constants.REFRESH_TOKEN;
+import static com.example.covid_management_android.constants.Constants.TOKEN;
+import static com.example.covid_management_android.constants.Constants.USER_EMAIL;
+import static com.example.covid_management_android.constants.Constants.USER_ID;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -83,11 +87,14 @@ public class LoginActivity extends AppCompatActivity {
                     String token = response.body().getToken();
                     String refreshToken = response.body().getRefreshToken();
                     Integer id = response.body().getId();
+                    String email = response.body().getEmail();
+
                     Toast.makeText(LoginActivity.this, "Logged In Successfully", Toast.LENGTH_SHORT).show();
-                    editor.putString("token", token);
-                    editor.putString("refreshToken", refreshToken);
+                    editor.putString(TOKEN, token);
+                    editor.putString(REFRESH_TOKEN, refreshToken);
+                    editor.putString(USER_EMAIL, email);
                     Log.i("My user Id", id.toString());
-                    editor.putInt("userId", id);
+                    editor.putInt(USER_ID, id);
                     editor.commit();
 
                     Intent i = new Intent(LoginActivity.this, CovidQuestionnaireRedirection.class);

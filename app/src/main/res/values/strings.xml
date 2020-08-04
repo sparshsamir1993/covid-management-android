@@ -25,6 +25,9 @@
     <string name="next_btn">Next</string>
     <string name="let_get_started">Lets Get Started</string>
     <string name="title_activity_question">QuestionActivity</string>
+    <string name="confirm_booking">Confirm Booking?</string>
+
+
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
@@ -42,5 +45,9 @@
     <!--Appointment Strings-->
     <string name="appointment_book_title">Book Appointment</string>
     <string name="date_select_label">Choose a date</string>
+    <string name="next_button">Next</string>
+    <string name="email_label">Email</string>
+    <string name="appointment_date_time_label">Appointment Slot</string>
+    <string name="hospital_name_label">Hospital Name</string>
 
 </resources>

@@ -82,7 +82,7 @@ public class TimeslotAdapter extends RecyclerView.Adapter<TimeslotAdapter.SlotVi
         } else {
             timeText = time + "am";
         }
-        holder.slotText.setText(timeText + " " + position);
+        holder.slotText.setText(timeText);
         if (currentSlot.isAvailable()) {
             holder.slotAvailableText.setText(SLOT_AVAILABLE);
         } else {
@@ -121,7 +121,6 @@ public class TimeslotAdapter extends RecyclerView.Adapter<TimeslotAdapter.SlotVi
             currentCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.i("adp position", getAdapterPosition() + "");
                     if (slotListener != null) {
                         slotListener.oncardClick(getAdapterPosition(), currentCard, slotCardList);
 

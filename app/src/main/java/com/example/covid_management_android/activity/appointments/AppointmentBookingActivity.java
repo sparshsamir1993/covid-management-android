@@ -16,6 +16,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.covid_management_android.R;
 import com.example.covid_management_android.activity.userActivity.CovidQuestionnaireRedirection;
@@ -30,6 +32,7 @@ import com.example.covid_management_android.service.UserClient;
 import com.google.android.material.navigation.NavigationView;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
 
 import java.util.Calendar;
 import java.util.List;
@@ -42,6 +45,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 import static com.example.covid_management_android.constants.Constants.BASE_URL;
+import static com.example.covid_management_android.constants.Constants.HOSPITAL_DATA;
 
 public class AppointmentBookingActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, TimeslotAdapter.TimeSlotCardListener {
     HorizontalCalendar calender;
@@ -51,9 +55,13 @@ public class AppointmentBookingActivity extends AppCompatActivity implements Nav
     RetrofitUtil retrofitUtil;
     Retrofit retrofit;
     AppointmentClient appointmentClient;
+    Button confirmationBtn;
     RecyclerView.LayoutManager myLayoutManager;
+    Calendar selectedDate;
+    JSONObject hospitalData;
 
     int hospitalId;
+    Long selectedSlot = Long.valueOf(-1);
     RecyclerView slotListRecycler;
     List<Timeslot> list;
 
@@ -79,7 +87,8 @@ public class AppointmentBookingActivity extends AppCompatActivity implements Nav
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
-
+        confirmationBtn = findViewById(R.id.toConfirmationBtn);
+        confirmationBtn.setVisibility(View.GONE);
         DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);
         NavigationView navigationView = findViewById(R.id.navigationView);
         navigationView.bringToFront();
@@ -94,8 +103,14 @@ public class AppointmentBookingActivity extends AppCompatActivity implements Nav
         retrofitUtil.setContext(AppointmentBookingActivity.this);
         appointmentClient = retrofit.create(AppointmentClient.class);
         slotListRecycler = findViewById(R.id.slotListRecyclerView);
+        try{
+            String hospitalDataString  = getIntent().getStringExtra(HOSPITAL_DATA);
+            hospitalData = new JSONObject(hospitalDataString);
+            hospitalId = hospitalData.getInt("hospitalId");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
-        hospitalId = getIntent().getIntExtra("hospitalId", -1);
 
         if (hospitalId <= 0) {
             Intent intent = new Intent(AppointmentBookingActivity.this, HospitalList.class);
@@ -104,13 +119,32 @@ public class AppointmentBookingActivity extends AppCompatActivity implements Nav
         }
         Log.i("selected date is --- ", calender.getSelectedDate().getTime().toString());
         updateTimeslotList(startDate);
+        selectedDate = startDate;
         calender.setCalendarListener(new HorizontalCalendarListener() {
             @Override
             public void onDateSelected(Calendar date, int position) {
                 updateTimeslotList(date);
+                selectedDate = date;
             }
 
 
+        });
+
+        confirmationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i("sleected slot", selectedSlot.toString());
+
+                if (selectedSlot < 0) {
+
+                    return;
+                }
+                Intent i = new Intent(AppointmentBookingActivity.this, AppointmentConfirmationActivity.class);
+                i.putExtra("selectedSlot", selectedSlot);
+                i.putExtra("selectedDate", selectedDate.getTimeInMillis());
+                i.putExtra(HOSPITAL_DATA, hospitalData.toString());
+                startActivity(i);
+            }
         });
 
 
@@ -157,11 +191,13 @@ public class AppointmentBookingActivity extends AppCompatActivity implements Nav
     public void oncardClick(int position, CardView currentCard, List<CardView> cardList) {
         Log.i("slot on position -- ", position + " " + list.get(position).getSlot());
 
-
+        selectedSlot = list.get(position).getSlot();
         for (CardView card : cardList) {
             card.setCardBackgroundColor(Color.parseColor("#ffffff"));
         }
         currentCard.setCardBackgroundColor(Color.parseColor("#bdfff4"));
+        confirmationBtn.setVisibility(View.VISIBLE);
+
 
     }
 }

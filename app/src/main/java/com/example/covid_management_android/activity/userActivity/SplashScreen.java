@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.example.covid_management_android.R;
 
+import static com.example.covid_management_android.constants.Constants.USER_ID;
+
 public class SplashScreen extends AppCompatActivity {
 
     private static int SPALSH_SCREEN = 5000;
@@ -55,7 +57,8 @@ public class SplashScreen extends AppCompatActivity {
                 sharedPreferences = getSharedPreferences("covidManagement",MODE_PRIVATE);
                 boolean isFirstTime = onBoardingScreen.getBoolean("firstTime", true);
 
-                int userId = sharedPreferences.getInt("userId", -1);
+                int userId = sharedPreferences.getInt(USER_ID, -1);
+
 
                 if (isFirstTime) {
                     Intent toBoarding = new Intent(getApplicationContext(), OnBoarding.class);

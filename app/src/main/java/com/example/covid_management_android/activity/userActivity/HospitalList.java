@@ -18,6 +18,8 @@ import com.example.covid_management_android.model.HospitalData;
 import com.example.covid_management_android.model.Question;
 import com.example.covid_management_android.service.UserClient;
 
+import org.json.JSONObject;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -79,8 +81,18 @@ public class HospitalList extends AppCompatActivity {
                             public void oncardClick(int position) {
                                 Toast.makeText(HospitalList.this, String.valueOf(hospitals.get(position).getId()), Toast.LENGTH_LONG).show();
                                 Intent toAppointmentBooking = new Intent(HospitalList.this, AppointmentBookingActivity.class);
-                                toAppointmentBooking.putExtra("hospitalId", hospitals.get(position).getId());
-                                startActivity(toAppointmentBooking);
+                                try{
+                                    JSONObject hospData = new JSONObject();
+                                    hospData.put("hospitalId", hospitals.get(position).getId());
+                                    hospData.put("hospitalAddress", hospitals.get(position).getDetailedAddress());
+                                    hospData.put("hospitalName", hospitals.get(position).getName());
+                                    toAppointmentBooking.putExtra("hospitalData", hospData.toString());
+                                    startActivity(toAppointmentBooking);
+
+                                }catch(Exception e){
+                                    e.printStackTrace();
+                                }
+
 
                             }
                         });

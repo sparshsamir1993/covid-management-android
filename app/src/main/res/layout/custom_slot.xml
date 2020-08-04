@@ -4,8 +4,8 @@
     android:id="@+id/time_slot_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="25dp"
-    app:cardBackgroundColor="@color/cardview_shadow_start_color"
+    android:layout_margin="10dp"
+    android:clickable="true"
     app:cardCornerRadius="4dp">
 
     <LinearLayout

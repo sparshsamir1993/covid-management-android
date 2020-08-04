@@ -20,7 +20,7 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.Hospit
     List<HospitalData> myHopitalList;
     OnHospitalCardListener myCustomListener;
 
-    public interface OnHospitalCardListener {
+    public interface  OnHospitalCardListener {
         void oncardClick(int position);
     }
 

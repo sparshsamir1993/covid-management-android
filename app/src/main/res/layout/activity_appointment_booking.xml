@@ -49,7 +49,9 @@
                 android:layout_marginStart="19dp"
                 android:layout_marginTop="97dp"
                 android:layout_marginEnd="334dp"
+                android:layout_marginBottom="11dp"
                 android:text="TextView"
+                app:layout_constraintBottom_toTopOf="@+id/calendarView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -59,26 +61,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
+                android:layout_marginBottom="13dp"
                 android:background="@color/colorPrimary"
+                android:padding="10dp"
+                app:layout_constraintBottom_toTopOf="@+id/slotListRecyclerView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView7"
                 app:textColorSelected="#FFFF" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:layout_width="410dp"
-                        android:layout_height="530dp"
-                        android:layout_marginStart="1dp"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginEnd="1dp"
-                        android:layout_marginBottom="1dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        android:id="@+id/slotListRecyclerView"
-                        app:layout_constraintTop_toBottomOf="@+id/calendarView" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/slotListRecyclerView"
+                android:layout_width="410dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="10dp"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.03"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/calendarView" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

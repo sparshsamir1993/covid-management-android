@@ -4,12 +4,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -26,6 +29,8 @@ import com.example.covid_management_android.service.AppointmentClient;
 import com.example.covid_management_android.service.UserClient;
 import com.google.android.material.navigation.NavigationView;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Calendar;
 import java.util.List;
 
@@ -38,7 +43,7 @@ import retrofit2.Retrofit;
 
 import static com.example.covid_management_android.constants.Constants.BASE_URL;
 
-public class AppointmentBookingActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class AppointmentBookingActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, TimeslotAdapter.TimeSlotCardListener {
     HorizontalCalendar calender;
     Calendar startDate, endDate;
     SharedPreferences sharedPreferences;
@@ -50,6 +55,7 @@ public class AppointmentBookingActivity extends AppCompatActivity implements Nav
 
     int hospitalId;
     RecyclerView slotListRecycler;
+    List<Timeslot> list;
 
 
     @Override
@@ -60,13 +66,12 @@ public class AppointmentBookingActivity extends AppCompatActivity implements Nav
         sharedPreferences = getSharedPreferences("covidManagement", MODE_PRIVATE);
         startDate = Calendar.getInstance();
         startDate.add(Calendar.DATE, 0);
-
+        Log.i("start d is --- ", startDate.getTime().toString());
         endDate = Calendar.getInstance();
         endDate.add(Calendar.DATE, 14);
 
 
         calender = new HorizontalCalendar.Builder(this, R.id.calendarView)
-
                 .range(startDate, endDate)
                 .datesNumberOnScreen(1)
                 .mode(HorizontalCalendar.Mode.DAYS)
@@ -97,8 +102,8 @@ public class AppointmentBookingActivity extends AppCompatActivity implements Nav
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
-
-        updateTimeslotList(calender.getSelectedDate());
+        Log.i("selected date is --- ", calender.getSelectedDate().getTime().toString());
+        updateTimeslotList(startDate);
         calender.setCalendarListener(new HorizontalCalendarListener() {
             @Override
             public void onDateSelected(Calendar date, int position) {
@@ -112,9 +117,9 @@ public class AppointmentBookingActivity extends AppCompatActivity implements Nav
     }
 
     private void updateTimeslotList(Calendar date) {
-
         String token = sharedPreferences.getString("token", null);
         String refreshToken = sharedPreferences.getString("refreshToken", null);
+        assert token != null;
         if (token.split("JWT ").length == 1) {
             token = "JWT " + token;
         }
@@ -122,17 +127,19 @@ public class AppointmentBookingActivity extends AppCompatActivity implements Nav
         timeSlotList = appointmentClient.getAvailableTimeslots(token, refreshToken, date.getTimeInMillis(), hospitalId);
         timeSlotList.enqueue(new Callback<List<Timeslot>>() {
             @Override
-            public void onResponse(Call<List<Timeslot>> call, Response<List<Timeslot>> response) {
-                List<Timeslot> list = response.body();
+            public void onResponse(@NotNull Call<List<Timeslot>> call, @NotNull Response<List<Timeslot>> response) {
+                list = response.body();
+                assert list != null;
                 Log.i("List is == ", list.toString());
-                TimeslotAdapter timeslotAdapter = new TimeslotAdapter(AppointmentBookingActivity.this, list);
-                myLayoutManager = new LinearLayoutManager(AppointmentBookingActivity.this);
+                TimeslotAdapter timeslotAdapter = new TimeslotAdapter(AppointmentBookingActivity.this, list, AppointmentBookingActivity.this);
+                myLayoutManager = new GridLayoutManager(AppointmentBookingActivity.this, 3);
                 slotListRecycler.setLayoutManager(myLayoutManager);
                 slotListRecycler.setAdapter(timeslotAdapter);
+
             }
 
             @Override
-            public void onFailure(Call<List<Timeslot>> call, Throwable t) {
+            public void onFailure(@NotNull Call<List<Timeslot>> call, @NotNull Throwable t) {
                 t.printStackTrace();
             }
         });
@@ -144,6 +151,18 @@ public class AppointmentBookingActivity extends AppCompatActivity implements Nav
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         appUtil.createMenuItems(menuItem, AppointmentBookingActivity.this);
         return true;
+    }
+
+    @Override
+    public void oncardClick(int position, CardView currentCard, List<CardView> cardList) {
+        Log.i("slot on position -- ", position + " " + list.get(position).getSlot());
+
+
+        for (CardView card : cardList) {
+            card.setCardBackgroundColor(Color.parseColor("#ffffff"));
+        }
+        currentCard.setCardBackgroundColor(Color.parseColor("#bdfff4"));
+
     }
 }
 

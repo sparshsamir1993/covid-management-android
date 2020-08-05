@@ -65,7 +65,7 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity implements 
     Retrofit retrofit;
     UserClient userClient;
     JSONArray myUserfilledresponses;
-    AppUtil appUtil = new AppUtil();
+    AppUtil appUtil;
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -116,26 +116,22 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity implements 
         line5 = findViewById(R.id.line5);
         line6 = findViewById(R.id.line6);
         line7 = findViewById(R.id.line7);
-        //progressBar = findViewById(R.id.spin_kit);
+
         covidChart = findViewById(R.id.covidChart);
         statsScroll = findViewById(R.id.statsScroll);
         covidStats = new JSONArray();
-
         loader = findViewById(R.id.loader);
-
+        appUtil = new AppUtil();
         loader.start();
-
         check = getIntent().getIntExtra("check",0);
-
         myCountryData = (Country) getIntent().getSerializableExtra("CounrtyData");
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("COVID global stats");
         toolbar.setTitleTextAppearance(this,R.style.TextAppearance);
         toolbar.setTitleTextColor(getResources().getColor(R.color.color_black));
         setSupportActionBar(toolbar);
-
         Log.i("In here>>",String.valueOf(check));
-
+        appUtil.enableLocation(this);
         if(check == 0) {
             getCovidStats();
         }
@@ -145,12 +141,8 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity implements 
                 printNationalStats(myCountryData);
             }
         }
-
-
         sharedPreferences = getSharedPreferences("covidManagement", MODE_PRIVATE);
         myUserfilledresponses = new JSONArray();
-
-
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navigationView);
         navigationView.bringToFront();
@@ -197,7 +189,6 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity implements 
         myCovidStatsData.add(new ValueDataEntry("Deaths", Long.parseLong(deathCount)));
         myCovidStatsData.add(new ValueDataEntry("Recovered", Long.parseLong(recoveryCount)));
         return myCovidStatsData;
-
     }
 
     private void getCovidStats() {
@@ -218,7 +209,6 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity implements 
                     String todayCases = String.valueOf(response.body().getTodayCases());
                     String todayDeaths = String.valueOf(response.body().getTodayDeaths());
                     String todayRecovered = String.valueOf(response.body().getTodayRecovered());
-
                     caseCount.setText(cases);
                     recoveryCount.setText(recovered);
                     critiCount.setText(critical);
@@ -227,10 +217,8 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity implements 
                     todayTestCount.setText(todayCases);
                     todayDeathCount.setText(todayDeaths);
                     todayRecoverCount.setText(todayRecovered);
-
                     List<DataEntry> myCovidStatsData = addPieChartData(todayCases,todayDeaths,todayRecovered);
                     loadCovidStatsPieChart(myCovidStatsData);
-
 
                 } else {
                     Toast.makeText(CovidQuestionnaireRedirection.this, "Error fetching updates", Toast.LENGTH_LONG).show();
@@ -248,13 +236,11 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity implements 
     }
 
     private void loadCovidStatsPieChart(List<DataEntry> mycovidStats) {
-
         Pie piechart = AnyChart.pie();
         piechart.data(mycovidStats);
         covidChart.setChart(piechart);
         loader.stop();
         loader.setVisibility(View.GONE);
-
     }
 
     @Override
@@ -264,7 +250,6 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity implements 
     }
 
     private void getfilledQuestionnaire() {
-
         String token = sharedPreferences.getString("token", null);
         String refreshToken = sharedPreferences.getString("refreshToken", null);
         Integer userId = sharedPreferences.getInt("userId", 1);

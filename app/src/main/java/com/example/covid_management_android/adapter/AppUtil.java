@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -15,8 +16,10 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.covid_management_android.R;
+import com.example.covid_management_android.activity.appointments.AppointmentHistoryActivity;
 import com.example.covid_management_android.activity.userActivity.CovidQuestionnaireRedirection;
 import com.example.covid_management_android.activity.userActivity.HospitalList;
 import com.example.covid_management_android.activity.userActivity.LoginActivity;
@@ -54,6 +57,7 @@ public class AppUtil extends AppCompatActivity {
         MenuItem profileItem = menu.findItem(R.id.profile);
         MenuItem hospitalListItem = menu.findItem(R.id.hospitalList);
         MenuItem questionListItem = menu.findItem(R.id.questionList);
+        MenuItem appointmentList = menu.findItem(R.id.appointmentList);
 
 
         String token = sharedPreferences.getString("token", null);
@@ -62,6 +66,7 @@ public class AppUtil extends AppCompatActivity {
             profileItem.setVisible(true);
             hospitalListItem.setVisible(true);
             questionListItem.setVisible(true);
+            appointmentList.setVisible(true);
 
             loginItem.setVisible(false);
             regItem.setVisible(false);
@@ -71,6 +76,7 @@ public class AppUtil extends AppCompatActivity {
             profileItem.setVisible(false);
             hospitalListItem.setVisible(false);
             questionListItem.setVisible(false);
+            appointmentList.setVisible(false);
 
             loginItem.setVisible(true);
             regItem.setVisible(true);
@@ -81,6 +87,10 @@ public class AppUtil extends AppCompatActivity {
 
 
     public MenuItem createMenuItems(MenuItem item, Context context) {
+        return createMenuItems(item, context, null);
+    }
+
+    public MenuItem createMenuItems(MenuItem item, Context context, DrawerLayout drawer) {
         Intent i;
         switch (item.getItemId()) {
             case R.id.register:
@@ -90,6 +100,7 @@ public class AppUtil extends AppCompatActivity {
             case R.id.login:
                 i = new Intent(context, LoginActivity.class);
                 context.startActivity(i);
+                item.collapseActionView();
                 break;
             case R.id.profile:
                 i = new Intent(context, UserProfileActivity.class);
@@ -109,6 +120,12 @@ public class AppUtil extends AppCompatActivity {
             case R.id.countries:
                 i = new Intent(context, NationalCovidStats.class);
                 context.startActivity(i);
+                item.collapseActionView();
+                break;
+            case R.id.appointmentList:
+                i = new Intent(context, AppointmentHistoryActivity.class);
+                context.startActivity(i);
+                drawer.closeDrawer(Gravity.LEFT);
                 break;
             default:
                 break;
@@ -187,8 +204,6 @@ public class AppUtil extends AppCompatActivity {
         AlertDialog alertDialog = alertdialog.create();
 
         alertDialog.show();
-
-
 
 
     }

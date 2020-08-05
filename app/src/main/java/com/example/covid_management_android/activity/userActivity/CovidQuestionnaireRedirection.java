@@ -259,7 +259,7 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity implements 
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        appUtil.createMenuItems(menuItem, CovidQuestionnaireRedirection.this);
+        appUtil.createMenuItems(menuItem, CovidQuestionnaireRedirection.this, drawerLayout);
         return true;
     }
 

@@ -13,7 +13,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/hospitalname"
+            android:id="@+id/hospitalNameText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Grand River Hospital"
@@ -26,10 +26,10 @@
             android:textSize="@dimen/h2"
             android:drawablePadding="@dimen/common_10_dp"/>
         <TextView
-            android:id="@+id/hospitalcontact"
+            android:id="@+id/appointmentDateTimeText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/hospitalname"
+            android:layout_below="@id/hospitalNameText"
             android:layout_marginTop="@dimen/common_10_dp"
             android:text="+12266001297"
             android:fontFamily="@font/gotham_book"
@@ -42,7 +42,7 @@
             android:id="@+id/hospitalAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/hospitalcontact"
+            android:layout_below="@id/appointmentDateTimeText"
             android:text="Hello \n How are \n You"
             android:singleLine="false"
             android:scrollHorizontally="false"

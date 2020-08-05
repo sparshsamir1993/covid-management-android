@@ -1,5 +1,7 @@
 package com.example.covid_management_android.model.appointments;
 
+import com.example.covid_management_android.model.HospitalData;
+
 import java.sql.Time;
 import java.util.Date;
 
@@ -9,8 +11,18 @@ public class Appointment {
     int userId;
     int hospitalId;
     java.util.Date appointmentDate;
-    Long appointmentTime; // make it long
+    Long appointmentTime;
     String appointmentStatus;
+
+    public HospitalData getHospital() {
+        return hospital;
+    }
+
+    public void setHospital(HospitalData hospital) {
+        this.hospital = hospital;
+    }
+
+    HospitalData hospital;
 
 
     public int getId() {

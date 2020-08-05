@@ -3,14 +3,12 @@ package com.example.covid_management_android.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.covid_management_android.R;
-import com.example.covid_management_android.activity.userActivity.HospitalList;
 import com.example.covid_management_android.model.HospitalData;
 
 import java.util.List;
@@ -64,8 +62,8 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.Hospit
 
         public HospitalViewHolder(View itemView, final OnHospitalCardListener listener) {
             super(itemView);
-            hospitalName = itemView.findViewById(R.id.hospitalname);
-            hospitalContact = itemView.findViewById(R.id.hospitalcontact);
+            hospitalName = itemView.findViewById(R.id.hospitalNameText);
+            hospitalContact = itemView.findViewById(R.id.appointmentDateTimeText);
             hospitalAddress = itemView.findViewById(R.id.hospitalAddress);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

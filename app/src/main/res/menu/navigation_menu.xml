@@ -8,6 +8,13 @@
         <item
             android:id="@+id/questionList"
             android:title="Covid Questionnaire" />
+        <item
+            android:id="@+id/countries"
+            android:title="National Covid Statistics" />
+        <item
+            android:id="@+id/appointmentList"
+            android:title="Appointment History" />
+
     </group>
     <item android:title="Profile">
         <menu>

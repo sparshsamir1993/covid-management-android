@@ -49,7 +49,6 @@ public class LoginActivity extends AppCompatActivity {
     TextView logoText, sloganText;
     ImageView image;
     TextInputLayout username, password;
-
     EditText emailField, passwordField;
     RetrofitUtil retrofitUtil;
     Retrofit retrofit;

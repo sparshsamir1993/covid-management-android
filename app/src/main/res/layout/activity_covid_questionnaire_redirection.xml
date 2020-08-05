@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".activity.userActivity.CovidQuestionnaireRedirection"
-    tools:openDrawer="start">
+    tools:context=".activity.userActivity.CovidQuestionnaireRedirection">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,38 +20,40 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
+            <com.leo.simplearcloader.SimpleArcLoader
+                android:visibility="visible"
+                android:id="@+id/loader"
+                android:layout_centerInParent="true"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:arc_style="simple_arc"
+                >
+            </com.leo.simplearcloader.SimpleArcLoader>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/chartCard"
                 android:layout_width="match_parent"
                 android:layout_height="290dp">
 
-                <com.github.ybq.android.spinkit.SpinKitView
-                    android:id="@+id/spin_kit"
-                    style="@style/SpinKitView.RotatingCircle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    app:SpinKit_Color="@color/colorAccent" />
-
                 <com.anychart.AnyChartView
                     android:id="@+id/covidChart"
                     android:layout_width="250dp"
                     android:layout_height="250dp"
-                    android:layout_gravity="center_horizontal"></com.anychart.AnyChartView>
+                    android:layout_gravity="center_horizontal" />
 
 
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/statscard"
                 android:layout_width="match_parent"
-                android:layout_height="320dp"
+                android:layout_height="250dp"
                 android:layout_below="@id/chartCard"
                 android:layout_marginTop="@dimen/common_5_dp"
                 app:cardElevation="@dimen/common_4_dp"
-                android:clipToPadding="false"
+                android:clipToPadding="true"
                 android:elevation="@dimen/common_2_dp"
                 app:cardMaxElevation="@dimen/common_5_dp"
                 >
@@ -310,7 +312,7 @@
                                 android:id="@+id/txttodayrecover"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Deaths Today"
+                                android:text="Recovered Today"
                                 android:textSize="@dimen/h1"
                                 android:fontFamily="@font/gotham_medium"
                                 android:textColor="#474747"
@@ -337,15 +339,12 @@
                 android:id="@+id/btnsurvey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_marginTop="@dimen/common_10_dp"
-                android:layout_marginBottom="@dimen/common_10_dp"
+                android:layout_below="@id/statscard"
                 android:textColor="@color/color_white"
                 android:background="#474747"
                 android:fontFamily="@font/gotham_medium"
-                android:textSize="@dimen/h4"
-                android:layout_margin="@dimen/common_5_dp"
+                android:textSize="@dimen/h3"
+                android:layout_margin="@dimen/common_3_dp"
                 android:text="Take Covid Survey" />
 
 

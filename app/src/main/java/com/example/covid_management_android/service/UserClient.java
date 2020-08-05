@@ -1,9 +1,9 @@
 package com.example.covid_management_android.service;
 
+import com.example.covid_management_android.model.Country;
 import com.example.covid_management_android.model.AuthToken;
 import com.example.covid_management_android.model.CovidQuestionResult;
 import com.example.covid_management_android.model.CovidStats;
-import com.example.covid_management_android.model.CurrentUser;
 import com.example.covid_management_android.model.HospitalData;
 import com.example.covid_management_android.model.Login;
 
@@ -12,18 +12,14 @@ import com.example.covid_management_android.model.User;
 import com.example.covid_management_android.model.UserAnswerResponse;
 import com.example.covid_management_android.model.UserSubmission.UserSubmittedAnswers;
 
-import org.json.JSONArray;
-
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.HTTP;
 import retrofit2.http.Header;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface UserClient {
@@ -58,6 +54,9 @@ public interface UserClient {
 
     @GET("all")
     Call<CovidStats> fetchCovidStats();
+
+    @GET("countries")
+    Call<List<Country>> fetchCountriesAndStats();
 
 
 }

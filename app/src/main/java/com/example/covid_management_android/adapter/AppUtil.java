@@ -1,13 +1,19 @@
 package com.example.covid_management_android.adapter;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.provider.Settings;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -15,18 +21,31 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.core.app.ActivityCompat;
 
 import com.example.covid_management_android.R;
+import com.example.covid_management_android.activity.appointments.AppointmentHistoryActivity;
 import com.example.covid_management_android.activity.userActivity.CovidQuestionnaireRedirection;
 import com.example.covid_management_android.activity.userActivity.HospitalList;
 import com.example.covid_management_android.activity.userActivity.LoginActivity;
 import com.example.covid_management_android.activity.userActivity.MainActivity;
+import com.example.covid_management_android.activity.userActivity.NationalCovidStats;
 import com.example.covid_management_android.activity.userActivity.QuestionActivity;
 import com.example.covid_management_android.activity.userActivity.SignUpActivity;
 import com.example.covid_management_android.activity.userActivity.UserProfileActivity;
 import com.example.covid_management_android.model.CurrentUser;
 import com.example.covid_management_android.model.UserSubmission.UserSubmittedAnswers;
 import com.example.covid_management_android.service.UserClient;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -41,6 +60,9 @@ public class AppUtil extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
     Menu currentMenu;
+    SharedPreferences locationPreferences;
+    SharedPreferences.Editor locationEditor;
+    FusedLocationProviderClient fusedLocationProviderClient;
 
 
     public Menu checkMenuItems(Menu menu, Context context) {
@@ -53,6 +75,7 @@ public class AppUtil extends AppCompatActivity {
         MenuItem profileItem = menu.findItem(R.id.profile);
         MenuItem hospitalListItem = menu.findItem(R.id.hospitalList);
         MenuItem questionListItem = menu.findItem(R.id.questionList);
+        MenuItem appointmentList = menu.findItem(R.id.appointmentList);
 
 
         String token = sharedPreferences.getString("token", null);
@@ -61,6 +84,7 @@ public class AppUtil extends AppCompatActivity {
             profileItem.setVisible(true);
             hospitalListItem.setVisible(true);
             questionListItem.setVisible(true);
+            appointmentList.setVisible(true);
 
             loginItem.setVisible(false);
             regItem.setVisible(false);
@@ -70,6 +94,7 @@ public class AppUtil extends AppCompatActivity {
             profileItem.setVisible(false);
             hospitalListItem.setVisible(false);
             questionListItem.setVisible(false);
+            appointmentList.setVisible(false);
 
             loginItem.setVisible(true);
             regItem.setVisible(true);
@@ -80,6 +105,10 @@ public class AppUtil extends AppCompatActivity {
 
 
     public MenuItem createMenuItems(MenuItem item, Context context) {
+        return createMenuItems(item, context, null);
+    }
+
+    public MenuItem createMenuItems(MenuItem item, Context context, DrawerLayout drawer) {
         Intent i;
         switch (item.getItemId()) {
             case R.id.register:
@@ -89,6 +118,7 @@ public class AppUtil extends AppCompatActivity {
             case R.id.login:
                 i = new Intent(context, LoginActivity.class);
                 context.startActivity(i);
+                item.collapseActionView();
                 break;
             case R.id.profile:
                 i = new Intent(context, UserProfileActivity.class);
@@ -104,6 +134,16 @@ public class AppUtil extends AppCompatActivity {
                 break;
             case R.id.logout:
                 createLogoutAlert(context);
+                break;
+            case R.id.countries:
+                i = new Intent(context, NationalCovidStats.class);
+                context.startActivity(i);
+                item.collapseActionView();
+                break;
+            case R.id.appointmentList:
+                i = new Intent(context, AppointmentHistoryActivity.class);
+                context.startActivity(i);
+                drawer.closeDrawer(Gravity.LEFT);
                 break;
             default:
                 break;
@@ -182,9 +222,88 @@ public class AppUtil extends AppCompatActivity {
         AlertDialog alertDialog = alertdialog.create();
 
         alertDialog.show();
+    }
+
+   public void enableLocation(final Context context)
+   {
+
+       locationPreferences = context.getSharedPreferences("covidManagement", MODE_PRIVATE);
+       locationEditor = locationPreferences.edit();
+       fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
+       PermissionListener listener = new PermissionListener() {
+           @Override
+           public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
+               Toast.makeText(context, "Location Permission Granted", Toast.LENGTH_LONG).show();
+               fetchLocationData(context);
+               float longitude = locationPreferences.getFloat("Longitude",0);
+               float latitude = locationPreferences.getFloat("Latitude",0);
+               Log.i("LATI",String.valueOf(longitude));
+               Log.i("Longi",String.valueOf(latitude));
+
+           }
+
+           @Override
+           public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
+               if (permissionDeniedResponse.isPermanentlyDenied()) {
+                   Intent intent = new Intent();
+                   intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                   Uri uri = Uri.fromParts("package", getPackageName(), null);
+                   intent.setData(uri);
+                   startActivity(intent);
+
+               } else {
+                   Toast.makeText(context, "Location Permission denied", Toast.LENGTH_LONG).show();
+               }
+
+           }
+
+           @Override
+           public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
+               permissionToken.continuePermissionRequest();
+
+           }
+       };
+       requestForLocation(context,listener);
 
 
+   }
 
+    private void requestForLocation(Context context,PermissionListener listener) {
+        Dexter.withContext(context)
+                .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                .withListener(listener).check();
+    }
+
+
+    private void fetchLocationData(Context context) {
+
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
+            return;
+        }
+        else{
+
+            fusedLocationProviderClient.getLastLocation().addOnSuccessListener((Activity) context, new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    if(location!=null)
+                    {
+                        double longi = location.getLongitude();
+                        double lati = location.getLatitude();
+                        Log.i("Latitude",Double.toString(lati));
+                        locationEditor.putFloat("Longitude",(float)longi);
+                        locationEditor.putFloat("Latitude",(float)lati);
+                        locationEditor.apply();
+                    }
+                    else
+                    {
+                        Log.i("LAt Long error","ERROORR");
+                    }
+                }
+            });
+
+        }
 
     }
+
 }

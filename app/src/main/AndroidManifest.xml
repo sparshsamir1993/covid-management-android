@@ -16,7 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activity.appointments.AppointmentConfirmationActivity"></activity>
+        <activity android:name=".activity.userActivity.NationalCovidStats"></activity>
+        <activity android:name=".activity.appointments.AppointmentHistoryActivity"></activity>
+        <activity android:name=".activity.appointments.AppointmentConfirmationActivity" />
         <activity android:name=".activity.appointments.AppointmentBookingActivity" />
         <activity android:name=".activity.userActivity.HospitalList" />
         <activity android:name=".activity.userActivity.CovidQuestionnaireRedirection" />

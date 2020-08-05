@@ -36,6 +36,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+
+import static com.example.covid_management_android.constants.Constants.BASE_URL;
 import static com.example.covid_management_android.constants.Constants.REFRESH_TOKEN;
 import static com.example.covid_management_android.constants.Constants.TOKEN;
 import static com.example.covid_management_android.constants.Constants.USER_EMAIL;
@@ -135,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
         logoText = findViewById(R.id.logo_name);
         emailField = findViewById(R.id.emailField);
         passwordField = findViewById(R.id.passwordField);
-        retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/");
+        retrofitUtil = new RetrofitUtil(BASE_URL + "/");
         //retrofitUtil = new RetrofitUtil("http://192.168.0.105:5050/api/v1/user/signOn/");
         retrofit = retrofitUtil.getRetrofit();
         userClient = retrofit.create(UserClient.class);

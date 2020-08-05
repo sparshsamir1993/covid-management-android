@@ -43,6 +43,7 @@ import retrofit2.Retrofit;
 import retrofit2.http.Header;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.example.covid_management_android.constants.Constants.BASE_URL;
 
 public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.QuestionViewHolder> {
 
@@ -137,7 +138,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
             @Override
             public void onClick(View v) {
 
-                retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/questionResponse/");
+                retrofitUtil = new RetrofitUtil(BASE_URL + "/questionResponse/");
                 //retrofitUtil = new RetrofitUtil("http://192.168.0.105:5050/api/v1/user/questionResponse/");
                 retrofit = retrofitUtil.getRetrofit();
                 userClient = retrofit.create(UserClient.class);

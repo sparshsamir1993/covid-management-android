@@ -114,7 +114,6 @@ public class NationalCovidStats extends AppCompatActivity {
                             i.putExtra("CounrtyData",countryData);
                             i.putExtra("check",1);
                             startActivity(i);
-
                         }
                     });
                 }
@@ -128,8 +127,4 @@ public class NationalCovidStats extends AppCompatActivity {
 
     }
 
-    private void openCountryDialog(Country countryData) {
-        NationStatsDialog nationStatsDialog = new NationStatsDialog(countryData);
-        nationStatsDialog.show(getSupportFragmentManager(),"Country");
-    }
 }

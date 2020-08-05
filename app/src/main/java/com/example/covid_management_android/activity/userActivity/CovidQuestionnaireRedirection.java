@@ -28,18 +28,21 @@ import com.anychart.charts.Pie;
 import com.example.covid_management_android.R;
 import com.example.covid_management_android.adapter.AppUtil;
 import com.example.covid_management_android.adapter.RetrofitUtil;
+import com.example.covid_management_android.model.Country;
 import com.example.covid_management_android.model.CovidStats;
 import com.example.covid_management_android.model.CurrentUser;
 
 import com.example.covid_management_android.model.Login;
 import com.example.covid_management_android.model.UserSubmission.UserSubmittedAnswers;
 import com.example.covid_management_android.service.UserClient;
+import com.github.ybq.android.spinkit.style.CubeGrid;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.github.ybq.android.spinkit.sprite.Sprite;
 import com.github.ybq.android.spinkit.style.DoubleBounce;
 import com.github.ybq.android.spinkit.style.RotatingCircle;
+import com.leo.simplearcloader.SimpleArcLoader;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -76,6 +79,9 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity implements 
     ScrollView statsScroll;
     AnyChartView covidChart;
     ProgressBar progressBar;
+    SimpleArcLoader loader;
+    Integer check;
+    Country myCountryData;
 
 
     @Override
@@ -109,20 +115,38 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity implements 
         line5 = findViewById(R.id.line5);
         line6 = findViewById(R.id.line6);
         line7 = findViewById(R.id.line7);
-        progressBar = findViewById(R.id.spin_kit);
+        //progressBar = findViewById(R.id.spin_kit);
         covidChart = findViewById(R.id.covidChart);
         statsScroll = findViewById(R.id.statsScroll);
         covidStats = new JSONArray();
 
-        getCovidStats();
+        loader = findViewById(R.id.loader);
 
-        Sprite bounce = new RotatingCircle();
-        progressBar.setIndeterminateDrawableTiled(bounce);
-        sharedPreferences = getSharedPreferences("covidManagement", MODE_PRIVATE);
-        myUserfilledresponses = new JSONArray();
+        loader.start();
+
+        check = getIntent().getIntExtra("check",0);
+
+        myCountryData = (Country) getIntent().getSerializableExtra("CounrtyData");
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("COVID global stats");
         setSupportActionBar(toolbar);
+
+        Log.i("In here>>",String.valueOf(check));
+
+        if(check == 0) {
+            getCovidStats();
+        }
+        else
+        {
+            if(myCountryData!=null) {
+                printNationalStats(myCountryData);
+            }
+        }
+
+
+        sharedPreferences = getSharedPreferences("covidManagement", MODE_PRIVATE);
+        myUserfilledresponses = new JSONArray();
+
 
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navigationView);
@@ -147,6 +171,32 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity implements 
         });
     }
 
+    private void printNationalStats(Country data) {
+
+        toolbar.setTitle(data.getCountry() + " Covid Statistics");
+        caseCount.setText(data.getCases());
+        recoveryCount.setText(data.getRecovered());
+        critiCount.setText(data.getCritical());
+        deathCount.setText(data.getDeaths());
+        testCount.setText(data.getTests());
+        todayTestCount.setText(data.getTodayCases());
+        todayDeathCount.setText(data.getTodayDeaths());
+        todayRecoverCount.setText(data.getTodayRecovered());
+
+        List<DataEntry> covidStatsEntries =  addPieChartData(caseCount.getText().toString(),deathCount.getText().toString(),recoveryCount.getText().toString());
+        loadCovidStatsPieChart(covidStatsEntries);
+
+    }
+
+    private List<DataEntry> addPieChartData(String caseCount, String deathCount, String recoveryCount) {
+        List<DataEntry> myCovidStatsData = new ArrayList<>();
+        myCovidStatsData.add(new ValueDataEntry("Cases", Long.parseLong(caseCount)));
+        myCovidStatsData.add(new ValueDataEntry("Deaths", Long.parseLong(deathCount)));
+        myCovidStatsData.add(new ValueDataEntry("Recovered", Long.parseLong(recoveryCount)));
+        return myCovidStatsData;
+
+    }
+
     private void getCovidStats() {
 
         retrofitUtil = new RetrofitUtil("https://corona.lmao.ninja/v3/covid-19/");
@@ -163,7 +213,7 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity implements 
                     String recovered = String.valueOf(response.body().getRecovered());
                     String critical = String.valueOf(response.body().getCritical());
                     String deaths = String.valueOf(response.body().getDeaths());
-                    String totalTests = String.valueOf(response.body().getTodayDeaths());
+                    String totalTests = String.valueOf(response.body().getTests());
                     String todayCases = String.valueOf(response.body().getTodayCases());
                     String todayDeaths = String.valueOf(response.body().getTodayDeaths());
                     String todayRecovered = String.valueOf(response.body().getTodayRecovered());
@@ -177,11 +227,7 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity implements 
                     todayDeathCount.setText(todayDeaths);
                     todayRecoverCount.setText(todayRecovered);
 
-                    List<DataEntry> myCovidStatsData = new ArrayList<>();
-                    myCovidStatsData.add(new ValueDataEntry("Cases", Long.parseLong(todayCases)));
-                    myCovidStatsData.add(new ValueDataEntry("Deaths", Long.parseLong(todayDeaths)));
-                    myCovidStatsData.add(new ValueDataEntry("Recovered", Long.parseLong(todayRecovered)));
-
+                    List<DataEntry> myCovidStatsData = addPieChartData(todayCases,todayDeaths,todayRecovered);
                     loadCovidStatsPieChart(myCovidStatsData);
 
 
@@ -197,12 +243,17 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity implements 
             }
         });
         statsScroll.setVisibility(View.VISIBLE);
+        statsScroll.setSmoothScrollingEnabled(true);
     }
 
     private void loadCovidStatsPieChart(List<DataEntry> mycovidStats) {
+
         Pie piechart = AnyChart.pie();
         piechart.data(mycovidStats);
         covidChart.setChart(piechart);
+        loader.stop();
+        loader.setVisibility(View.GONE);
+
     }
 
     @Override

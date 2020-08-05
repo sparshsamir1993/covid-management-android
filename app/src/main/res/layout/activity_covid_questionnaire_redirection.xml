@@ -17,24 +17,24 @@
             android:id="@+id/toolbar"
             layout="@layout/main_toolbar" />
 
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <com.leo.simplearcloader.SimpleArcLoader
+                android:visibility="visible"
+                android:id="@+id/loader"
+                android:layout_centerInParent="true"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:arc_style="simple_arc"
+                >
+            </com.leo.simplearcloader.SimpleArcLoader>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/chartCard"
                 android:layout_width="match_parent"
                 android:layout_height="290dp">
-
-                <com.github.ybq.android.spinkit.SpinKitView
-                    android:id="@+id/spin_kit"
-                    style="@style/SpinKitView.RotatingCircle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    app:SpinKit_Color="@color/colorAccent" />
 
                 <com.anychart.AnyChartView
                     android:id="@+id/covidChart"
@@ -46,6 +46,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/statscard"
                 android:layout_width="match_parent"
                 android:layout_height="320dp"
                 android:layout_below="@id/chartCard"
@@ -57,8 +58,8 @@
                 <ScrollView
                     android:id="@+id/statsScroll"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fillViewport="true">
+                    android:layout_height="wrap_content"
+                    android:fillViewport="false">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -296,19 +297,16 @@
 
 
             </androidx.cardview.widget.CardView>
+                <Button
+                    android:id="@+id/btnsurvey"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="1dp"
+                    android:text="Take Covid Survey" />
 
-
-            <Button
-                android:id="@+id/btnsurvey"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="1dp"
-                android:text="Take Covid Survey" />
 
 
         </RelativeLayout>
@@ -320,7 +318,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="left"
         android:visibility="visible"
-
         app:headerLayout="@layout/header"
         app:menu="@menu/navigation_menu" />
 

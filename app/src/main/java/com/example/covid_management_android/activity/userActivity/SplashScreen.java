@@ -64,6 +64,7 @@ public class SplashScreen extends AppCompatActivity {
                     Intent intent ;
                     if( userId > 0){
                         intent = new Intent(SplashScreen.this, CovidQuestionnaireRedirection.class);
+                        intent.putExtra("check",0);
                     }else{
                         intent = new Intent(SplashScreen.this, MainActivity.class);
                     }

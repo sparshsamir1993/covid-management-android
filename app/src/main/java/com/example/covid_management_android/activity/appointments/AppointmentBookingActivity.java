@@ -17,11 +17,10 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.Calendar;
 
-import devs.mulham.horizontalcalendar.HorizontalCalendar;
-import devs.mulham.horizontalcalendar.utils.HorizontalCalendarListener;
+
 
 public class AppointmentBookingActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    HorizontalCalendar calender;
+   // HorizontalCalendar calender;
     Calendar startDate, endDate;
     AppUtil appUtil = new AppUtil();
 
@@ -37,12 +36,12 @@ public class AppointmentBookingActivity extends AppCompatActivity implements Nav
         endDate.add(Calendar.DATE, 14);
 
 
-        calender = new HorizontalCalendar.Builder(this, R.id.calendarView)
+      /*  calender = new HorizontalCalendar.Builder(this, R.id.calendarView)
 
                 .range(startDate, endDate)
                 .datesNumberOnScreen(4)
                 .mode(HorizontalCalendar.Mode.DAYS)
-                .build();
+                .build();*/
 //        Toolbar toolbar = findViewById(R.id.toolbar);
 //        toolbar.setTitle("");
 //        setSupportActionBar(toolbar);
@@ -58,12 +57,12 @@ public class AppointmentBookingActivity extends AppCompatActivity implements Nav
 //        navigationView.setNavigationItemSelectedListener( this);
 
 
-        calender.setCalendarListener(new HorizontalCalendarListener() {
+     /*   calender.setCalendarListener(new HorizontalCalendarListener() {
             @Override
             public void onDateSelected(Calendar date, int position) {
                 Log.i("position --- ", position+"");
             }
-        });
+        });*/
 
 
     }

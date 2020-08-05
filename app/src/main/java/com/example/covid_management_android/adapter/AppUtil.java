@@ -21,6 +21,7 @@ import com.example.covid_management_android.activity.userActivity.CovidQuestionn
 import com.example.covid_management_android.activity.userActivity.HospitalList;
 import com.example.covid_management_android.activity.userActivity.LoginActivity;
 import com.example.covid_management_android.activity.userActivity.MainActivity;
+import com.example.covid_management_android.activity.userActivity.NationalCovidStats;
 import com.example.covid_management_android.activity.userActivity.QuestionActivity;
 import com.example.covid_management_android.activity.userActivity.SignUpActivity;
 import com.example.covid_management_android.activity.userActivity.UserProfileActivity;
@@ -104,6 +105,10 @@ public class AppUtil extends AppCompatActivity {
                 break;
             case R.id.logout:
                 createLogoutAlert(context);
+                break;
+            case R.id.countries:
+                i = new Intent(context, NationalCovidStats.class);
+                context.startActivity(i);
                 break;
             default:
                 break;

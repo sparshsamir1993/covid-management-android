@@ -22,19 +22,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <com.leo.simplearcloader.SimpleArcLoader
+                android:visibility="visible"
+                android:id="@+id/loader"
+                android:layout_centerInParent="true"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:arc_style="simple_arc"
+                >
+            </com.leo.simplearcloader.SimpleArcLoader>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/chartCard"
                 android:layout_width="match_parent"
                 android:layout_height="290dp">
-
-                <com.github.ybq.android.spinkit.SpinKitView
-                    android:id="@+id/spin_kit"
-                    style="@style/SpinKitView.RotatingCircle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    app:SpinKit_Color="@color/colorAccent" />
 
                 <com.anychart.AnyChartView
                     android:id="@+id/covidChart"
@@ -46,6 +47,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/statscard"
                 android:layout_width="match_parent"
                 android:layout_height="320dp"
                 android:layout_below="@id/chartCard"
@@ -59,8 +61,8 @@
                 <ScrollView
                     android:id="@+id/statsScroll"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fillViewport="true">
+                    android:layout_height="wrap_content"
+                    android:fillViewport="false">
 
                     <LinearLayout
                         android:layout_width="match_parent"

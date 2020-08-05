@@ -13,14 +13,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
         <include
             android:id="@+id/toolbar"
             layout="@layout/main_toolbar" />
 
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <com.leo.simplearcloader.SimpleArcLoader
                 android:visibility="visible"
@@ -49,11 +49,11 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/statscard"
                 android:layout_width="match_parent"
-                android:layout_height="320dp"
+                android:layout_height="250dp"
                 android:layout_below="@id/chartCard"
                 android:layout_marginTop="@dimen/common_5_dp"
                 app:cardElevation="@dimen/common_4_dp"
-                android:clipToPadding="false"
+                android:clipToPadding="true"
                 android:elevation="@dimen/common_2_dp"
                 app:cardMaxElevation="@dimen/common_5_dp"
                 >
@@ -61,8 +61,8 @@
                 <ScrollView
                     android:id="@+id/statsScroll"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fillViewport="false">
+                    android:layout_height="match_parent"
+                    android:fillViewport="true">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -312,7 +312,7 @@
                                 android:id="@+id/txttodayrecover"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Deaths Today"
+                                android:text="Recovered Today"
                                 android:textSize="@dimen/h1"
                                 android:fontFamily="@font/gotham_medium"
                                 android:textColor="#474747"
@@ -339,15 +339,12 @@
                 android:id="@+id/btnsurvey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_marginTop="@dimen/common_10_dp"
-                android:layout_marginBottom="@dimen/common_10_dp"
+                android:layout_below="@id/statscard"
                 android:textColor="@color/color_white"
                 android:background="#474747"
                 android:fontFamily="@font/gotham_medium"
-                android:textSize="@dimen/h4"
-                android:layout_margin="@dimen/common_5_dp"
+                android:textSize="@dimen/h3"
+                android:layout_margin="@dimen/common_3_dp"
                 android:text="Take Covid Survey" />
 
 

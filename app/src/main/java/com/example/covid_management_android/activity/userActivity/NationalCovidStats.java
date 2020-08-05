@@ -38,6 +38,8 @@ public class NationalCovidStats extends AppCompatActivity {
     CountryAdapter myCountryAdapter;
     List<Country> data;
     List<Country> filteredList;
+    boolean isUserSearched;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,17 +52,18 @@ public class NationalCovidStats extends AppCompatActivity {
         userClient = retrofit.create(UserClient.class);
         myRecyclerView = findViewById(R.id.countryRecycle);
         searchCountry = findViewById(R.id.searchcountry);
+        isUserSearched = false;
+
 
         fetchCountriesData();
         searchCountry.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                isUserSearched = true;
             }
 
             @Override
@@ -107,8 +110,14 @@ public class NationalCovidStats extends AppCompatActivity {
                     myCountryAdapter.onCountryClick(new CountryAdapter.OnCountryCardListener() {
                         @Override
                         public void onCardClick(int position) {
-                            Country countryData = filteredList.get(position);
-                          //  openCountryDialog(countryData);
+                            Country countryData;
+                            if(isUserSearched) {
+                                 countryData = filteredList.get(position);
+                            }
+                            else
+                            {
+                                countryData = data.get(position);
+                            }
                             Log.i("Country here",countryData.getCountry());
                             Intent i = new Intent(NationalCovidStats.this,CovidQuestionnaireRedirection.class);
                             i.putExtra("CounrtyData",countryData);

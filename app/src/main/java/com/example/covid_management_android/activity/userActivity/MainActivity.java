@@ -29,10 +29,10 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
-public class MainActivity extends AppCompatActivity implements PermissionListener{
+public class MainActivity extends AppCompatActivity {
 
 
-    AppUtil appUtil = new AppUtil();
+    AppUtil appUtil;
     FusedLocationProviderClient fusedLocationProviderClient;
     SharedPreferences locationPreferences;
     SharedPreferences.Editor locationEditor;
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
         startActivity(i);
     }
 
-    private void requestForLocation() {
+   /* private void requestForLocation() {
         Dexter.withContext(MainActivity.this)
                 .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                 .withListener(this).check();
@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
 
         }
 
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,13 +105,15 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
         locationPreferences = getSharedPreferences("covidManagement",MODE_PRIVATE);
         locationEditor = locationPreferences.edit();
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        requestForLocation();
+        appUtil = new AppUtil();
+       // appUtil.enableLocation(MainActivity.this);
+      //requestForLocation();
     }
 
-    @Override
+  /*  @Override
     public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
         Toast.makeText(MainActivity.this, "Location Permission Granted", Toast.LENGTH_LONG).show();
-        fetchLocationData();
+        //fetchLocationData();
         float longitude = locationPreferences.getFloat("Longitude",0);
         float latitude = locationPreferences.getFloat("Latitude",0);
         Log.i("LATI",String.valueOf(longitude));
@@ -135,5 +137,5 @@ public class MainActivity extends AppCompatActivity implements PermissionListene
     @Override
     public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
              permissionToken.continuePermissionRequest();
-    }
+    }*/
 }

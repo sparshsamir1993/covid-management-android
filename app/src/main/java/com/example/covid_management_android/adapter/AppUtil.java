@@ -50,6 +50,8 @@ import com.karumi.dexter.listener.single.PermissionListener;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -304,6 +306,23 @@ public class AppUtil extends AppCompatActivity {
 
         }
 
+    }
+
+    public String getTimeStringFromSlot(Long slot){
+        String slotText;
+        if(slot > 12){
+            slotText = (slot - 12) + ":00 pm";
+        }else if(slot == 12){
+            slotText = "12:00 pm";
+        }else{
+            slotText = slot+":00 am";
+        }
+
+        return slotText;
+    }
+
+    public String getDateStringFromDate(Date date){
+        return  new SimpleDateFormat("dd, MMMM yyyy").format(date);
     }
 
 }

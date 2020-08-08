@@ -8,6 +8,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +29,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
+import static com.example.covid_management_android.constants.Constants.APPOINTMENT_ID;
 import static com.example.covid_management_android.constants.Constants.BASE_URL;
 import static com.example.covid_management_android.constants.Constants.REFRESH_TOKEN;
 import static com.example.covid_management_android.constants.Constants.SHARED_PREF_MAIN_NAME;
@@ -44,7 +46,7 @@ public class AppointmentHistoryActivity extends AppCompatActivity implements Nav
     SharedPreferences sharedPreferences;
     RecyclerView apRecyclerview;
     RecyclerView.LayoutManager apLayoutManager;
-    AppUtil appUtil = new AppUtil();
+    AppUtil appUtil ;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
 
@@ -61,6 +63,7 @@ public class AppointmentHistoryActivity extends AppCompatActivity implements Nav
         retrofitUtil.setContext(AppointmentHistoryActivity.this);
         appointmentClient = retrofit.create(AppointmentClient.class);
         apRecyclerview = findViewById(R.id.appointmentListRecycler);
+        appUtil =  new AppUtil();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
@@ -70,6 +73,7 @@ public class AppointmentHistoryActivity extends AppCompatActivity implements Nav
         navigationView.bringToFront();
         navigationView.requestLayout();
         appUtil.checkMenuItems(navigationView.getMenu(), AppointmentHistoryActivity.this);
+        navigationView.setNavigationItemSelectedListener(this);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.nav_drawer_open, R.string.nav_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
@@ -87,7 +91,7 @@ public class AppointmentHistoryActivity extends AppCompatActivity implements Nav
             public void onResponse(Call<List<Appointment>> call, Response<List<Appointment>> response) {
                 if (response.isSuccessful()) {
                     appointmentList = response.body();
-                    Log.i("Success", "  List is " + appointmentList.get(0).getAppointmentStatus());
+//                    Log.i("Success", "  List is " + appointmentList.get(0).getAppointmentStatus());
                     AppointmentAdapter apAdapter = new AppointmentAdapter(AppointmentHistoryActivity.this, appointmentList, AppointmentHistoryActivity.this);
                     apLayoutManager = new LinearLayoutManager(AppointmentHistoryActivity.this);
                     apRecyclerview.setLayoutManager(apLayoutManager);
@@ -108,12 +112,13 @@ public class AppointmentHistoryActivity extends AppCompatActivity implements Nav
 
     @Override
     public void oncardClick(int position) {
-
+        Intent i = new Intent(AppointmentHistoryActivity.this, AppointmentDetailActivity.class);
+        i.putExtra(APPOINTMENT_ID, appointmentList.get(position).getId());
+        startActivity(i);
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        Log.i("nav item", " clicked");
         appUtil.createMenuItems(menuItem, AppointmentHistoryActivity.this, drawerLayout);
         return true;
 

@@ -2,6 +2,7 @@ package com.example.covid_management_android.activity.userActivity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 
 import com.example.covid_management_android.R;
@@ -39,6 +41,7 @@ public class NationalCovidStats extends AppCompatActivity {
     List<Country> data;
     List<Country> filteredList;
     boolean isUserSearched;
+    Toolbar toolbar;
 
 
     @Override
@@ -53,7 +56,18 @@ public class NationalCovidStats extends AppCompatActivity {
         myRecyclerView = findViewById(R.id.countryRecycle);
         searchCountry = findViewById(R.id.searchcountry);
         isUserSearched = false;
+        toolbar = findViewById(R.id.back_toolbar);
+        toolbar.setTitle("");
+        toolbar.hideOverflowMenu();
+        toolbar.setNavigationIcon(R.drawable.nav_back_button);
 
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         fetchCountriesData();
         searchCountry.addTextChangedListener(new TextWatcher() {

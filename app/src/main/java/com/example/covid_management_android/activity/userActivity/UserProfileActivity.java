@@ -2,7 +2,9 @@ package com.example.covid_management_android.activity.userActivity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -35,7 +37,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class UserProfileActivity extends AppCompatActivity{
+public class UserProfileActivity extends AppCompatActivity {
 
     AppUtil appUtil = new AppUtil();
     EditText nameField, dobField;
@@ -45,6 +47,7 @@ public class UserProfileActivity extends AppCompatActivity{
     RetrofitUtil retrofitUtil;
     Retrofit retrofit;
     SharedPreferences sharedPreferences;
+    Toolbar toolbar;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -56,34 +59,34 @@ public class UserProfileActivity extends AppCompatActivity{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        item = appUtil.createMenuItems( item, UserProfileActivity.this);
+        item = appUtil.createMenuItems(item, UserProfileActivity.this);
         return super.onOptionsItemSelected(item);
     }
 
-    public void onUserUpdate(View view){
+    public void onUserUpdate(View view) {
         String name = nameField.getText().toString();
         String token = sharedPreferences.getString("token", null);
         String refreshToken = sharedPreferences.getString("refreshToken", null);
-        if(token == null || refreshToken == null){
+        if (token == null || refreshToken == null) {
             Toast.makeText(getApplicationContext(), "Token Invalid", Toast.LENGTH_SHORT).show();
             return;
         }
         User user = new User();
         user.setName(name);
-        if(token.split("JWT ").length ==1){
-            token = "JWT "+token;
+        if (token.split("JWT ").length == 1) {
+            token = "JWT " + token;
         }
 
         Call<User> call = userClient.update(token, refreshToken, user);
-        Log.i("url is ",call.request().url().toString());
+        Log.i("url is ", call.request().url().toString());
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                if(response.isSuccessful()){
-                    Toast.makeText(getApplicationContext(), "Updated Successfully "+response.code(), Toast.LENGTH_SHORT).show();
+                if (response.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "Updated Successfully " + response.code(), Toast.LENGTH_SHORT).show();
 
-                }else{
-                    Toast.makeText(getApplicationContext(), "Some error occured "+response.code(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "Some error occured " + response.code(), Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -95,8 +98,8 @@ public class UserProfileActivity extends AppCompatActivity{
     }
 
 
-    public void openDobDialog(){
-        try{
+    public void openDobDialog() {
+        try {
             DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
@@ -108,16 +111,20 @@ public class UserProfileActivity extends AppCompatActivity{
                     calendar.set(Calendar.SECOND, 0);
                     Date dobTime = calendar.getTime();
                     Log.i("dob is --- ", dobTime.toString());
-                    dobField.setText(i1+1+"/"+i2+"/"+i);
+                    dobField.setText(i1 + 1 + "/" + i2 + "/" + i);
                 }
             };
-            new DatePickerDialog(this, date, 1970, 1,1).show();
-        }catch(Exception e){
+            new DatePickerDialog(this, date, 1970, 1, 1).show();
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        return false;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,18 +142,28 @@ public class UserProfileActivity extends AppCompatActivity{
 
             }
         });
+        toolbar = findViewById(R.id.back_toolbar);
+        toolbar.setTitle("");
+        toolbar.hideOverflowMenu();
+        toolbar.setNavigationIcon(R.drawable.nav_back_button);
+
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
 
         retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/");
         retrofit = retrofitUtil.getRetrofit();
         retrofitUtil.setContext(UserProfileActivity.this);
         userClient = retrofit.create(UserClient.class);
-        sharedPreferences = getSharedPreferences("covidManagement",MODE_PRIVATE);
-
+        sharedPreferences = getSharedPreferences("covidManagement", MODE_PRIVATE);
 
 
     }
-
 
 
 }

@@ -70,6 +70,7 @@ public class AppointmentBookingActivity extends AppCompatActivity implements Nav
     List<Timeslot> list;
     DatePickerDialog.OnDateSetListener datePickerDialog;
     EditText selectedAppointmentDate;
+    DatePickerDialog dpDialog;
 
 
     @Override
@@ -85,23 +86,31 @@ public class AppointmentBookingActivity extends AppCompatActivity implements Nav
         selectedDate = startDate;
         endDate = Calendar.getInstance();
         endDate.add(Calendar.DATE, 14);
+
+
         datePickerDialog = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
                 selectedDate.set(Calendar.YEAR, year);
                 selectedDate.set(Calendar.MONTH, monthOfYear);
                 selectedDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                selectedDate.set(Calendar.HOUR_OF_DAY, 0);
+                selectedDate.set(Calendar.MINUTE, 0);
+                selectedDate.set(Calendar.SECOND, 0);
+                selectedDate.set(Calendar.MILLISECOND, 0);
                 selectedAppointmentDate.setText(appUtil.getDateStringFromDate(selectedDate.getTime()));
                 updateTimeslotList(selectedDate);
             }
         };
-
+        dpDialog = new DatePickerDialog(AppointmentBookingActivity.this, datePickerDialog, startDate
+                .get(Calendar.YEAR), startDate.get(Calendar.MONTH),
+                startDate.get(Calendar.DAY_OF_MONTH));
+        dpDialog.getDatePicker().setMinDate(startDate.getTimeInMillis());
+        dpDialog.getDatePicker().setMaxDate(endDate.getTimeInMillis());
         selectedAppointmentDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new DatePickerDialog(AppointmentBookingActivity.this, datePickerDialog, startDate
-                        .get(Calendar.YEAR), startDate.get(Calendar.MONTH),
-                        startDate.get(Calendar.DAY_OF_MONTH)).show();
+                dpDialog.show();
             }
         });
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -137,27 +146,13 @@ public class AppointmentBookingActivity extends AppCompatActivity implements Nav
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
-//        Log.i("selected date is --- ", calender.getSelectedDate().getTime().toString());
         updateTimeslotList(startDate);
         selectedAppointmentDate.setText(appUtil.getDateStringFromDate(startDate.getTime()));
-//        selectedDate = startDate;
-//        calender.setCalendarListener(new HorizontalCalendarListener() {
-//            @Override
-//            public void onDateSelected(Calendar date, int position) {
-//                updateTimeslotList(date);
-//                selectedDate = date;
-//            }
-//
-//
-//        });
-
         confirmationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.i("sleected slot", selectedSlot.toString());
-
                 if (selectedSlot < 0) {
-
                     return;
                 }
                 Intent i = new Intent(AppointmentBookingActivity.this, AppointmentConfirmationActivity.class);

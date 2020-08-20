@@ -6,6 +6,10 @@
     android:layout_height="match_parent"
     android:background="#faf9ff"
     tools:context=".activity.userActivity.QuestionActivity">
+    <include
+        android:id="@+id/back_toolbar"
+        layout="@layout/back_toolbar" />
+
 
     <TextView
         android:id="@+id/txtLabel"
@@ -15,6 +19,7 @@
         android:textSize="@dimen/h2"
         android:gravity="center"
         android:fontFamily="@font/gotham_medium"
+        android:layout_below="@id/back_toolbar"
         android:textColor="#474747"
         android:layout_marginTop="@dimen/common_12_dp"
         android:layout_marginBottom="@dimen/common_12_dp"

@@ -89,7 +89,8 @@ public class RetrofitUtil extends AppCompatActivity {
             client.connectTimeout(30, TimeUnit.SECONDS);
             client.readTimeout(30, TimeUnit.SECONDS);
             client.writeTimeout(30, TimeUnit.SECONDS);
-            Retrofit.Builder builder = new Retrofit.Builder().baseUrl(baseUrl).client(client.build()).addConverterFactory(GsonConverterFactory.create());
+            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
+            Retrofit.Builder builder = new Retrofit.Builder().baseUrl(baseUrl).client(client.build()).addConverterFactory(GsonConverterFactory.create(gson));
 
             retrofit = builder.build();
 

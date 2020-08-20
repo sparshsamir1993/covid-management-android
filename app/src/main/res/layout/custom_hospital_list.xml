@@ -30,6 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/hospitalNameText"
+            android:drawableLeft="@drawable/hospital"
             android:layout_marginTop="@dimen/common_10_dp"
             android:text="+12266001297"
             android:fontFamily="@font/gotham_book"
@@ -37,13 +38,14 @@
             android:layout_marginLeft="@dimen/common_12_dp"
             android:lineSpacingExtra="4sp"
             android:textSize="@dimen/h3"
-            />
+            android:drawablePadding="@dimen/common_10_dp"/>
         <TextView
             android:id="@+id/hospitalAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/appointmentDateTimeText"
             android:text="Hello \n How are \n You"
+            android:drawableLeft="@drawable/hospital"
             android:singleLine="false"
             android:scrollHorizontally="false"
             android:lines="3"
@@ -54,7 +56,7 @@
             android:textColor="#474747"
             android:lineSpacingExtra="4sp"
             android:textSize="@dimen/h4"
-            />
+            android:drawablePadding="@dimen/common_10_dp"/>
 
 
 

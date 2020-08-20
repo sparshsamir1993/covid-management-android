@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/hospitalList"
@@ -7,7 +8,7 @@
 
         <item
             android:id="@+id/questionList"
-            android:title="Covid Questionnaire" />
+            android:title="Covid Questionnaire"/>
         <item
             android:id="@+id/countries"
             android:title="National Covid Statistics" />
@@ -29,7 +30,10 @@
 
                 <item
                     android:id="@+id/profile"
-                    android:title="Profile" />
+                    android:title="Profile"
+                    android:icon="@drawable/ic_user"
+                    app:showAsAction="ifRoom"
+                    />
 
                 <item
                     android:id="@+id/logout"

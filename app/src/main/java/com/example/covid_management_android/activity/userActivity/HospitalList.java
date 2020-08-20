@@ -51,7 +51,7 @@ public class HospitalList extends AppCompatActivity {
         myRecyclerView = findViewById(R.id.hospitalRecycle);
         sharedPreferences = getSharedPreferences("covidManagement", MODE_PRIVATE);
         toolbar = findViewById(R.id.back_toolbar);
-        toolbar.setTitle("");
+        toolbar.setTitle("Hospital List");
         toolbar.hideOverflowMenu();
         toolbar.setNavigationIcon(R.drawable.nav_back_button);
 

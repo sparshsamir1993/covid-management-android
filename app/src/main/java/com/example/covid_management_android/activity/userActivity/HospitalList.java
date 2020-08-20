@@ -1,6 +1,7 @@
 package com.example.covid_management_android.activity.userActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -8,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.covid_management_android.R;
@@ -35,6 +37,7 @@ public class HospitalList extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     RecyclerView.LayoutManager mylayoutmanager;
     RecyclerView myRecyclerView;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,18 @@ public class HospitalList extends AppCompatActivity {
         userClient = retrofit.create(UserClient.class);
         myRecyclerView = findViewById(R.id.hospitalRecycle);
         sharedPreferences = getSharedPreferences("covidManagement", MODE_PRIVATE);
+        toolbar = findViewById(R.id.back_toolbar);
+        toolbar.setTitle("");
+        toolbar.hideOverflowMenu();
+        toolbar.setNavigationIcon(R.drawable.nav_back_button);
+
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         getHospitalData();
     }
 

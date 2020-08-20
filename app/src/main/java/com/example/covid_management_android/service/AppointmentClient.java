@@ -20,6 +20,9 @@ public interface AppointmentClient {
     @GET("userAppointments")
     Call<List<Appointment>> getUserAppointments(@Header("authorization") String authToken, @Header("refresh-token") String refreshToken, @Query("userId") int userId);
 
+    @GET("appointmentDetail")
+    Call<Appointment> getUserAppointmentDetail(@Header("authorization") String authToken, @Header("refresh-token") String refreshToken, @Query("appointmentId") int appointmentId);
+
     @POST("book")
     Call<Appointment> bookUserAppointment(@Header("authorization") String authToken, @Header("refresh-token") String refreshToken, @Body Appointment newAppointment);
 }

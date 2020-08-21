@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -18,6 +19,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 
 import com.example.covid_management_android.R;
 import com.example.covid_management_android.activity.userActivity.CovidQuestionnaireRedirection;
@@ -59,11 +62,15 @@ public class AppointmentBookingActivity extends AppCompatActivity implements Nav
     RecyclerView.LayoutManager myLayoutManager;
     Calendar selectedDate;
     JSONObject hospitalData;
+    DrawerLayout drawerLayout;
 
     int hospitalId;
     Long selectedSlot = Long.valueOf(-1);
     RecyclerView slotListRecycler;
     List<Timeslot> list;
+    DatePickerDialog.OnDateSetListener datePickerDialog;
+    EditText selectedAppointmentDate;
+    DatePickerDialog dpDialog;
 
 
     @Override
@@ -75,21 +82,43 @@ public class AppointmentBookingActivity extends AppCompatActivity implements Nav
         startDate = Calendar.getInstance();
         startDate.add(Calendar.DATE, 0);
         Log.i("start d is --- ", startDate.getTime().toString());
+        selectedAppointmentDate = findViewById(R.id.editTextDate);
+        selectedDate = startDate;
         endDate = Calendar.getInstance();
         endDate.add(Calendar.DATE, 14);
 
 
-        calender = new HorizontalCalendar.Builder(this, R.id.calendarView)
-                .range(startDate, endDate)
-                .datesNumberOnScreen(1)
-                .mode(HorizontalCalendar.Mode.DAYS)
-                .build();
+        datePickerDialog = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                selectedDate.set(Calendar.YEAR, year);
+                selectedDate.set(Calendar.MONTH, monthOfYear);
+                selectedDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                selectedDate.set(Calendar.HOUR_OF_DAY, 0);
+                selectedDate.set(Calendar.MINUTE, 0);
+                selectedDate.set(Calendar.SECOND, 0);
+                selectedDate.set(Calendar.MILLISECOND, 0);
+                selectedAppointmentDate.setText(appUtil.getDateStringFromDate(selectedDate.getTime()));
+                updateTimeslotList(selectedDate);
+            }
+        };
+        dpDialog = new DatePickerDialog(AppointmentBookingActivity.this, datePickerDialog, startDate
+                .get(Calendar.YEAR), startDate.get(Calendar.MONTH),
+                startDate.get(Calendar.DAY_OF_MONTH));
+        dpDialog.getDatePicker().setMinDate(startDate.getTimeInMillis());
+        dpDialog.getDatePicker().setMaxDate(endDate.getTimeInMillis());
+        selectedAppointmentDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dpDialog.show();
+            }
+        });
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         confirmationBtn = findViewById(R.id.toConfirmationBtn);
         confirmationBtn.setVisibility(View.GONE);
-        DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);
+        drawerLayout = findViewById(R.id.drawerLayout);
         NavigationView navigationView = findViewById(R.id.navigationView);
         navigationView.bringToFront();
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.nav_drawer_open, R.string.nav_drawer_close);
@@ -103,11 +132,11 @@ public class AppointmentBookingActivity extends AppCompatActivity implements Nav
         retrofitUtil.setContext(AppointmentBookingActivity.this);
         appointmentClient = retrofit.create(AppointmentClient.class);
         slotListRecycler = findViewById(R.id.slotListRecyclerView);
-        try{
-            String hospitalDataString  = getIntent().getStringExtra(HOSPITAL_DATA);
+        try {
+            String hospitalDataString = getIntent().getStringExtra(HOSPITAL_DATA);
             hospitalData = new JSONObject(hospitalDataString);
             hospitalId = hospitalData.getInt("hospitalId");
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -117,26 +146,13 @@ public class AppointmentBookingActivity extends AppCompatActivity implements Nav
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
-        Log.i("selected date is --- ", calender.getSelectedDate().getTime().toString());
         updateTimeslotList(startDate);
-        selectedDate = startDate;
-        calender.setCalendarListener(new HorizontalCalendarListener() {
-            @Override
-            public void onDateSelected(Calendar date, int position) {
-                updateTimeslotList(date);
-                selectedDate = date;
-            }
-
-
-        });
-
+        selectedAppointmentDate.setText(appUtil.getDateStringFromDate(startDate.getTime()));
         confirmationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.i("sleected slot", selectedSlot.toString());
-
                 if (selectedSlot < 0) {
-
                     return;
                 }
                 Intent i = new Intent(AppointmentBookingActivity.this, AppointmentConfirmationActivity.class);
@@ -183,7 +199,7 @@ public class AppointmentBookingActivity extends AppCompatActivity implements Nav
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-        appUtil.createMenuItems(menuItem, AppointmentBookingActivity.this);
+        appUtil.createMenuItems(menuItem, AppointmentBookingActivity.this, drawerLayout);
         return true;
     }
 
@@ -200,5 +216,6 @@ public class AppointmentBookingActivity extends AppCompatActivity implements Nav
 
 
     }
+
 }
 

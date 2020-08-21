@@ -6,11 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.userActivity.HospitalList">
+    <include
+        android:id="@+id/back_toolbar"
+        layout="@layout/back_toolbar" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/hospitalRecycle"
         android:layout_width="match_parent"
         android:padding="3dp"
+        android:layout_below="@id/back_toolbar"
         android:layout_height="match_parent"/>
 
 </RelativeLayout>

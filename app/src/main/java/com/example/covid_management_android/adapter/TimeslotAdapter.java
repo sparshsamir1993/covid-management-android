@@ -30,30 +30,23 @@ import static com.example.covid_management_android.constants.Constants.SLOT_NOT_
 
 public class TimeslotAdapter extends RecyclerView.Adapter<TimeslotAdapter.SlotViewHolder> {
 
+    private static final SparseBooleanArray selectedSlotArray = new SparseBooleanArray();
+    static List<CardView> slotCardList;
+    final int[] index = {-1};
     Context context;
     List<Timeslot> timeslotList;
-    static List<CardView> slotCardList;
-    private TimeSlotCardListener cardSlotListener;
-    final int[] index = {-1};
-
-    private static final SparseBooleanArray selectedSlotArray = new SparseBooleanArray();
-
     TimeslotAdapter.TimeSlotCardListener myCustomListener;
-
-    public interface TimeSlotCardListener {
-        void oncardClick(int position, CardView currentCard, List<CardView> cardList);
-    }
-
-    public void onSlotClick(TimeslotAdapter.TimeSlotCardListener listener) {
-        this.myCustomListener = listener;
-    }
-
+    private TimeSlotCardListener cardSlotListener;
 
     public TimeslotAdapter(Context context, List<Timeslot> timeslotList, TimeSlotCardListener listener) {
         this.context = context;
         this.timeslotList = timeslotList;
         slotCardList = new ArrayList<>();
         this.cardSlotListener = listener;
+    }
+
+    public void onSlotClick(TimeslotAdapter.TimeSlotCardListener listener) {
+        this.myCustomListener = listener;
     }
 
     @NonNull
@@ -83,10 +76,8 @@ public class TimeslotAdapter extends RecyclerView.Adapter<TimeslotAdapter.SlotVi
             timeText = time + "am";
         }
         holder.slotText.setText(timeText);
-        if (currentSlot.isAvailable()) {
-            holder.slotAvailableText.setText(SLOT_AVAILABLE);
-        } else {
-            holder.slotAvailableText.setText(SLOT_NOT_AVAILABLE);
+        if (!currentSlot.isAvailable()) {
+            holder.currentCard.setVisibility(View.GONE);
         }
         slotCardList.add(holder.currentCard);
         if (index[0] == position) {
@@ -103,10 +94,14 @@ public class TimeslotAdapter extends RecyclerView.Adapter<TimeslotAdapter.SlotVi
         return timeslotList.size();
     }
 
+    public interface TimeSlotCardListener {
+        void oncardClick(int position, CardView currentCard, List<CardView> cardList);
+    }
+
     public static class SlotViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
 
-        TextView slotText, slotAvailableText;
+        TextView slotText;
         CardView currentCard;
         TimeSlotCardListener slotListener;
 
@@ -115,7 +110,7 @@ public class TimeslotAdapter extends RecyclerView.Adapter<TimeslotAdapter.SlotVi
             super(itemView);
             slotText = itemView.findViewById(R.id.slotText);
             currentCard = itemView.findViewById(R.id.time_slot_card);
-            slotAvailableText = itemView.findViewById(R.id.slotAvailableText);
+
             currentCard.setCardBackgroundColor(Color.parseColor("#ffffff"));
             slotListener = listener;
             currentCard.setOnClickListener(new View.OnClickListener() {

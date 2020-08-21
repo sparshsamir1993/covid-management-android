@@ -14,6 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.covid_management_android.R;
 import com.example.covid_management_android.model.appointments.Appointment;
 
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.AppointmentViewHolder> {
@@ -21,6 +24,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
     Context context;
     List<Appointment> appointmentList;
     private AppointmentCardListener apCardListener;
+    AppUtil appUtil;
 
     public AppointmentAdapter(Context context, List<Appointment> appointmentlist, AppointmentCardListener listener){
         this.context = context;
@@ -42,7 +46,12 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
         Appointment currApp = appointmentList.get(position);
         holder.hospitalNameText.setText(currApp.getHospital().getName());
         holder.appointmentStatusText.setText(currApp.getAppointmentStatus());
-        holder.appointmentDTText.setText(currApp.getAppointmentTime() + "  "+ currApp.getAppointmentDate());
+        appUtil = new AppUtil();
+        String timeString = appUtil.getTimeStringFromSlot(currApp.getAppointmentTime());
+//        String apTime = currApp.getAppointmentTime()+":00:00";
+
+        Log.i("ap time is", timeString);
+        holder.appointmentDTText.setText(timeString + "\n"+ appUtil.getDateStringFromDate(currApp.getAppointmentDate()));
     }
 
     @Override
@@ -69,6 +78,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
                 @Override
                 public void onClick(View view) {
                     Log.i("Appointment  is -- ", hospitalNameText.getText().toString());
+                    listener.oncardClick(getAdapterPosition());
                 }
             });
         }

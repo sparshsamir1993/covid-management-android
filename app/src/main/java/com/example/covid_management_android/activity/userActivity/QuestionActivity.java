@@ -1,6 +1,7 @@
 package com.example.covid_management_android.activity.userActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -51,6 +52,7 @@ public class QuestionActivity extends AppCompatActivity {
     List<UserSubmittedAnswers> list;
     JSONArray filledOptionData;
     String token, refreshToken;
+    Toolbar toolbar;
 
 
     @Override
@@ -64,6 +66,18 @@ public class QuestionActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("covidManagement", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         myQuestionResponse = findViewById(R.id.myquestionResponse);
+        toolbar = findViewById(R.id.back_toolbar);
+        toolbar.setTitle("");
+        toolbar.hideOverflowMenu();
+        toolbar.setNavigationIcon(R.drawable.nav_back_button);
+
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         fetchQuestionData();
 
     }

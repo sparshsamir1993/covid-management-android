@@ -20,13 +20,17 @@ public final class Constants {
     public static final String USER_ID = "userId";
 
 
+
     //////////////////////    APPOINTMENT CONSTANTS    //////////////////////
 
     public static final String SLOT_AVAILABLE = "AVAILABLE";
     public static final String SLOT_NOT_AVAILABLE = "NOT AVAILABLE";
+    public static final String APPOINTMENT_CONFIRMED = "CONFIRMED";
+    public static final String TEST_RESULT_PENDING = "RESULT PENDING";
 
-
+    public static final String TEST_RESULTS_DELIVERED = "RESULT AVAILABLE";
     //////////////////////    INTENT CONSTANTS    //////////////////////
 
     public static final String HOSPITAL_DATA = "hospitalData";
+    public static final String APPOINTMENT_ID = "appointmentId";
 }

@@ -10,24 +10,16 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.util.Log;
+
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+
 import com.example.covid_management_android.R;
 import com.example.covid_management_android.adapter.AppUtil;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionDeniedResponse;
-import com.karumi.dexter.listener.PermissionGrantedResponse;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.single.PermissionListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -61,42 +53,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-   /* private void requestForLocation() {
-        Dexter.withContext(MainActivity.this)
-                .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                .withListener(this).check();
-    }
-
-    private void fetchLocationData() {
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-        {
-            return;
-        }
-        else{
-
-          fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
-              @Override
-              public void onSuccess(Location location) {
-                  if(location!=null)
-                  {
-                      double longi = location.getLongitude();
-                      double lati = location.getLatitude();
-                      Log.i("Latitude",Double.toString(lati));
-                      locationEditor.putFloat("Longitude",(float)longi);
-                      locationEditor.putFloat("Latitude",(float)lati);
-                      locationEditor.apply();
-                  }
-                  else
-                  {
-                      Log.i("LAt Long error","ERROORR");
-                  }
-              }
-          });
-
-        }
-
-    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,36 +62,8 @@ public class MainActivity extends AppCompatActivity {
         locationEditor = locationPreferences.edit();
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         appUtil = new AppUtil();
-       // appUtil.enableLocation(MainActivity.this);
-      //requestForLocation();
+        appUtil.enableLocation(this);
+      
     }
 
-  /*  @Override
-    public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
-        Toast.makeText(MainActivity.this, "Location Permission Granted", Toast.LENGTH_LONG).show();
-        //fetchLocationData();
-        float longitude = locationPreferences.getFloat("Longitude",0);
-        float latitude = locationPreferences.getFloat("Latitude",0);
-        Log.i("LATI",String.valueOf(longitude));
-        Log.i("Longi",String.valueOf(latitude));
-    }
-
-    @Override
-    public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
-        if (permissionDeniedResponse.isPermanentlyDenied()) {
-            Intent intent = new Intent();
-            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-            Uri uri = Uri.fromParts("package", getPackageName(), null);
-            intent.setData(uri);
-            startActivity(intent);
-
-        } else {
-            Toast.makeText(MainActivity.this, "Location Permission denied", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    @Override
-    public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
-             permissionToken.continuePermissionRequest();
-    }*/
 }

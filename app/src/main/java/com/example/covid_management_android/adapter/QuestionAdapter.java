@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.covid_management_android.R;
 import com.example.covid_management_android.activity.userActivity.QuestionActivity;
 import com.example.covid_management_android.activity.userActivity.UserProfileActivity;
+import com.example.covid_management_android.constants.Constants;
 import com.example.covid_management_android.model.CovidQuestionResult;
 import com.example.covid_management_android.model.QAnswerOption;
 import com.example.covid_management_android.model.Question;
@@ -137,7 +138,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
             @Override
             public void onClick(View v) {
 
-                retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/questionResponse/");
+                retrofitUtil = new RetrofitUtil(Constants.BASE_URL+"questionResponse/");
                 //retrofitUtil = new RetrofitUtil("http://192.168.0.105:5050/api/v1/user/questionResponse/");
                 retrofit = retrofitUtil.getRetrofit();
                 userClient = retrofit.create(UserClient.class);

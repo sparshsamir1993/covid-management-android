@@ -4,7 +4,9 @@ public final class Constants {
     private Constants(){
     }
 
-    public static final String BASE_URL = "http://10.0.2.2:5050/api/v1/user";
+   // public static final String BASE_URL = "http://10.0.2.2:5050/api/v1/user";
+   public static final String BASE_URL = "http://192.168.0.105:5050/api/v1/user/";
+
     public static final String SHARED_PREF_MAIN_NAME = "covidManagement";
 
 

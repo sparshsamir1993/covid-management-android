@@ -75,7 +75,7 @@ public class QuestionActivity extends AppCompatActivity {
         if (token.split("JWT ").length == 1) {
             token = "JWT " + token;
         }
-        retrofitUtil = new RetrofitUtil(BASE_URL + "/question/");
+        retrofitUtil = new RetrofitUtil(BASE_URL + "question/");
         // retrofitUtil = new RetrofitUtil("http://192.168.0.105:5050/api/v1/user/question/");
         retrofit = retrofitUtil.getRetrofit();
         retrofitUtil.setContext(QuestionActivity.this);
@@ -84,7 +84,6 @@ public class QuestionActivity extends AppCompatActivity {
         Integer userId = sharedPreferences.getInt("userId", 1);
         final CurrentUser user = new CurrentUser();
         user.setUserId(userId);
-
         Call<List<Question>> myQuestion;
         myQuestion = userClient.fetchQuestions(token, refreshToken);
         myQuestion.enqueue(new Callback<List<Question>>() {

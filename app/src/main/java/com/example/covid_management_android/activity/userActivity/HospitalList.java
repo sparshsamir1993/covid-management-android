@@ -1,22 +1,34 @@
 package com.example.covid_management_android.activity.userActivity;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.covid_management_android.R;
 import com.example.covid_management_android.activity.appointments.AppointmentBookingActivity;
+import com.example.covid_management_android.adapter.AppUtil;
 import com.example.covid_management_android.adapter.HospitalAdapter;
 import com.example.covid_management_android.adapter.RetrofitUtil;
+import com.example.covid_management_android.constants.Constants;
 import com.example.covid_management_android.model.HospitalData;
 import com.example.covid_management_android.model.Question;
 import com.example.covid_management_android.service.UserClient;
+import com.google.android.material.navigation.NavigationView;
 
 import org.json.JSONObject;
 
@@ -35,12 +47,13 @@ public class HospitalList extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     RecyclerView.LayoutManager mylayoutmanager;
     RecyclerView myRecyclerView;
+    RelativeLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hospital_list);
-        retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/hospital/");
+        retrofitUtil = new RetrofitUtil(Constants.BASE_URL +"hospital/");
         // retrofitUtil = new RetrofitUtil("http://192.168.0.105:5050/api/v1/user/hospital/");
         retrofit = retrofitUtil.getRetrofit();
         retrofitUtil.setContext(HospitalList.this);
@@ -65,8 +78,9 @@ public class HospitalList extends AppCompatActivity {
             public void onResponse(Call<List<HospitalData>> call, Response<List<HospitalData>> response) {
                 if (response.isSuccessful()) {
                     final List<HospitalData> hospitals = response.body();
-//                Log.i("hospital data ", hospitals.get(0).getName());
+                   Log.i("hospital data ", hospitals.get(0).getName());
 
+                   hospitals.clear();
                     if (hospitals.size() > 0) {
 
                         HospitalAdapter myHospitalAdapter = new HospitalAdapter(hospitals);
@@ -85,16 +99,14 @@ public class HospitalList extends AppCompatActivity {
                                     hospData.put("hospitalName", hospitals.get(position).getName());
                                     toAppointmentBooking.putExtra("hospitalData", hospData.toString());
                                     startActivity(toAppointmentBooking);
-
                                 }catch(Exception e){
                                     e.printStackTrace();
                                 }
-
-
                             }
                         });
                     } else {
                         Toast.makeText(HospitalList.this, "Error", Toast.LENGTH_LONG).show();
+                        inflateErrorMessage();
                     }
 
                 }
@@ -107,6 +119,12 @@ public class HospitalList extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void inflateErrorMessage() {
+        layout = findViewById(R.id.hospitalListLayout);
+        View view = getLayoutInflater().inflate(R.layout.no_hospital_found,null);
+        layout.addView(view);
 
     }
 }

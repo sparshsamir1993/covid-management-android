@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.covid_management_android.R;
 import com.example.covid_management_android.adapter.RetrofitUtil;
+import com.example.covid_management_android.constants.Constants;
 import com.example.covid_management_android.model.Login;
 import com.example.covid_management_android.model.User;
 import com.example.covid_management_android.service.UserClient;
@@ -57,7 +58,6 @@ public class SignUpActivity extends AppCompatActivity {
                     int id = response.body().getId();
                     if(id > 0){
                         Toast.makeText(getApplicationContext(), "Sign up complete", Toast.LENGTH_SHORT).show();
-
                         Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(i);
@@ -94,7 +94,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         //initializing up retrofit
 
-        retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/");
+        retrofitUtil = new RetrofitUtil(Constants.BASE_URL +"/");
         retrofit = retrofitUtil.getRetrofit();
         userClient = retrofit.create(UserClient.class);
 
@@ -102,26 +102,9 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent (SignUpActivity.this,LoginActivity.class);
-
-                //Pair[] pairs = new Pair[2];
-
-               // pairs[0] = new Pair<View,String>(image,"logo_image");
-               // pairs[1] = new Pair<View,String>(logoText,"logo_text");
-                // pairs[2] = new Pair<View,String>(sloganText,"logo_dec");
-                // pairs[3] = new Pair<View,String>(username,"logo_user");
-                // pairs[4] = new Pair<View,String>(password,"logo_pwd");
-                // pairs[3] = new Pair<View,String>(Login_btn,"logo_btn");
-                //pairs[4] = new Pair<View,String>(callSignup,"logo_sbtn");
-
-               // ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(SignUpActivity.this,pairs);
                 startActivity(intent);
-                // startActivity(intent,options.toBundle());
             }
         });
-
-
-
-
 
     }
 

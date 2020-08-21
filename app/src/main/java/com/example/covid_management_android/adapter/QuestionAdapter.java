@@ -139,8 +139,12 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
             @Override
             public void onClick(View v) {
 
+<<<<<<< .merge_file_qcRDd0
 
                 retrofitUtil = new RetrofitUtil(BASE_URL + "/questionResponse/");
+=======
+                retrofitUtil = new RetrofitUtil(Constants.BASE_URL+"questionResponse/");
+>>>>>>> .merge_file_YxHj0P
                 //retrofitUtil = new RetrofitUtil("http://192.168.0.105:5050/api/v1/user/questionResponse/");
                 retrofit = retrofitUtil.getRetrofit();
                 userClient = retrofit.create(UserClient.class);

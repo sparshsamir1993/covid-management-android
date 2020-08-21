@@ -50,10 +50,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/hospitalNameText"
             android:layout_marginLeft="@dimen/common_12_dp"
-            android:layout_marginTop="85dp"
+            android:layout_marginTop="@dimen/common_45_dp"
             android:layout_marginBottom="15dp"
             android:drawableLeft="@drawable/hospital"
             android:drawablePadding="@dimen/common_10_dp"
+
             android:fontFamily="@font/gotham_book"
             android:lineSpacingExtra="4sp"
             android:text="CONFIRMED"

@@ -75,6 +75,7 @@
         android:transitionName="logo_btn"
         android:background="#474747"
         android:textSize="@dimen/h3"
+        android:onClick="onUserUpdate"
         android:fontFamily="@font/gotham_medium"
         android:textColor="@color/color_white"
         android:layout_marginTop="@dimen/common_16_dp"

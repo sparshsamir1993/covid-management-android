@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.example.covid_management_android.R;
 import com.example.covid_management_android.adapter.AppUtil;
 import com.example.covid_management_android.adapter.RetrofitUtil;
+import com.example.covid_management_android.constants.Constants;
 import com.example.covid_management_android.model.AuthToken;
 import com.example.covid_management_android.model.CurrentUser;
 import com.example.covid_management_android.model.Login;
@@ -90,6 +91,11 @@ public class LoginActivity extends AppCompatActivity {
                     Integer id = response.body().getId();
                     String email = response.body().getEmail();
 
+                    if(token.isEmpty() || refreshToken.isEmpty())
+                    {
+                        Toast.makeText(LoginActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                    }
+
                     Toast.makeText(LoginActivity.this, "Logged In Successfully", Toast.LENGTH_SHORT).show();
                     editor.putString(TOKEN, token);
                     editor.putString(REFRESH_TOKEN, refreshToken);
@@ -111,6 +117,7 @@ public class LoginActivity extends AppCompatActivity {
                     switch (response.code()) {
                         case 403:
                         case 401:
+                        case 404:
                             Toast.makeText(getApplicationContext(), "UserName/Password do not match", Toast.LENGTH_SHORT).show();
                             break;
                         default:
@@ -136,6 +143,7 @@ public class LoginActivity extends AppCompatActivity {
         logoText = findViewById(R.id.logo_name);
         emailField = findViewById(R.id.emailField);
         passwordField = findViewById(R.id.passwordField);
+
         retrofitUtil = new RetrofitUtil(BASE_URL + "/");
         //retrofitUtil = new RetrofitUtil("http://192.168.0.105:5050/api/v1/user/signOn/");
         retrofit = retrofitUtil.getRetrofit();

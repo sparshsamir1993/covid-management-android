@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.example.covid_management_android.R;
 import com.example.covid_management_android.adapter.AppUtil;
 import com.example.covid_management_android.adapter.RetrofitUtil;
+import com.example.covid_management_android.constants.Constants;
 import com.example.covid_management_android.model.User;
 import com.example.covid_management_android.service.UserClient;
 
@@ -156,7 +157,7 @@ public class UserProfileActivity extends AppCompatActivity {
         });
 
 
-        retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/");
+        retrofitUtil = new RetrofitUtil(Constants.BASE_URL +"/");
         retrofit = retrofitUtil.getRetrofit();
         retrofitUtil.setContext(UserProfileActivity.this);
         userClient = retrofit.create(UserClient.class);

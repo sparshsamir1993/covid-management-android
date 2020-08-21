@@ -78,7 +78,6 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity implements 
     TextView caseCount, recoveryCount, critiCount, deathCount, testCount, todayTestCount, todayDeathCount, todayRecoverCount;
     ScrollView statsScroll;
     AnyChartView covidChart;
-    ProgressBar progressBar;
     SimpleArcLoader loader;
     Integer check;
     Country myCountryData;
@@ -123,6 +122,7 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity implements 
         loader = findViewById(R.id.loader);
         appUtil = new AppUtil();
         loader.start();
+        loader.bringToFront();
         check = getIntent().getIntExtra("check",0);
         myCountryData = (Country) getIntent().getSerializableExtra("CounrtyData");
         toolbar = findViewById(R.id.toolbar);
@@ -233,6 +233,7 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity implements 
         });
         statsScroll.setVisibility(View.VISIBLE);
         statsScroll.setSmoothScrollingEnabled(true);
+
     }
 
     private void loadCovidStatsPieChart(List<DataEntry> mycovidStats) {
@@ -241,7 +242,11 @@ public class CovidQuestionnaireRedirection extends AppCompatActivity implements 
         covidChart.setChart(piechart);
         loader.stop();
         loader.setVisibility(View.GONE);
+
+
     }
+
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {

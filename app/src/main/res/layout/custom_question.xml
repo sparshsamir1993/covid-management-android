@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/color_white"
+    app:cardCornerRadius="@dimen/common_8_dp"
+    app:cardElevation="@dimen/common_5_dp"
+    android:elevation="@dimen/common_2_dp"
+    android:layout_margin="@dimen/common_12_dp"
+    android:clipToPadding="false"
+    app:cardUseCompatPadding="false">
+
+    <RelativeLayout
+        android:id="@+id/myQuestionblock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/questionId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="hello There"
+            android:fontFamily="@font/gotham_book"
+            android:layout_margin="@dimen/common_12_dp"
+            android:textColor="#474747"
+            android:lineSpacingExtra="4sp"
+            android:textSize="@dimen/h3" />
+
+        <LinearLayout
+            android:id="@+id/myoptionslayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/questionId"
+            android:layout_margin="@dimen/common_8_dp"
+            android:orientation="horizontal">
+
+            <RadioGroup
+                android:id="@+id/myradiooptionsgroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="0dp"
+                android:orientation="horizontal">
+            </RadioGroup>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

@@ -1,3 +1,53 @@
 <resources>
     <string name="app_name">covid-management-android</string>
+    <string name="log_in">Log In</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="sign_up">Sign Up</string>
+
+
+    <!-- Strings for On Boarding Screen -->
+    <!--Titles-->
+    <string name="first_slide_title">Stay Safe</string>
+    <string name="second_slide_title">Stay Healthy</string>
+    <string name="third_slide_title">Need a Help</string>
+    <string name="fourth_slide_title">Sit Back And Relax</string>
+
+    <!--Descriptions-->
+    <string name="first_slide_desc"> Nothing is of greater importance than the conservation of human life. We will display near by Hospitals to match your search.</string>
+    <string name="second_slide_desc">Stay in and don’t wander around. You have AC, television and WiFi as your friends.</string>
+    <string name="third_slide_desc"> At the end of the day, the goals are simple: Safety and security. Stay with Us, We are here for you.</string>
+    <string name="fourth_slide_desc">We will handle everything for you. As you have the app in your pocket then you don\'t have to worry about anything.  </string>
+
+
+    <!--Buttons-->
+    <string name="skip_btn">Skip</string>
+    <string name="next_btn">Next</string>
+    <string name="let_get_started">Lets Get Started</string>
+    <string name="title_activity_question">QuestionActivity</string>
+    <string name="confirm_booking">Confirm Booking?</string>
+
+
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+    <!--String for drawer-->
+    <string name="nav_drawer_open">Open nav</string>
+    <string name="nav_drawer_close">Close nav</string>
+
+
+    <!--Appointment Strings-->
+    <string name="appointment_book_title">Book Appointment</string>
+    <string name="date_select_label">Choose a date</string>
+    <string name="next_button">Next</string>
+    <string name="email_label">Email</string>
+    <string name="appointment_date_time_label">Appointment Slot</string>
+    <string name="hospital_name_label">Hospital Name</string>
+
 </resources>

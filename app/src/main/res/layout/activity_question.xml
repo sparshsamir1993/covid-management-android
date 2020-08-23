@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#faf9ff"
+    tools:context=".activity.userActivity.QuestionActivity">
+    <include
+        android:id="@+id/back_toolbar"
+        layout="@layout/back_toolbar" />
+
+
+    <TextView
+        android:id="@+id/txtLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Complete Survey"
+        android:textSize="@dimen/h2"
+        android:gravity="center"
+        android:fontFamily="@font/gotham_medium"
+        android:layout_below="@id/back_toolbar"
+        android:textColor="#474747"
+        android:layout_marginTop="@dimen/common_12_dp"
+        android:layout_marginBottom="@dimen/common_12_dp"
+        />
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/questionRecycle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/txtLabel"
+        android:layout_above="@+id/myquestionResponse" />
+
+    <Button
+        android:id="@+id/myquestionResponse"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/common_48_dp"
+        android:layout_alignParentBottom="true"
+        android:text="SUBMIT RESPONSE"
+        android:background="#474747"
+        android:textColor="@color/color_white"
+        android:fontFamily="@font/gotham_medium"
+        android:textSize="@dimen/h4"
+        />
+</RelativeLayout>
+
+
+

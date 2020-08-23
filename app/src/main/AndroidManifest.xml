@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.covid_management_android">
-
-    <!--Internet Permission-->
+    <!-- Internet Permission -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -11,14 +14,40 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".activity.appointments.AppointmentDetailActivity"></activity>
+        <activity android:name=".activity.userActivity.NationalCovidStats" />
+        <activity android:name=".activity.appointments.AppointmentHistoryActivity" />
+        <activity android:name=".activity.appointments.AppointmentConfirmationActivity" />
+        <activity android:name=".activity.appointments.AppointmentBookingActivity" />
+        <activity android:name=".activity.userActivity.HospitalList" />
+        <activity android:name=".activity.userActivity.CovidQuestionnaireRedirection" />
+        <activity android:name=".activity.userActivity.QuestionActivity" />
+        <activity
+            android:name=".activity.userActivity.OnBoarding"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".activity.userActivity.SplashScreen"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.userActivity.UserProfileActivity" />
+        <activity
+            android:name=".activity.userActivity.SignUpActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".activity.userActivity.LoginActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".activity.userActivity.MainActivity" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

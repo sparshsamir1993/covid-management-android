@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/appointmentCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/common_12_dp"
+    android:elevation="@dimen/common_2_dp"
+    app:cardBackgroundColor="@color/color_white"
+    app:cardCornerRadius="@dimen/common_8_dp"
+    app:cardElevation="@dimen/common_5_dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/common_20_dp">
+
+        <TextView
+            android:id="@+id/hospitalNameText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/common_12_dp"
+            android:layout_marginTop="@dimen/common_12_dp"
+            android:drawableLeft="@drawable/hospital"
+            android:drawablePadding="@dimen/common_10_dp"
+            android:fontFamily="@font/gotham_book"
+            android:lineSpacingExtra="4sp"
+            android:text="Grand River Hospital"
+            android:textColor="#474747"
+            android:textSize="@dimen/h1" />
+
+        <TextView
+            android:id="@+id/appointmentDateTimeText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/hospitalNameText"
+            android:layout_marginLeft="@dimen/common_12_dp"
+            android:layout_marginTop="@dimen/common_10_dp"
+            android:drawableLeft="@drawable/hospital"
+            android:drawablePadding="@dimen/common_10_dp"
+            android:fontFamily="@font/gotham_book"
+            android:lineSpacingExtra="4sp"
+            android:text="8:00 am, 8 August 2020"
+            android:textColor="#474747"
+            android:textSize="@dimen/h3" />
+
+        <TextView
+            android:id="@+id/appointmentStatusText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/hospitalNameText"
+            android:layout_marginLeft="@dimen/common_12_dp"
+            android:layout_marginTop="@dimen/common_45_dp"
+            android:layout_marginBottom="15dp"
+            android:drawableLeft="@drawable/hospital"
+            android:drawablePadding="@dimen/common_10_dp"
+
+            android:fontFamily="@font/gotham_book"
+            android:lineSpacingExtra="4sp"
+            android:text="CONFIRMED"
+            android:textColor="#474747"
+            android:textSize="@dimen/h3" />
+
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

@@ -1,25 +1,26 @@
 package com.example.covid_management_android.model;
 
-import com.google.gson.annotations.SerializedName;
 
 public class User {
-    @SerializedName("name")
+    private int id;
+    public void setId(int id) {
+        this.id = id;
+    }
     private String name;
-
-    @SerializedName("email")
-    private String email;
-
-    @SerializedName("dateOfBirth")
     private  String dateOfBirth;
-
+    private String email;
+    public void setName(String name) {
+        this.name = name;
+    }
+    public int getId() {
+        return id;
+    }
     public String getName() {
         return name;
     }
-
     public String getEmail() {
         return email;
     }
-
     public String getDateOfBirth() {
         return dateOfBirth;
     }

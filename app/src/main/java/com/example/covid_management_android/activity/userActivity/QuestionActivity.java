@@ -89,8 +89,7 @@ public class QuestionActivity extends AppCompatActivity {
         if (token.split("JWT ").length == 1) {
             token = "JWT " + token;
         }
-        retrofitUtil = new RetrofitUtil(BASE_URL + "question/");
-        // retrofitUtil = new RetrofitUtil("http://192.168.0.105:5050/api/v1/user/question/");
+        retrofitUtil = new RetrofitUtil(BASE_URL + "/question/");
         retrofit = retrofitUtil.getRetrofit();
         retrofitUtil.setContext(QuestionActivity.this);
         userClient = retrofit.create(UserClient.class);
@@ -122,6 +121,7 @@ public class QuestionActivity extends AppCompatActivity {
                                     for (UserSubmittedAnswers n : list) {
                                         JSONObject optionData = new JSONObject();
                                         optionData.put("optionId", n.getOptionId());
+                                        optionData.put("questionId", n.getOption().getQuestionId());
                                         optionData.put("id", n.getId());
                                         filledOptionData.put(optionData);
                                     }

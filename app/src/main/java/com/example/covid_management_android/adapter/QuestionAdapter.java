@@ -21,6 +21,7 @@ import com.example.covid_management_android.R;
 import com.example.covid_management_android.activity.userActivity.QuestionActivity;
 import com.example.covid_management_android.activity.userActivity.UserProfileActivity;
 import com.example.covid_management_android.constants.Constants;
+import com.example.covid_management_android.model.AnswerData;
 import com.example.covid_management_android.model.CovidQuestionResult;
 import com.example.covid_management_android.model.QAnswerOption;
 import com.example.covid_management_android.model.Question;
@@ -50,7 +51,9 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
 
     List<Question> myQuestions;
     Context context;
-    HashMap<Integer, Integer> myResponses;
+    //    HashMap<Integer, Integer> myResponses;
+    JSONObject answerData;
+    ArrayList<AnswerData> myResponses;
     JSONArray filledResponses;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -67,7 +70,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
         this.myResponseButton = myResponseButton;
         this.editor = editor;
         this.filledResponses = list;
-        this.myResponses = new HashMap<>();
+        this.myResponses = new ArrayList<AnswerData>();
     }
 
 
@@ -98,6 +101,11 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
                     if (currentResp.get("optionId") == currentOption.getId()) {
                         r1.setChecked(true);
                         holder.myquestion.setTag(currentResp.get("id"));
+                        AnswerData answerData = new AnswerData();
+                        answerData.setId(Integer.parseInt(currentResp.get("id").toString()));
+                        answerData.setOptionId(Integer.parseInt(currentResp.get("optionId").toString()));
+                        answerData.setQuestionId(Integer.parseInt(currentResp.get("questionId").toString()));
+                        myResponses.add(answerData);
                     }
                 }
             } catch (Exception e) {
@@ -114,22 +122,47 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
                 RadioButton rb = group.findViewById(checkedId);
                 Integer optionId = 0;
                 Integer questionId = 0;
+                AnswerData answerData = new AnswerData();
+//                answerData = new JSONObject();
                 if (rb.isChecked()) {
                     questionId = myQuestions.get(position).getId();
                     String mySelectedoption = rb.getText().toString();
                     int optionTagId = (int) rb.getTag();
                     Log.i("My radio button", rb.getText().toString() + myQuestions.get(position).getQuestion() + " " + optionTagId);
-                    if (filledResponses.length() > 0) {
-                        if (holder.myquestion.getTag() != null) {
-                            myResponses.put(Integer.parseInt(holder.myquestion.getTag().toString()), optionTagId);
+                    try {
+                        if (filledResponses.length() > 0) {
+                            if (holder.myquestion.getTag() != null) {
+                                answerData.setId(Integer.parseInt(holder.myquestion.getTag().toString()));
+                                answerData.setOptionId(optionTagId);
+                                for (int i = 0; i < myResponses.size(); i++) {
+                                    AnswerData currData = myResponses.get(i);
+                                    if (currData.getId() == answerData.getId()) {
+                                        currData.setOptionId(answerData.getOptionId());
+                                    }
+                                }
+                            } else {
+                                answerData.setQuestionId(questionId);
+                                answerData.setOptionId(optionTagId);
+                                for (int i = 0; i < myResponses.size(); i++) {
+                                    AnswerData currData = myResponses.get(i);
+                                    if (currData.getQuestionId() == answerData.getQuestionId()) {
+                                        currData.setOptionId(answerData.getOptionId());
+                                    }
+                                }
+                            }
+
                         } else {
-                            myResponses.put(questionId, optionTagId);
+                            answerData.setQuestionId(questionId);
+                            answerData.setOptionId(optionTagId);
+                            myResponses.add(answerData);
                         }
-                    } else {
-                        myResponses.put(questionId, optionTagId);
+
+
+                        Integer m = sharedPreferences.getInt("userId", 1);
+                        Log.i("MyResponses", myResponses.toString());
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    Integer m = sharedPreferences.getInt("userId", 1);
-                    Log.i("MyResponses", myResponses.toString());
                 }
             }
 
@@ -139,9 +172,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
             @Override
             public void onClick(View v) {
 
-                retrofitUtil = new RetrofitUtil(Constants.BASE_URL+"questionResponse/");
-
-                //retrofitUtil = new RetrofitUtil("http://192.168.0.105:5050/api/v1/user/questionResponse/");
+                retrofitUtil = new RetrofitUtil(Constants.BASE_URL + "/questionResponse/");
                 retrofit = retrofitUtil.getRetrofit();
                 userClient = retrofit.create(UserClient.class);
                 retrofitUtil.setContext(context);
@@ -179,7 +210,10 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
 
                 if (response.body().getResult().contains("Positive")) {
                     AppUtil appUtil = new AppUtil();
-                    appUtil.diplayAlert(context, "hello");
+                    appUtil.diplayAlert(context, "Positive");
+                } else {
+                    AppUtil appUtil = new AppUtil();
+                    appUtil.diplayAlert(context, "Negative");
                 }
 
             }
@@ -207,6 +241,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
             public void onResponse(Call<CovidQuestionResult> call, Response<CovidQuestionResult> response) {
                 if (response.isSuccessful()) {
                     String myResponse = response.body().getResult();
+                    Log.i("my user responses", myResponse);
                     AppUtil appUtil = new AppUtil();
                     appUtil.diplayAlert(context, myResponse);
 

@@ -47,17 +47,19 @@
                 android:id="@+id/appointmentDateTimeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
+                android:layout_marginStart="21dp"
                 android:layout_marginTop="80dp"
                 android:layout_marginBottom="50dp"
-                android:drawableLeft="@drawable/hospital"
+                android:drawableLeft="@drawable/ic_calendar"
                 android:drawablePadding="10dp"
                 android:fontFamily="@font/gotham_bold"
-                android:text="8:00 pm, 5 August 2020"
+                android:maxLines="5"
+                android:text="8:00 pm\n5 August 2020"
                 android:textSize="@dimen/h1"
                 app:layout_constraintBottom_toTopOf="@+id/cardView"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/appointmentStatusBar" />
+                app:layout_constraintTop_toBottomOf="@+id/appointmentStatusBar"
+                app:lineHeight="@dimen/common_25_dp" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView"
@@ -81,7 +83,7 @@
                         android:id="@+id/hospitalNameText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="@dimen/common_10_dp"
                         android:layout_marginTop="10dp"
                         android:drawableStart="@drawable/hospital"
                         android:drawablePadding="10dp"
@@ -91,6 +93,23 @@
                         android:textSize="@dimen/h2"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/hospitalAddressDetail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginTop="10dp"
+                        android:drawableStart="@drawable/hospital_icon_location"
+                        android:drawablePadding="10dp"
+                        android:fontFamily="@font/gotham_medium"
+                        android:shadowColor="#FFFFFF"
+                        android:text="Detail\ndetail"
+                        android:textSize="@dimen/h4"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/hospitalNameText"
+                        app:lineHeight="@dimen/common_20_dp" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.cardview.widget.CardView>

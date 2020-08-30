@@ -19,7 +19,7 @@
             android:id="@+id/hospitalNameText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/common_12_dp"
+            android:layout_marginStart="@dimen/common_12_dp"
             android:layout_marginTop="@dimen/common_12_dp"
             android:drawableLeft="@drawable/hospital"
             android:drawablePadding="@dimen/common_10_dp"
@@ -36,25 +36,27 @@
             android:layout_below="@id/hospitalNameText"
             android:layout_marginLeft="@dimen/common_12_dp"
             android:layout_marginTop="@dimen/common_10_dp"
-            android:drawableLeft="@drawable/hospital"
+            android:drawableStart="@drawable/ic_calendar"
             android:drawablePadding="@dimen/common_10_dp"
             android:fontFamily="@font/gotham_book"
             android:lineSpacingExtra="4sp"
             android:text="8:00 am, 8 August 2020"
             android:textColor="#474747"
-            android:textSize="@dimen/h3" />
+            android:textSize="@dimen/h3"
+            app:lineHeight="@dimen/common_35_dp" />
 
         <TextView
             android:id="@+id/appointmentStatusText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/hospitalNameText"
-            android:layout_marginLeft="@dimen/common_12_dp"
-            android:layout_marginTop="@dimen/common_45_dp"
+            android:layout_marginStart="@dimen/common_12_dp"
+            android:layout_marginTop="@dimen/common_64_dp"
             android:layout_marginBottom="15dp"
+            android:drawableStart="@drawable/appointment_status_icon"
+
             android:drawableLeft="@drawable/hospital"
             android:drawablePadding="@dimen/common_10_dp"
-
             android:fontFamily="@font/gotham_book"
             android:lineSpacingExtra="4sp"
             android:text="CONFIRMED"

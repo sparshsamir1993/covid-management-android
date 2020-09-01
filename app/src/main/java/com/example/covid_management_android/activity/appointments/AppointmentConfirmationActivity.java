@@ -2,6 +2,7 @@ package com.example.covid_management_android.activity.appointments;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -51,6 +52,7 @@ public class AppointmentConfirmationActivity extends AppCompatActivity {
     Retrofit retrofit;
     AppointmentClient appointmentClient;
     Long selectedSlot;
+    Toolbar toolbar;
 
 
     private void bookNewAppointment() {
@@ -110,6 +112,19 @@ public class AppointmentConfirmationActivity extends AppCompatActivity {
         emailVal = findViewById(R.id.emailValue);
         slotVal = findViewById(R.id.slotValue);
         hospitalValue = findViewById(R.id.hospitalValue);
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Confirm Appointment");
+        toolbar.hideOverflowMenu();
+        toolbar.setNavigationIcon(R.drawable.nav_back_button);
+
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
 
         selectedSlot = getIntent().getLongExtra("selectedSlot", 0);
         Long date = getIntent().getLongExtra("selectedDate", -1);

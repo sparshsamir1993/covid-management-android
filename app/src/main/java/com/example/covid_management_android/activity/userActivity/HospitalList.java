@@ -14,8 +14,10 @@ import android.widget.Toast;
 
 import com.example.covid_management_android.R;
 import com.example.covid_management_android.activity.appointments.AppointmentBookingActivity;
+import com.example.covid_management_android.adapter.AppUtil;
 import com.example.covid_management_android.adapter.HospitalAdapter;
 import com.example.covid_management_android.adapter.RetrofitUtil;
+import com.example.covid_management_android.constants.Constants;
 import com.example.covid_management_android.model.HospitalData;
 import com.example.covid_management_android.model.Question;
 import com.example.covid_management_android.service.UserClient;
@@ -43,8 +45,7 @@ public class HospitalList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hospital_list);
-        retrofitUtil = new RetrofitUtil("http://10.0.2.2:5050/api/v1/user/hospital/");
-        // retrofitUtil = new RetrofitUtil("http://192.168.0.105:5050/api/v1/user/hospital/");
+        retrofitUtil = new RetrofitUtil(Constants.BASE_URL +"/hospital/");
         retrofit = retrofitUtil.getRetrofit();
         retrofitUtil.setContext(HospitalList.this);
         userClient = retrofit.create(UserClient.class);
@@ -62,6 +63,8 @@ public class HospitalList extends AppCompatActivity {
                 finish();
             }
         });
+        AppUtil appUtil = new AppUtil();
+        appUtil.enableLocation(this);
         getHospitalData();
     }
 
@@ -80,10 +83,7 @@ public class HospitalList extends AppCompatActivity {
             public void onResponse(Call<List<HospitalData>> call, Response<List<HospitalData>> response) {
                 if (response.isSuccessful()) {
                     final List<HospitalData> hospitals = response.body();
-//                Log.i("hospital data ", hospitals.get(0).getName());
-
                     if (hospitals.size() > 0) {
-
                         HospitalAdapter myHospitalAdapter = new HospitalAdapter(hospitals);
                         mylayoutmanager = new LinearLayoutManager(HospitalList.this);
                         myRecyclerView.setLayoutManager(mylayoutmanager);
@@ -91,7 +91,6 @@ public class HospitalList extends AppCompatActivity {
                         myHospitalAdapter.onHospitalClick(new HospitalAdapter.OnHospitalCardListener() {
                             @Override
                             public void oncardClick(int position) {
-                                Toast.makeText(HospitalList.this, String.valueOf(hospitals.get(position).getId()), Toast.LENGTH_LONG).show();
                                 Intent toAppointmentBooking = new Intent(HospitalList.this, AppointmentBookingActivity.class);
                                 try{
                                     JSONObject hospData = new JSONObject();
@@ -104,8 +103,6 @@ public class HospitalList extends AppCompatActivity {
                                 }catch(Exception e){
                                     e.printStackTrace();
                                 }
-
-
                             }
                         });
                     } else {

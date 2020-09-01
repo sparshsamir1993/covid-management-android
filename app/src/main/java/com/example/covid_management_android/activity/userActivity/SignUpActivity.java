@@ -94,7 +94,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         //initializing up retrofit
 
-        retrofitUtil = new RetrofitUtil(Constants.BASE_URL +"/");
+        retrofitUtil = new RetrofitUtil(Constants.BASE_URL+"/");
         retrofit = retrofitUtil.getRetrofit();
         userClient = retrofit.create(UserClient.class);
 

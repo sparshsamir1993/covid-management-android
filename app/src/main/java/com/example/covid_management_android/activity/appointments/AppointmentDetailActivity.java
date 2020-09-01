@@ -49,7 +49,7 @@ public class AppointmentDetailActivity extends AppCompatActivity implements Navi
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     SharedPreferences sharedPreferences;
-    TextView hospitalNameText, appointmentDateTimeText;
+    TextView hospitalNameText, appointmentDateTimeText, hospitalDetailedAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +68,8 @@ public class AppointmentDetailActivity extends AppCompatActivity implements Navi
             retrofit = retrofitUtil.getRetrofit();
             retrofitUtil.setContext(AppointmentDetailActivity.this);
             appointmentClient = retrofit.create(AppointmentClient.class);
+            hospitalDetailedAddress = findViewById(R.id.hospitalAddressDetail);
+
             appUtil = new AppUtil();
             int appointmentId = getIntent().getIntExtra(APPOINTMENT_ID, -1);
             Toolbar toolbar = findViewById(R.id.toolbar);
@@ -102,10 +104,11 @@ public class AppointmentDetailActivity extends AppCompatActivity implements Navi
                                 Log.i("state is", currentApp.getHospital().getName());
                                 stateProgressBar.setCurrentStateNumber((StateProgressBar.StateNumber) statusToProgressState.get(currentApp.getAppointmentStatus()));
                                 hospitalNameText.setText(currentApp.getHospital().getName());
+                                hospitalDetailedAddress.setText(currentApp.getHospital().getDetailedAddress());
                                 String apTime = appUtil.getTimeStringFromSlot(currentApp.getAppointmentTime());
                                 String apDate = appUtil.getDateStringFromDate(currentApp.getAppointmentDate());
 
-                                appointmentDateTimeText.setText(apTime+", "+apDate);
+                                appointmentDateTimeText.setText(apTime+"\n"+apDate);
 
                             } catch (Exception e) {
                                 e.printStackTrace();

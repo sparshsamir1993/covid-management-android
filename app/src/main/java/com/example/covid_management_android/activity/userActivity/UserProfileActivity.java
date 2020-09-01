@@ -157,7 +157,7 @@ public class UserProfileActivity extends AppCompatActivity {
         });
 
 
-        retrofitUtil = new RetrofitUtil(Constants.BASE_URL +"/");
+        retrofitUtil = new RetrofitUtil(Constants.BASE_URL+"/");
         retrofit = retrofitUtil.getRetrofit();
         retrofitUtil.setContext(UserProfileActivity.this);
         userClient = retrofit.create(UserClient.class);

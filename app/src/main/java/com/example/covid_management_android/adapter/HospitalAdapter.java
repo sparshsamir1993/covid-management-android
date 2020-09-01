@@ -1,5 +1,6 @@
 package com.example.covid_management_android.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,6 +70,7 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.Hospit
                 @Override
                 public void onClick(View v) {
                     if (listener != null) {
+                        Log.i("IN HEREREERER","dshbs");
                         int position = getAdapterPosition();
                         listener.oncardClick(position);
                     }

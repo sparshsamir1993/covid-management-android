@@ -49,5 +49,6 @@
     <string name="email_label">Email</string>
     <string name="appointment_date_time_label">Appointment Slot</string>
     <string name="hospital_name_label">Hospital Name</string>
+    <string name="choose_a_slot">Choose a slot</string>
 
 </resources>

@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.covid_management_android.R;
 import com.example.covid_management_android.activity.appointments.AppointmentBookingActivity;
+import com.example.covid_management_android.adapter.AppUtil;
 import com.example.covid_management_android.adapter.HospitalAdapter;
 import com.example.covid_management_android.adapter.RetrofitUtil;
 import com.example.covid_management_android.constants.Constants;
@@ -62,6 +63,8 @@ public class HospitalList extends AppCompatActivity {
                 finish();
             }
         });
+        AppUtil appUtil = new AppUtil();
+        appUtil.enableLocation(this);
         getHospitalData();
     }
 
@@ -88,8 +91,6 @@ public class HospitalList extends AppCompatActivity {
                         myHospitalAdapter.onHospitalClick(new HospitalAdapter.OnHospitalCardListener() {
                             @Override
                             public void oncardClick(int position) {
-                                Log.i("in the click",String.valueOf(position));
-                                Toast.makeText(HospitalList.this, String.valueOf(hospitals.get(position).getId()), Toast.LENGTH_LONG).show();
                                 Intent toAppointmentBooking = new Intent(HospitalList.this, AppointmentBookingActivity.class);
                                 try{
                                     JSONObject hospData = new JSONObject();
@@ -102,8 +103,6 @@ public class HospitalList extends AppCompatActivity {
                                 }catch(Exception e){
                                     e.printStackTrace();
                                 }
-
-
                             }
                         });
                     } else {

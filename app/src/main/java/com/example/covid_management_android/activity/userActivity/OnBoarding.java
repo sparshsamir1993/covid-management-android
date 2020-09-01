@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -41,6 +42,13 @@ public class OnBoarding extends AppCompatActivity {
         dotsLayout = findViewById(R.id.dots);
         letsGetStarted = findViewById(R.id.get_started_btn);
 
+        letsGetStarted.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                skip(view);
+            }
+        });
+
 
         //call adapter
         sliderAdapter = new SliderAdapter(this);
@@ -61,8 +69,14 @@ public class OnBoarding extends AppCompatActivity {
     }
 
     public void next(View view) {
+        Log.i("Print i", dots.length+" "+currentPosition);
 
-        viewPager.setCurrentItem(currentPosition + 1);
+        if (currentPosition ==  dots.length -1){
+            skip(view);
+        }else{
+            viewPager.setCurrentItem(currentPosition + 1);
+        }
+
 
     }
 
@@ -88,7 +102,7 @@ public class OnBoarding extends AppCompatActivity {
     ViewPager.OnPageChangeListener changeListener = new ViewPager.OnPageChangeListener() {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+            currentPosition = position;
         }
 
         @Override
@@ -111,6 +125,7 @@ public class OnBoarding extends AppCompatActivity {
                 animation = AnimationUtils.loadAnimation(OnBoarding.this, R.anim.bottom_animation);
                 letsGetStarted.setAnimation(animation);
                 letsGetStarted.setVisibility(View.VISIBLE);
+
 
             }
 

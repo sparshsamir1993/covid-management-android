@@ -49,6 +49,8 @@ import retrofit2.Retrofit;
 
 import static com.example.covid_management_android.constants.Constants.BASE_URL;
 import static com.example.covid_management_android.constants.Constants.HOSPITAL_DATA;
+import static com.example.covid_management_android.constants.Constants.REFRESH_TOKEN;
+import static com.example.covid_management_android.constants.Constants.TOKEN;
 
 public class AppointmentBookingActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, TimeslotAdapter.TimeSlotCardListener {
     HorizontalCalendar calender;
@@ -86,6 +88,7 @@ public class AppointmentBookingActivity extends AppCompatActivity implements Nav
         selectedDate = startDate;
         endDate = Calendar.getInstance();
         endDate.add(Calendar.DATE, 14);
+        confirmationBtn = findViewById(R.id.toConfirmationBtn);
 
 
         datePickerDialog = new DatePickerDialog.OnDateSetListener() {
@@ -99,6 +102,7 @@ public class AppointmentBookingActivity extends AppCompatActivity implements Nav
                 selectedDate.set(Calendar.SECOND, 0);
                 selectedDate.set(Calendar.MILLISECOND, 0);
                 selectedAppointmentDate.setText(appUtil.getDateStringFromDate(selectedDate.getTime()));
+                confirmationBtn.setVisibility(View.GONE);
                 updateTimeslotList(selectedDate);
             }
         };
@@ -116,7 +120,7 @@ public class AppointmentBookingActivity extends AppCompatActivity implements Nav
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
-        confirmationBtn = findViewById(R.id.toConfirmationBtn);
+
         confirmationBtn.setVisibility(View.GONE);
         drawerLayout = findViewById(R.id.drawerLayout);
         NavigationView navigationView = findViewById(R.id.navigationView);
@@ -167,8 +171,8 @@ public class AppointmentBookingActivity extends AppCompatActivity implements Nav
     }
 
     private void updateTimeslotList(Calendar date) {
-        String token = sharedPreferences.getString("token", null);
-        String refreshToken = sharedPreferences.getString("refreshToken", null);
+        String token = sharedPreferences.getString(TOKEN, null);
+        String refreshToken = sharedPreferences.getString(REFRESH_TOKEN, null);
         assert token != null;
         if (token.split("JWT ").length == 1) {
             token = "JWT " + token;
